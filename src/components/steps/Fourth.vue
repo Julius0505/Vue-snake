@@ -51,8 +51,8 @@
           v-model="order.city"
         ></v-text-field>
         <v-textarea
-          :rules="[v => !!v || 'Adress']"
-          label="Adress"
+          :rules="[v => !!v || 'Adress is required']"
+          label="Adress "
           outlined
           v-model="order.address"
         ></v-textarea>
