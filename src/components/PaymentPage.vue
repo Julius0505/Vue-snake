@@ -74,6 +74,7 @@
         </div>
 
         <v-btn
+          v-if="tab != 6"
           outlined
           color="primary"
           :disabled="isNext"
@@ -84,10 +85,14 @@
         >
       </v-card-text>
     </v-card>
+    <v-btn @click="checkoutPage">Pay</v-btn>
   </v-container>
 </template>
-
+<script src="https://js.stripe.com/v3/"></script>
 <script>
+var stripe = Stripe(
+  "pk_test_51GwqHLBFCoJ8vqH8CqGQTokpO0owv9in81AkKc5197KAEjmfX4PqArBcB735hEgx1aEWAKsGu8XDDhcE7ZwFz5DU00z0M9qUPH"
+);
 import axios from "axios";
 import First from "./steps/First.vue";
 import Second from "./steps/Second.vue";
@@ -157,6 +162,29 @@ export default {
     }
   }),
   methods: {
+    checkoutPage() {
+      try {
+        stripe
+          .redirectToCheckout({
+            customerEmail: "ankarn41k@gmail.com",
+            lineItems: [
+              { price: "price_1GwqR3BFCoJ8vqH8NIWPq0nG", quantity: 3 }
+            ],
+            mode: "payment",
+            shippingAddressCollection: {
+              allowedCountries: ["DE", "GB"]
+            },
+            successUrl: "https://www.youtube.com/?gl=UA",
+            cancelUrl: "https://www.youtube.com/?gl=UA"
+          })
+          .then(function(result, err) {
+            console.log(result);
+            console.log(err);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    },
     next() {
       this.tab++;
     },
