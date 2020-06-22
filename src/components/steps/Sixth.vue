@@ -73,9 +73,8 @@ export default {
 
 .grid {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 43fr;
-  grid-gap: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 .v-list {
   padding: 0;

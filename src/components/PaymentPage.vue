@@ -113,39 +113,39 @@ export default {
     price: {
       currency: "GPB"
     },
-    order: {
-      amount: "",
-      policyCheck: false,
-      couponCode: "",
-      couponIsValid: false,
-      discount: 0,
-      country: "",
-      firstName: "",
-      secondName: "",
-      postCode: "",
-      city: "",
-      address: "",
-      email: "",
-      phone: "",
-      currency: ""
-    },
-    currencies: [],
     // order: {
     //   amount: "",
     //   policyCheck: false,
-    //   couponCode: "plugandplink-orgoffer",
+    //   couponCode: "",
     //   couponIsValid: false,
     //   discount: 0,
     //   country: "",
-    //   firstName: "Dmitry",
-    //   secondName: "Loza",
-    //   postCode: "6900",
-    //   city: "zsd",
-    //   address: "sada21",
-    //   email: "ankarn41k@gmail.com",
-    //   phone: "+380997453583",
-    //   currency: "GBP"
+    //   firstName: "",
+    //   secondName: "",
+    //   postCode: "",
+    //   city: "",
+    //   address: "",
+    //   email: "",
+    //   phone: "",
+    //   currency: ""
     // },
+    currencies: [],
+    order: {
+      amount: "",
+      policyCheck: false,
+      couponCode: "plugandplink-orgoffer",
+      couponIsValid: false,
+      discount: 0,
+      country: "",
+      firstName: "Dmitry",
+      secondName: "Loza",
+      postCode: "6900",
+      city: "zsd",
+      address: "sada21",
+      email: "ankarn41k@gmail.com",
+      phone: "+380997453583",
+      currency: "GBP"
+    },
     stepsValid: {
       s1: false,
       s2: false,
@@ -161,12 +161,13 @@ export default {
       this.tab++;
     },
     back() {
-      if (this.tab == 6) {
-        this.tab = this.tab - 2;
-        this.price = {
-          currency: "GPB"
-        };
-      } else this.tab--;
+      // if (this.tab == 6) {
+      //   this.tab = this.tab - 2;
+      //   this.price = {
+      //     currency: "GPB"
+      //   };
+      // } else
+      this.tab--;
     },
     getCountries: async function() {
       try {
