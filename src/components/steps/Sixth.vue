@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="titlet">
-      Please check your delivery details before proceeding to the biling page.
+      Please check your delivery details before proceeding to the billing page.
     </p>
     <v-card-text>
       <v-list>
