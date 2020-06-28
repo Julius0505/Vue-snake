@@ -1,0 +1,187 @@
+<template>
+  <v-card-text>
+    <p class="price">
+      {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
+    </p>
+    <div>
+      <div class="card" ref="card"></div>
+    </div>
+    <br />
+    {{ secretKey }}
+    <!-- <p class="price">OR</p>
+    <v-btn large class="submitPayment" outlined color="primary"
+      >Pay with Paypall</v-btn
+    > -->
+    <v-checkbox
+      id="policyCheck"
+      v-model="adressStatus"
+      label="Billing address is the same as shipping"
+      required
+    ></v-checkbox>
+    <v-form v-if="!adressStatus">
+      <v-card-text>
+        <div class="name">
+          <v-text-field
+            label="First name"
+            :rules="[
+              v => !!v || 'Name is required',
+              v => v.length <= 30 || 'Max 30 characters'
+            ]"
+            outlined
+            v-model="billing.firstName"
+          ></v-text-field>
+          <v-text-field
+            :rules="[v => v.length <= 30 || 'Max 30 characters']"
+            label="Second name"
+            outlined
+            v-model="billing.secondName"
+          ></v-text-field>
+        </div>
+
+        <div class="country">
+          <v-text-field
+            v-model="billing.country"
+            :rules="[v => !!v || 'Country  is required']"
+            outlined
+            label="Country"
+          ></v-text-field>
+          <v-text-field
+            label="Post code"
+            outlined
+            v-model="billing.postCode"
+            :rules="[
+              v => !!v || 'Required',
+              v => v.length <= 15 || 'Max 15 characters'
+            ]"
+            id="postCode"
+          ></v-text-field>
+        </div>
+
+        <v-text-field
+          :rules="[v => !!v || 'City is required']"
+          label="City"
+          outlined
+          v-model="billing.city"
+        ></v-text-field>
+        <v-textarea
+          :rules="[v => !!v || 'Adress']"
+          label="Adress"
+          outlined
+          v-model="billing.address"
+        ></v-textarea>
+      </v-card-text>
+    </v-form>
+    <v-btn large class="submitPayment" @click="payNow" outlined color="primary"
+      >Pay now</v-btn
+    >
+  </v-card-text>
+</template>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+/* eslint-disable no-unused-vars */
+
+let stripe = Stripe(
+    "pk_test_51GwqHLBFCoJ8vqH8CqGQTokpO0owv9in81AkKc5197KAEjmfX4PqArBcB735hEgx1aEWAKsGu8XDDhcE7ZwFz5DU00z0M9qUPH"
+  ),
+  elements = stripe.elements(),
+  card = undefined;
+let style = {
+  invalid: {
+    // All of the error styles go inside of here. pi_1Gygfw2T3o5wGswk08bog5CB
+  }
+};
+
+import axios from "axios";
+export default {
+  props: ["price", "secretKey"],
+  data() {
+    return {
+      amount: 0,
+      currency: "EUR",
+      adressStatus: true,
+      billing: {
+        country: "",
+        firstName: "",
+        secondName: "",
+        postCode: "",
+        city: "",
+        address: ""
+      }
+    };
+  },
+  methods: {
+    payNow() {
+      console.log(this.secretKey);
+      stripe
+        .confirmCardPayment(this.secretKey, {
+          payment_method: {
+            card: card,
+            billing_details: {
+              name: "Jenny Rosen"
+            }
+          }
+        })
+        .then(function(result) {
+          if (result.error) {
+            // Show error to your customer (e.g., insufficient funds)
+            console.log(result.error.message);
+          } else {
+            console.log(result);
+            if (result.paymentIntent.status === "succeeded") {
+              console.log(result);
+            }
+          }
+        });
+    },
+
+    validate() {
+      this.$refs.form.validate();
+    }
+  },
+  mounted: function() {
+    card = elements.create("card", {
+      style: {
+        base: {
+          //   height: "42px",
+          iconColor: "#c4f0ff",
+          color: "#fff",
+          fontWeight: 500,
+
+          fontSize: "16px",
+          fontSmoothing: "antialiased",
+
+          ":-webkit-autofill": {
+            color: "#fce883"
+          },
+          "::placeholder": {
+            color: "#FFFFFF"
+          }
+        },
+        invalid: {
+          iconColor: "#FF5252",
+          color: "#FF5252"
+        }
+      }
+    });
+    card.mount(this.$refs.card);
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.card {
+  padding: 13px;
+  margin-top: 10px;
+  border: 1px solid #545454;
+  border-radius: 5px;
+}
+.price {
+  padding: 20px;
+  font-size: 26px;
+  width: 100%;
+  text-align: center;
+}
+.submitPayment {
+  width: 100%;
+}
+</style>

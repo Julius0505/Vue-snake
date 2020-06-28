@@ -59,6 +59,12 @@
           :order="order"
           v-if="tab === 6"
         />
+        <Checkout
+          :price="price"
+          :orde="order"
+          :secretKey="secretKey"
+          v-if="tab === 7"
+        />
       </v-tabs-items>
       <v-card-text class="actions">
         <div>
@@ -74,7 +80,7 @@
         </div>
 
         <v-btn
-          v-if="tab != 6"
+          v-if="tab !== 7"
           outlined
           color="primary"
           :disabled="isNext"
@@ -85,14 +91,11 @@
         >
       </v-card-text>
     </v-card>
-    <v-btn @click="checkoutPage">Pay</v-btn>
   </v-container>
 </template>
-<script src="https://js.stripe.com/v3/"></script>
+
 <script>
-var stripe = Stripe(
-  "pk_test_51GwqHLBFCoJ8vqH8CqGQTokpO0owv9in81AkKc5197KAEjmfX4PqArBcB735hEgx1aEWAKsGu8XDDhcE7ZwFz5DU00z0M9qUPH"
-);
+import Checkout from "./steps/Checkout.vue";
 import axios from "axios";
 import First from "./steps/First.vue";
 import Second from "./steps/Second.vue";
@@ -110,7 +113,8 @@ export default {
     Fourth,
     Fifth,
     Sixth,
-    Seventh
+    Seventh,
+    Checkout
   },
   data: () => ({
     amount: 1,
@@ -118,6 +122,7 @@ export default {
     price: {
       currency: "GPB"
     },
+    secretKey: "",
     // order: {
     //   amount: "",
     //   policyCheck: false,
@@ -162,45 +167,39 @@ export default {
     }
   }),
   methods: {
-    checkoutPage() {
-      try {
-        stripe
-          .redirectToCheckout({
-            customerEmail: "ankarn41k@gmail.com",
-            lineItems: [
-              { price: "price_1GwqR3BFCoJ8vqH8NIWPq0nG", quantity: 3 }
-            ],
-            mode: "payment",
-            shippingAddressCollection: {
-              allowedCountries: ["DE", "GB"]
-            },
-            successUrl: "https://www.youtube.com/?gl=UA",
-            cancelUrl: "https://www.youtube.com/?gl=UA"
-          })
-          .then(function(result, err) {
-            console.log(result);
-            console.log(err);
-          });
-      } catch (err) {
-        console.log(err);
+    checkout() {
+      axios
+        .post(
+          `https://exchange.snakeomatic.com/orders/create-payment_intent?amount=${this.price.grandTotal}&currency=${this.price.currency}`
+        )
+        .then(res => {
+          this.secretKey = res.data;
+          this.tab++;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    next() {
+      if (this.tab !== 6) {
+        this.tab++;
+      } else {
+        this.checkout();
       }
     },
-    next() {
-      this.tab++;
-    },
     back() {
-      // if (this.tab == 6) {
-      //   this.tab = this.tab - 2;
-      //   this.price = {
-      //     currency: "GPB"
-      //   };
-      // } else
-      this.tab--;
+      if (this.tab == 0) {
+        this.tab = this.tab - 2;
+        this.price = {
+          currency: "GPB"
+        };
+      } else this.tab--;
     },
     getCountries: async function() {
       try {
         const countries = await axios.get(
-          "https://snakeomatic.com//orders/list-destinations"
+          "https://exchange.snakeomatic.com/orders/list-destinations"
         );
         this.countries = countries.data;
       } catch (err) {
@@ -210,7 +209,7 @@ export default {
     getCur: async function() {
       try {
         const currencies = await axios.get(
-          "https://snakeomatic.com/orders/list-currencies"
+          "https://exchange.snakeomatic.com/orders/list-currencies"
         );
         this.currencies = currencies.data;
         console.log(this.currencies);
@@ -226,7 +225,7 @@ export default {
 
       try {
         const price = await axios.post(
-          `https://snakeomatic.com/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
+          `https://exchange.snakeomatic.com/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
         );
         this.price = price.data;
         this.order.currency = price.data.currency;

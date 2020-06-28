@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="titlet">
-      Please check your delivery details before proceeding to the billing page.
+      Please check your delivery details before proceeding to the biling page.
     </p>
     <v-card-text>
       <v-list>
@@ -73,8 +73,9 @@ export default {
 
 .grid {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 43fr;
+  grid-gap: 20px;
 }
 .v-list {
   padding: 0;

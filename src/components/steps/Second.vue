@@ -57,7 +57,7 @@ export default {
       var res;
       try {
         res = await axios.post(
-          `https://snakeomatic.com/orders/check-coupon?coupon=${this.order.couponCode}`
+          `https://exchange.snakeomatic.com/orders/check-coupon?coupon=${this.order.couponCode}`
         );
 
         if (!res.data.useable) {
