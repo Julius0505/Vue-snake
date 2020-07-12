@@ -60,8 +60,9 @@
           v-if="tab === 6"
         />
         <Checkout
+          :tab="tab"
           :price="price"
-          :orde="order"
+          :order="order"
           :secretKey="secretKey"
           v-if="tab === 7"
         />
@@ -141,6 +142,7 @@ export default {
     // },
     currencies: [],
     order: {
+      title: "Mr",
       amount: "",
       policyCheck: false,
       couponCode: "plugandplink-orgoffer",
@@ -167,12 +169,14 @@ export default {
     }
   }),
   methods: {
+    // https://exchange.snakeomatic.com/orders/create-payment-intent?amount=10400&currency=GBP&quantity=3&recipientaddresslineone=Big%20Street&recipientaddresslinetwo=Green%20District&recipientcity=London&recipientcountry=Germany(DE)&recipientemailaddress=fred%40example.com&recipienthousenameornumber=27A&recipientname=Fred%20Bloggs&recipientphonenumber=%2B447700900343&recipientpostcode=213213123&recipienttitle=Mrs
     checkout() {
       axios
         .post(
-          `https://exchange.snakeomatic.com/orders/create-payment_intent?amount=${this.price.grandTotal}&currency=${this.price.currency}`
+          `https://exchange.snakeomatic.com/orders/create-payment-intent?amount=${this.price.grandTotal}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
         )
         .then(res => {
+          console.log(res);
           this.secretKey = res.data;
           this.tab++;
         })

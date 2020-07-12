@@ -1,5 +1,5 @@
 <template>
-  <v-card-text>
+  <v-card-text :key="tab">
     <p class="price">
       {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
     </p>
@@ -77,6 +77,7 @@
   </v-card-text>
 </template>
 <script src="https://js.stripe.com/v3/"></script>
+
 <script>
 /* eslint-disable no-unused-vars */
 
@@ -93,7 +94,16 @@ let style = {
 
 import axios from "axios";
 export default {
-  props: ["price", "secretKey"],
+  props: ["price", "secretKey", "order", "tab"],
+  watch: {
+    tab: function() {
+      console.log("tab");
+      if (this.tab != 7) {
+        console.log("unmounted");
+        card.unmount();
+      }
+    }
+  },
   data() {
     return {
       amount: 0,
@@ -109,6 +119,13 @@ export default {
       }
     };
   },
+  computed: {
+    billingOb: function() {
+      if (!this.adressStatus) {
+        return this.order;
+      } else return this.billing;
+    }
+  },
   methods: {
     payNow() {
       console.log(this.secretKey);
@@ -117,7 +134,8 @@ export default {
           payment_method: {
             card: card,
             billing_details: {
-              name: "Jenny Rosen"
+              name: `${this.billingOb.firstName} ${this.billingOb.secondName}`,
+              email: this.order.email
             }
           }
         })
@@ -138,32 +156,35 @@ export default {
       this.$refs.form.validate();
     }
   },
+
   mounted: function() {
-    card = elements.create("card", {
-      style: {
-        base: {
-          //   height: "42px",
-          iconColor: "#c4f0ff",
-          color: "#fff",
-          fontWeight: 500,
+    if (!card) {
+      card = elements.create("card", {
+        style: {
+          base: {
+            //   height: "42px",
+            iconColor: "#c4f0ff",
+            color: "#fff",
+            fontWeight: 500,
 
-          fontSize: "16px",
-          fontSmoothing: "antialiased",
+            fontSize: "16px",
+            fontSmoothing: "antialiased",
 
-          ":-webkit-autofill": {
-            color: "#fce883"
+            ":-webkit-autofill": {
+              color: "#fce883"
+            },
+            "::placeholder": {
+              color: "#FFFFFF"
+            }
           },
-          "::placeholder": {
-            color: "#FFFFFF"
+          invalid: {
+            iconColor: "#FF5252",
+            color: "#FF5252"
           }
-        },
-        invalid: {
-          iconColor: "#FF5252",
-          color: "#FF5252"
         }
-      }
-    });
-    card.mount(this.$refs.card);
+      });
+      card.mount(this.$refs.card);
+    }
   }
 };
 </script>

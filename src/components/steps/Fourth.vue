@@ -7,6 +7,17 @@
       <v-card-text>
         <div class="name">
           <v-text-field
+            label="Title"
+            :rules="[
+              v => !!v || 'Title is required',
+              v => v.length <= 5 || 'Max 5 characters'
+            ]"
+            outlined
+            v-model="order.title"
+          ></v-text-field>
+        </div>
+        <div class="name">
+          <v-text-field
             label="First name"
             :rules="[
               v => !!v || 'Name is required',
