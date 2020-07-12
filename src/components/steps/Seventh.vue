@@ -118,9 +118,9 @@ export default {
 
 .grid {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .v-list {
   padding: 0;

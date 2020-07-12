@@ -71,11 +71,17 @@ export default {
   text-align: right;
 }
 
-.grid {
+/* .grid {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 43fr;
   grid-gap: 20px;
+} */
+.grid {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .v-list {
   padding: 0;
