@@ -173,7 +173,7 @@ export default {
     checkout() {
       axios
         .post(
-          `https://exchange.snakeomatic.com/orders/create-payment-intent?amount=${this.price.grandTotal}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
+          `https://snakeomatic.com/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
         )
         .then(res => {
           console.log(res);
@@ -203,7 +203,7 @@ export default {
     getCountries: async function() {
       try {
         const countries = await axios.get(
-          "https://exchange.snakeomatic.com/orders/list-destinations"
+          "https://snakeomatic.com/orders/list-destinations"
         );
         this.countries = countries.data;
       } catch (err) {
@@ -213,7 +213,7 @@ export default {
     getCur: async function() {
       try {
         const currencies = await axios.get(
-          "https://exchange.snakeomatic.com/orders/list-currencies"
+          "https://snakeomatic.com/orders/list-currencies"
         );
         this.currencies = currencies.data;
         console.log(this.currencies);
@@ -229,7 +229,7 @@ export default {
 
       try {
         const price = await axios.post(
-          `https://exchange.snakeomatic.com/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
+          `https://snakeomatic.com/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
         );
         this.price = price.data;
         this.order.currency = price.data.currency;
