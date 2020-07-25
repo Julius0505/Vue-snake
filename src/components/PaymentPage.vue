@@ -124,40 +124,40 @@ export default {
       currency: "GPB"
     },
     secretKey: "",
-    order: {
-      amount: "",
-      policyCheck: false,
-      couponCode: "",
-      couponIsValid: false,
-      discount: 0,
-      country: "",
-      firstName: "",
-      secondName: "",
-      postCode: "",
-      city: "",
-      address: "",
-      email: "",
-      phone: "",
-      currency: ""
-    },
-    currencies: [],
     // order: {
-    //   title: "Mr",
     //   amount: "",
     //   policyCheck: false,
-    //   couponCode: "plugandplink-orgoffer",
+    //   couponCode: "",
     //   couponIsValid: false,
     //   discount: 0,
     //   country: "",
-    //   firstName: "Dmitry",
-    //   secondName: "Loza",
-    //   postCode: "6900",
-    //   city: "zsd",
-    //   address: "sada21",
-    //   email: "ankarn41k@gmail.com",
-    //   phone: "+380997453583",
-    //   currency: "GBP"
+    //   firstName: "",
+    //   secondName: "",
+    //   postCode: "",
+    //   city: "",
+    //   address: "",
+    //   email: "",
+    //   phone: "",
+    //   currency: ""
     // },
+    currencies: [],
+    order: {
+      title: "Mr",
+      amount: "",
+      policyCheck: false,
+      couponCode: "plugandplink-orgoffer",
+      couponIsValid: false,
+      discount: 0,
+      country: "",
+      firstName: "Dmitry",
+      secondName: "Loza",
+      postCode: "6900",
+      city: "zsd",
+      address: "sada21",
+      email: "ankarn41k@gmail.com",
+      phone: "+380997453583",
+      currency: "GBP"
+    },
     stepsValid: {
       s1: false,
       s2: false,
@@ -173,7 +173,7 @@ export default {
     checkout() {
       axios
         .post(
-          `https://snakeomatic.com/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
+          `https://exchange.snakeomatic.com/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
         )
         .then(res => {
           console.log(res);
@@ -203,7 +203,7 @@ export default {
     getCountries: async function() {
       try {
         const countries = await axios.get(
-          "https://snakeomatic.com/orders/list-destinations"
+          "https://exchange.snakeomatic.com/orders/list-destinations"
         );
         this.countries = countries.data;
       } catch (err) {
@@ -213,7 +213,7 @@ export default {
     getCur: async function() {
       try {
         const currencies = await axios.get(
-          "https://snakeomatic.com/orders/list-currencies"
+          "https://exchange.snakeomatic.com/orders/list-currencies"
         );
         this.currencies = currencies.data;
         console.log(this.currencies);
@@ -229,7 +229,7 @@ export default {
 
       try {
         const price = await axios.post(
-          `https://snakeomatic.com/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
+          `https://exchange.snakeomatic.com/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
         );
         this.price = price.data;
         this.order.currency = price.data.currency;
