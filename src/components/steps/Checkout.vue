@@ -1,79 +1,97 @@
 <template>
   <v-card-text :key="tab">
-    <p class="price">
-      {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
-    </p>
-    <div>
-      <div class="card" ref="card"></div>
+    <v-progress-circular
+      v-if="loading"
+      :size="300"
+      :width="40"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+    <div class="message" v-if="result">
+      <v-card-title v-if="result && !error">
+        Thank you for your order! You'll receive a confirmation on your email!
+      </v-card-title>
+      <v-card-title v-if="error">
+        Sorry, something went wrong.
+      </v-card-title>
     </div>
-    <br />
-    {{ secretKey }}
-    <!-- <p class="price">OR</p>
-    <v-btn large class="submitPayment" outlined color="primary"
-      >Pay with Paypall</v-btn
-    > -->
-    <v-checkbox
-      id="policyCheck"
-      v-model="adressStatus"
-      label="Billing address is the same as shipping"
-      required
-    ></v-checkbox>
-    <v-form v-if="!adressStatus">
-      <v-card-text>
-        <div class="name">
-          <v-text-field
-            label="First name"
-            :rules="[
-              v => !!v || 'Name is required',
-              v => v.length <= 30 || 'Max 30 characters'
-            ]"
-            outlined
-            v-model="billing.firstName"
-          ></v-text-field>
-          <v-text-field
-            :rules="[v => v.length <= 30 || 'Max 30 characters']"
-            label="Second name"
-            outlined
-            v-model="billing.secondName"
-          ></v-text-field>
-        </div>
+    <div v-if="!result">
+      <p class="price" v-if="!loading || !result">
+        {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
+      </p>
+      <div>
+        <div class="card" ref="card"></div>
+      </div>
+      <br />
 
-        <div class="country">
-          <v-text-field
-            v-model="billing.country"
-            :rules="[v => !!v || 'Country  is required']"
-            outlined
-            label="Country"
-          ></v-text-field>
-          <v-text-field
-            label="Post code"
-            outlined
-            v-model="billing.postCode"
-            :rules="[
-              v => !!v || 'Required',
-              v => v.length <= 15 || 'Max 15 characters'
-            ]"
-            id="postCode"
-          ></v-text-field>
-        </div>
+      <v-checkbox
+        id="policyCheck"
+        v-model="adressStatus"
+        label="Billing address is the same as shipping"
+        required
+      ></v-checkbox>
+      <v-form v-if="!adressStatus">
+        <v-card-text>
+          <div class="name">
+            <v-text-field
+              label="First name"
+              :rules="[
+                v => !!v || 'Name is required',
+                v => v.length <= 30 || 'Max 30 characters'
+              ]"
+              outlined
+              v-model="billing.firstName"
+            ></v-text-field>
+            <v-text-field
+              :rules="[v => v.length <= 30 || 'Max 30 characters']"
+              label="Second name"
+              outlined
+              v-model="billing.secondName"
+            ></v-text-field>
+          </div>
 
-        <v-text-field
-          :rules="[v => !!v || 'City is required']"
-          label="City"
-          outlined
-          v-model="billing.city"
-        ></v-text-field>
-        <v-textarea
-          :rules="[v => !!v || 'Adress']"
-          label="Adress"
-          outlined
-          v-model="billing.address"
-        ></v-textarea>
-      </v-card-text>
-    </v-form>
-    <v-btn large class="submitPayment" @click="payNow" outlined color="primary"
-      >Pay now</v-btn
-    >
+          <div class="country">
+            <v-text-field
+              v-model="billing.country"
+              :rules="[v => !!v || 'Country  is required']"
+              outlined
+              label="Country"
+            ></v-text-field>
+            <v-text-field
+              label="Post code"
+              outlined
+              v-model="billing.postCode"
+              :rules="[
+                v => !!v || 'Required',
+                v => v.length <= 15 || 'Max 15 characters'
+              ]"
+              id="postCode"
+            ></v-text-field>
+          </div>
+
+          <v-text-field
+            :rules="[v => !!v || 'City is required']"
+            label="City"
+            outlined
+            v-model="billing.city"
+          ></v-text-field>
+          <v-textarea
+            :rules="[v => !!v || 'Required']"
+            label="Adress"
+            outlined
+            v-model="billing.address"
+          ></v-textarea>
+        </v-card-text>
+      </v-form>
+      <v-btn
+        large
+        class="submitPayment"
+        @click="payNow"
+        outlined
+        color="primary"
+        >Pay now</v-btn
+      >
+    </div>
   </v-card-text>
 </template>
 <script src="https://js.stripe.com/v3/"></script>
@@ -95,17 +113,11 @@ let style = {
 import axios from "axios";
 export default {
   props: ["price", "secretKey", "order", "tab"],
-  watch: {
-    tab: function() {
-      console.log("tab");
-      if (this.tab != 7) {
-        console.log("unmounted");
-        card.unmount();
-      }
-    }
-  },
   data() {
     return {
+      loading: false,
+      result: false,
+      error: false,
       amount: 0,
       currency: "EUR",
       adressStatus: true,
@@ -128,7 +140,8 @@ export default {
   },
   methods: {
     payNow() {
-      console.log(this.secretKey);
+      let self = this;
+      this.loading = true;
       stripe
         .confirmCardPayment(this.secretKey, {
           payment_method: {
@@ -141,12 +154,15 @@ export default {
         })
         .then(function(result) {
           if (result.error) {
-            // Show error to your customer (e.g., insufficient funds)
+            self.loading = false;
+            self.result = true;
+            self.error = true;
             console.log(result.error.message);
           } else {
-            console.log(result);
             if (result.paymentIntent.status === "succeeded") {
               console.log(result);
+              self.loading = false;
+              self.result = true;
             }
           }
         });
@@ -156,7 +172,10 @@ export default {
       this.$refs.form.validate();
     }
   },
-
+  beforeDestroy() {
+    card.destroy();
+    card = null;
+  },
   mounted: function() {
     if (!card) {
       card = elements.create("card", {
@@ -190,6 +209,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.message {
+  padding: 20px;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.v-card__title {
+  word-break: break-all !important;
+}
 .card {
   padding: 13px;
   margin-top: 10px;

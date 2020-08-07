@@ -5,7 +5,7 @@
     </p>
     <v-form>
       <v-card-text>
-        <div class="name">
+        <div class="userTitle">
           <v-text-field
             label="Title"
             :rules="[
@@ -18,6 +18,7 @@
         </div>
         <div class="name">
           <v-text-field
+            class="firstName"
             label="First name"
             :rules="[
               v => !!v || 'Name is required',
@@ -27,6 +28,7 @@
             v-model="order.firstName"
           ></v-text-field>
           <v-text-field
+            class="secondName"
             :rules="[v => v.length <= 30 || 'Max 30 characters']"
             label="Second name"
             outlined
@@ -36,6 +38,7 @@
 
         <div class="country">
           <v-select
+            class="countryInput"
             v-model="order.country"
             :rules="[v => !!v || 'Country  is required']"
             solo
@@ -44,6 +47,7 @@
             label="Country"
           ></v-select>
           <v-text-field
+            class="postCode"
             label="Post code"
             outlined
             v-model="order.postCode"
@@ -62,8 +66,8 @@
           v-model="order.city"
         ></v-text-field>
         <v-textarea
-          :rules="[v => !!v || 'Adress']"
-          label="Adress"
+          :rules="[v => !!v || 'Adsress is required']"
+          label="Address"
           outlined
           v-model="order.address"
         ></v-textarea>
@@ -96,16 +100,33 @@ export default {
 </script>
 
 <style lang="scss">
+.userTitle {
+  width: calc(50% - 7.5px);
+}
 .name {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 15px;
+  display: flex;
+  flex-direction: row;
+}
+.firstName {
+  flex: 0 1 50% !important;
+}
+.secondName {
+  margin-left: 15px !important;
+  flex: 0 1 50% !important;
 }
 .country {
-  display: grid;
-  align-items: center;
+  display: flex;
+  flex-direction: row;
+  /* align-items: center;
   grid-template-columns: 5fr 2fr;
-  grid-gap: 15px;
+  grid-gap: 15px; */
+}
+.countryInput {
+  flex: 0 1 70% !important;
+}
+.postCode {
+  margin-left: 15px !important;
+  flex: 0 1 30% !important;
 }
 .dropdown {
 }
@@ -127,19 +148,22 @@ export default {
 @media screen and (max-width: 500px) {
   .v-input__control {
   }
-  #postCode {
-    width: 100%;
-  }
-  .name {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
-  }
   .country {
     display: grid;
     align-items: center;
     grid-template-columns: 1fr;
     grid-gap: 0;
+  }
+
+  #postCode {
+    width: 100%;
+  }
+  .secondName {
+    margin-left: none;
+  }
+  .postCode {
+    margin-left: 0 !important;
+    width: 100%;
   }
 }
 </style>

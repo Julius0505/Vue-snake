@@ -29,7 +29,7 @@
 //  :rules="rule"
 import axios from "axios";
 export default {
-  props: ["order", "back", "next"],
+  props: ["order", "back", "next", "urlVar"],
   data() {
     return {
       isInvalid: false,
@@ -57,7 +57,7 @@ export default {
       var res;
       try {
         res = await axios.post(
-          `https://snakeomatic.com/orders/check-coupon?coupon=${this.order.couponCode}`
+          `https://${this.urlVar}.com/orders/check-coupon?coupon=${this.order.couponCode}`
         );
 
         if (!res.data.useable) {

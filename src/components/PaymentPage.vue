@@ -5,7 +5,7 @@
         <v-tab>Start</v-tab>
         <v-tab :disabled="disabled2">Country</v-tab>
         <v-tab :disabled="disabled4">Coupon</v-tab>
-        <v-tab :disabled="disabledAdress">Adress</v-tab>
+        <v-tab :disabled="disabledAdress">Address</v-tab>
         <v-tab :disabled="disabled5">Contacts</v-tab>
         <v-tab :disabled="disabled6">Summary</v-tab>
         <v-tab :disabled="disabled7">Transaction</v-tab>
@@ -22,6 +22,7 @@
         />
 
         <Second
+          :urlVar="urlVar"
           :isValid="stepsValid.s1"
           :back="back"
           :next="next"
@@ -118,6 +119,7 @@ export default {
     Checkout
   },
   data: () => ({
+    urlVar: "exchange.snakeomatic",
     amount: 1,
     tab: 0,
     price: {
@@ -173,10 +175,9 @@ export default {
     checkout() {
       axios
         .post(
-          `https://snakeomatic.com/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
+          `https://${this.urlVar}.com/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
         )
         .then(res => {
-          console.log(res);
           this.secretKey = res.data;
           this.tab++;
         })
@@ -186,9 +187,9 @@ export default {
     },
 
     next() {
-      if (this.tab !== 6) {
+      if (this.tab < 6) {
         this.tab++;
-      } else {
+      } else if (this.tab == 6) {
         this.checkout();
       }
     },
@@ -203,7 +204,7 @@ export default {
     getCountries: async function() {
       try {
         const countries = await axios.get(
-          "https://snakeomatic.com/orders/list-destinations"
+          `https://${this.urlVar}.com/orders/list-destinations`
         );
         this.countries = countries.data;
       } catch (err) {
@@ -213,10 +214,9 @@ export default {
     getCur: async function() {
       try {
         const currencies = await axios.get(
-          "https://snakeomatic.com/orders/list-currencies"
+          `https://${this.urlVar}.com/orders/list-currencies`
         );
         this.currencies = currencies.data;
-        console.log(this.currencies);
       } catch (err) {
         console.log(err);
       }
@@ -229,11 +229,10 @@ export default {
 
       try {
         const price = await axios.post(
-          `https://snakeomatic.com/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
+          `https://${this.urlVar}.com/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
         );
         this.price = price.data;
         this.order.currency = price.data.currency;
-        console.log(price);
       } catch (err) {
         console.log(err);
       }
@@ -316,6 +315,16 @@ export default {
 };
 </script>
 <style lang="scss">
+.v-select__selection.v-select__selection--comma {
+  height: 30px !important;
+  display: flex;
+  align-items: center;
+}
+.v-list-item__title {
+  height: 26px !important;
+  display: flex;
+  align-items: center;
+}
 * {
   font-family: "McLaren", cursive !important;
 }
@@ -360,8 +369,7 @@ p {
   padding-top: 0;
 }
 .tabs {
-  /* margin-left: -35px; */
-  padding: 0;
+  padding-left: 15px;
 }
 
 @media screen and (max-width: 500px) {

@@ -128,8 +128,9 @@ export default {
 .titlet {
   padding-left: 16px;
   padding-right: 16px;
-  display: grid;
-  grid-template-columns: 5fr 2fr;
+  display: flex;
+  flex-direction: raw;
+  justify-content: space-between;
 }
 .selecting {
 }
