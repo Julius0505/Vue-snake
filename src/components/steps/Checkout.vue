@@ -32,8 +32,20 @@
       ></v-checkbox>
       <v-form v-if="!adressStatus">
         <v-card-text>
+          <div class="userTitle">
+            <v-text-field
+              label="Title"
+              :rules="[
+                v => !!v || 'Title is required',
+                v => v.length <= 5 || 'Max 5 characters'
+              ]"
+              outlined
+              v-model="billing.title"
+            ></v-text-field>
+          </div>
           <div class="name">
             <v-text-field
+              class="firstName"
               label="First name"
               :rules="[
                 v => !!v || 'Name is required',
@@ -43,6 +55,7 @@
               v-model="billing.firstName"
             ></v-text-field>
             <v-text-field
+              class="secondName"
               :rules="[v => v.length <= 30 || 'Max 30 characters']"
               label="Second name"
               outlined
@@ -52,12 +65,17 @@
 
           <div class="country">
             <v-text-field
-              v-model="billing.country"
-              :rules="[v => !!v || 'Country  is required']"
-              outlined
+              class="countryField"
               label="Country"
+              outlined
+              v-model="billing.country"
+              :rules="[
+                v => !!v || 'Country is required',
+                v => v.length <= 15 || 'Max 15 characters'
+              ]"
             ></v-text-field>
             <v-text-field
+              class="postCode"
               label="Post code"
               outlined
               v-model="billing.postCode"
@@ -70,17 +88,35 @@
           </div>
 
           <v-text-field
-            :rules="[v => !!v || 'City is required']"
+            :rules="[v => v.length <= 45 || 'Max 45 characters']"
+            label="Province / State"
+            outlined
+            v-model="billing.state"
+          ></v-text-field>
+          <v-text-field
+            :rules="[
+              v => !!v || 'City is required',
+              v => v.length <= 45 || 'Max 45 characters'
+            ]"
             label="City"
             outlined
             v-model="billing.city"
           ></v-text-field>
-          <v-textarea
-            :rules="[v => !!v || 'Required']"
-            label="Adress"
+          <v-text-field
+            :rules="[
+              v => !!v || 'Address is required',
+              v => v.length <= 45 || 'Max 45 characters'
+            ]"
+            label="Address line 1"
             outlined
-            v-model="billing.address"
-          ></v-textarea>
+            v-model="billing.address1"
+          ></v-text-field>
+          <v-text-field
+            :rules="[v => v.length <= 45 || 'Max 45 characters']"
+            label="Address line 2"
+            outlined
+            v-model="billing.address2"
+          ></v-text-field>
         </v-card-text>
       </v-form>
       <v-btn
@@ -126,8 +162,10 @@ export default {
         firstName: "",
         secondName: "",
         postCode: "",
+        province: "",
         city: "",
-        address: ""
+        address1: "",
+        address2: ""
       }
     };
   },

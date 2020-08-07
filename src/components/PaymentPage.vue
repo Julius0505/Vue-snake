@@ -121,7 +121,7 @@ export default {
   data: () => ({
     urlVar: "exchange.snakeomatic",
     amount: 1,
-    tab: 0,
+    tab: 3,
     price: {
       currency: "GPB"
     },
@@ -154,8 +154,10 @@ export default {
       firstName: "Dmitry",
       secondName: "Loza",
       postCode: "6900",
+      state: "",
       city: "zsd",
-      address: "sada21",
+      address1: "sada21",
+      address2: "sada21",
       email: "ankarn41k@gmail.com",
       phone: "+380997453583",
       currency: "GBP"
@@ -288,7 +290,7 @@ export default {
         this.order.firstName &&
         this.order.postCode &&
         this.order.city &&
-        this.order.address &&
+        this.order.address1 &&
         this.order.firstName.length <= 30 &&
         this.order.secondName.length <= 30 &&
         this.order.postCode.length <= 15

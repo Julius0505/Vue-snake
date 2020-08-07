@@ -60,17 +60,35 @@
         </div>
 
         <v-text-field
-          :rules="[v => !!v || 'City is required']"
+          :rules="[v => v.length <= 45 || 'Max 45 characters']"
+          label="Province / State"
+          outlined
+          v-model="order.state"
+        ></v-text-field>
+        <v-text-field
+          :rules="[
+            v => !!v || 'City is required',
+            v => v.length <= 45 || 'Max 45 characters'
+          ]"
           label="City"
           outlined
           v-model="order.city"
         ></v-text-field>
-        <v-textarea
-          :rules="[v => !!v || 'Adsress is required']"
-          label="Address"
+        <v-text-field
+          :rules="[
+            v => !!v || 'Address is required',
+            v => v.length <= 45 || 'Max 45 characters'
+          ]"
+          label="Address line 1"
           outlined
-          v-model="order.address"
-        ></v-textarea>
+          v-model="order.address1"
+        ></v-text-field>
+        <v-text-field
+          :rules="[v => v.length <= 45 || 'Max 45 characters']"
+          label="Address line 2"
+          outlined
+          v-model="order.address2"
+        ></v-text-field>
       </v-card-text>
     </v-form>
   </div>
@@ -85,8 +103,10 @@ export default {
       secondName: "",
       country: "",
       postCode: "",
+      state: "",
       city: "",
-      adress: "",
+      address1: "",
+      address2: "",
       phone: "",
       email: ""
     };
