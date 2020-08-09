@@ -26,7 +26,7 @@
         <p class="errMsg">{{ cardErrorMsg }}</p>
       </div>
       <br />
-
+      {{ secretKey }}
       <v-checkbox
         id="policyCheck"
         v-model="adressStatus"
@@ -223,6 +223,7 @@ export default {
           }
         })
         .then(function(result) {
+          console.log(result);
           if (result.error) {
             self.loading = false;
             self.result = true;
@@ -274,7 +275,6 @@ export default {
       card.on("change", function(event) {
         if (event.complete) {
           self.cardInputCoplete = true;
-          console.log("completed");
         } else if (event.error) {
           self.cardErrorMsg = event.error.message;
         } else {
