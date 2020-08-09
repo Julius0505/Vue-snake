@@ -1,29 +1,45 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import PaymentPage from "../components/PaymentPage.vue";
+import Home from "../components/Home.vue";
+import BuyMore from "../components/BuyMore.vue";
+import ReturnPolicy from "../components/ReturnPolicy.vue";
+import CountryDetails from "../components/CountryDetails.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/shop",
+    name: "Payment Page",
+    component: PaymentPage
+  },
+  {
+    path: "/",
+    name: "Home",
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: "/shop/buy-more",
+    name: "Buy More",
+    component: BuyMore
+  },
+  {
+    path: "/shop/return-policy",
+    name: "Return Policy",
+    component: ReturnPolicy
+  },
+  {
+    path: "/shop/country-details",
+    name: "Country Details",
+    component: CountryDetails
   }
-]
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes
-})
+});
 
-export default router
+export default router;

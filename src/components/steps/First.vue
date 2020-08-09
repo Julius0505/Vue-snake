@@ -14,7 +14,11 @@
           min="1"
           max="5"
         ></v-slider>
-        <p class="underline">I want to buy more than 5 snakes</p>
+        <p class="underline">
+          <router-link to="/shop/buy-more" target="_blank"
+            >I want to buy more than 5 snakes</router-link
+          >
+        </p>
         <!-- <div class="policy">
           <p class="precheckbox">
             I have read and agree to the
@@ -31,7 +35,11 @@
             label="I've read and agree to the"
             required
           ></v-checkbox>
-          <span class="spanLink"> Return Policy</span>
+          <span class="spanLink"
+            ><router-link target="_blank" to="/shop/return-policy"
+              >Return Policy</router-link
+            >
+          </span>
         </div>
       </v-card-text>
       <div @click="validate" class="valid"></div>

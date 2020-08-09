@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card class="mx-auto" max-width="530">
-      <v-tabs class="tabs" v-if="tab < 6" v-model="tab" hide-slider>
+      <v-tabs class="tabs" v-if="tab < 6" v-model="tab" :show-arrows="false">
         <v-tab>Start</v-tab>
         <v-tab :disabled="disabled2">Country</v-tab>
         <v-tab :disabled="disabled4">Coupon</v-tab>
@@ -118,6 +118,7 @@ export default {
     Seventh,
     Checkout
   },
+
   data: () => ({
     countries: "",
     urlVar: "exchange.snakeomatic",
@@ -176,6 +177,13 @@ export default {
       s7: false
     }
   }),
+  // beforeRouteEnter(to, from, next) {
+  //   next(vm => {
+  //     if (from.name == "Country Details") {
+  //       vm.tab = 1;
+  //     }
+  //   });
+  // },
   methods: {
     // https://exchange.snakeomatic.com/orders/create-payment-intent?amount=10400&currency=GBP&quantity=3&recipientaddresslineone=Big%20Street&recipientaddresslinetwo=Green%20District&recipientcity=London&recipientcountry=Germany(DE)&recipientemailaddress=fred%40example.com&recipienthousenameornumber=27A&recipientname=Fred%20Bloggs&recipientphonenumber=%2B447700900343&recipientpostcode=213213123&recipienttitle=Mrs
     checkout() {
@@ -212,7 +220,7 @@ export default {
         const countries = await axios.get(
           `https://${this.urlVar}.com/orders/list-destinations`
         );
-        console.log(countries.data);
+
         this.countries = countries.data;
       } catch (err) {
         console.log(err);
@@ -402,5 +410,10 @@ p {
   .v-slide-group__wrapper {
     width: 500px !important;
   }
+}
+
+input,
+textarea {
+  background-color: rgb(0, 0, 0, 0) !important;
 }
 </style>

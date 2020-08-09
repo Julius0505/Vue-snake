@@ -4,7 +4,11 @@
       Please tell us where you would like your snakes delivered to. If your
       destination country is not listed then sorry, we cannot proceed
       <br />
-      <span class="underline"> Click for more details</span>
+      <span class="underline"
+        ><router-link to="/shop/country-details" target="_blank"
+          >Click for more details</router-link
+        >
+      </span>
     </p>
     <v-card-text>
       <v-form ref="form">
