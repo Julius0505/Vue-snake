@@ -1,12 +1,14 @@
 <template>
   <v-card-text :key="tab">
-    <v-progress-circular
-      v-if="loading"
-      :size="300"
-      :width="40"
-      color="primary"
-      indeterminate
-    ></v-progress-circular>
+    <div class="loadingWrapper">
+      <v-progress-circular
+        v-if="loading"
+        :size="300"
+        :width="40"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
+    </div>
     <div class="message" v-if="result">
       <v-card-title v-if="result && !error">
         Thank you for your order! You'll receive a confirmation on your email!
@@ -15,12 +17,13 @@
         Sorry, something went wrong.
       </v-card-title>
     </div>
-    <div v-if="!result">
+    <div v-if="!result && !loading">
       <p class="price" v-if="!loading || !result">
         {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
       </p>
       <div>
         <div class="card" ref="card"></div>
+        <p class="errMsg">{{ cardErrorMsg }}</p>
       </div>
       <br />
 
@@ -30,7 +33,7 @@
         label="Billing address is the same as shipping"
         required
       ></v-checkbox>
-      <v-form v-if="!adressStatus">
+      <v-form v-if="!adressStatus" ref="form">
         <v-card-text>
           <div class="userTitle">
             <v-text-field
@@ -119,7 +122,9 @@
           ></v-text-field>
         </v-card-text>
       </v-form>
+      <div @click="validateForm" class="valid"></div>
       <v-btn
+        :disabled="!isPayNowActive"
         large
         class="submitPayment"
         @click="payNow"
@@ -151,13 +156,16 @@ export default {
   props: ["price", "secretKey", "order", "tab"],
   data() {
     return {
+      cardInputCoplete: false,
       loading: false,
       result: false,
       error: false,
+      cardErrorMsg: "",
       amount: 0,
       currency: "EUR",
       adressStatus: true,
       billing: {
+        title: "",
         country: "",
         firstName: "",
         secondName: "",
@@ -170,6 +178,22 @@ export default {
     };
   },
   computed: {
+    isPayNowActive() {
+      if (
+        (this.cardInputCoplete && this.adressStatus == true) ||
+        (this.cardInputCoplete &&
+          this.billing.title &&
+          this.billing.firstName &&
+          this.billing.postCode &&
+          this.billing.city &&
+          this.billing.address1 &&
+          this.billing.firstName.length <= 30 &&
+          this.billing.secondName.length <= 30 &&
+          this.billing.postCode.length <= 15)
+      ) {
+        return true;
+      }
+    },
     billingOb: function() {
       if (!this.adressStatus) {
         return this.order;
@@ -177,6 +201,14 @@ export default {
     }
   },
   methods: {
+    validateForm() {
+      if (!this.cardInputCoplete) {
+        this.cardErrorMsg = "Your card number is incomplete.";
+      }
+      if (!this.adressStatus) {
+        this.$refs.form.validate();
+      }
+    },
     payNow() {
       let self = this;
       this.loading = true;
@@ -204,17 +236,15 @@ export default {
             }
           }
         });
-    },
-
-    validate() {
-      this.$refs.form.validate();
     }
   },
+
   beforeDestroy() {
     card.destroy();
     card = null;
   },
   mounted: function() {
+    let self = this;
     if (!card) {
       card = elements.create("card", {
         style: {
@@ -241,6 +271,16 @@ export default {
         }
       });
       card.mount(this.$refs.card);
+      card.on("change", function(event) {
+        if (event.complete) {
+          self.cardInputCoplete = true;
+          console.log("completed");
+        } else if (event.error) {
+          self.cardErrorMsg = event.error.message;
+        } else {
+          self.cardErrorMsg = "";
+        }
+      });
     }
   }
 };
@@ -272,5 +312,19 @@ export default {
 }
 .submitPayment {
   width: 100%;
+}
+.errMsg {
+  padding-left: 15px;
+  font-size: 16px;
+  color: #ff5252;
+}
+.valid {
+  width: calc(100% - 31px);
+}
+.loadingWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

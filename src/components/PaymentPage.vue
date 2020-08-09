@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card class="mx-auto" max-width="530">
-      <v-tabs class="tabs" v-if="tab < 6" v-model="tab">
+      <v-tabs class="tabs" v-if="tab < 6" v-model="tab" hide-slider>
         <v-tab>Start</v-tab>
         <v-tab :disabled="disabled2">Country</v-tab>
         <v-tab :disabled="disabled4">Coupon</v-tab>
@@ -119,6 +119,7 @@ export default {
     Checkout
   },
   data: () => ({
+    countries: "",
     urlVar: "exchange.snakeomatic",
     amount: 1,
     tab: 0,
@@ -211,6 +212,7 @@ export default {
         const countries = await axios.get(
           `https://${this.urlVar}.com/orders/list-destinations`
         );
+        console.log(countries.data);
         this.countries = countries.data;
       } catch (err) {
         console.log(err);
@@ -290,6 +292,7 @@ export default {
     },
     disabled5() {
       if (
+        this.order.title &&
         this.order.firstName &&
         this.order.postCode &&
         this.order.city &&
