@@ -10,30 +10,32 @@
       ></v-progress-circular>
     </div>
     <div class="message" v-if="result">
-      <v-card-title v-if="result && !error">
+      <v-card-title class="resultMsg" v-if="result && !error">
         Thank you for your order! You'll receive a confirmation on your email!
       </v-card-title>
-      <v-card-title v-if="error">
+      <v-card-title class="resultMsg" v-if="error">
         Sorry, something went wrong.
       </v-card-title>
     </div>
-    <div v-if="!result && !loading">
-      <p class="price" v-if="!loading || !result">
-        {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
-      </p>
+    <div>
+      <v-card-text>
+        <p class="price" v-if="!loading || !result">
+          {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
+        </p>
+      </v-card-text>
       <div>
-        <div class="card" ref="card"></div>
+        <div class="card" v-if="!noCardForm" ref="card"></div>
         <p class="errMsg">{{ cardErrorMsg }}</p>
       </div>
       <br />
-      {{ secretKey }}
       <v-checkbox
+        v-if="!result && !loading"
         id="policyCheck"
         v-model="adressStatus"
         label="Billing address is the same as shipping"
         required
       ></v-checkbox>
-      <v-form v-if="!adressStatus" ref="form">
+      <v-form v-if="!adressStatus && !result && !loading" ref="form">
         <v-card-text>
           <div class="userTitle">
             <v-text-field
@@ -122,8 +124,13 @@
           ></v-text-field>
         </v-card-text>
       </v-form>
-      <div @click="validateForm" class="valid"></div>
+      <div
+        v-if="!adressStatus && !result && !loading"
+        @click="validateForm"
+        class="valid"
+      ></div>
       <v-btn
+        v-if="!result && !loading"
         :disabled="!isPayNowActive"
         large
         class="submitPayment"
@@ -153,9 +160,10 @@ let style = {
 
 import axios from "axios";
 export default {
-  props: ["price", "secretKey", "order", "tab"],
+  props: ["price", "secretKey", "order", "tab", "setResult"],
   data() {
     return {
+      noCardForm: false,
       cardInputCoplete: false,
       loading: false,
       result: false,
@@ -210,8 +218,9 @@ export default {
       }
     },
     payNow() {
-      let self = this;
       this.loading = true;
+      let self = this;
+      this.setResult(true);
       stripe
         .confirmCardPayment(this.secretKey, {
           payment_method: {
@@ -223,17 +232,17 @@ export default {
           }
         })
         .then(function(result) {
-          console.log(result);
           if (result.error) {
             self.loading = false;
             self.result = true;
             self.error = true;
+            self.setResult(false);
             console.log(result.error.message);
           } else {
             if (result.paymentIntent.status === "succeeded") {
-              console.log(result);
               self.loading = false;
               self.result = true;
+              self.noCardForm = true;
             }
           }
         });
@@ -326,5 +335,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media screen and (max-width: 500px) {
+  .resultMsg {
+    font-size: 16px !important;
+  }
 }
 </style>

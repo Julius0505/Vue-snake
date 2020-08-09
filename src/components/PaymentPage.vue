@@ -65,6 +65,7 @@
           :price="price"
           :order="order"
           :secretKey="secretKey"
+          :setResult="setResult"
           v-if="tab === 7"
         />
       </v-tabs-items>
@@ -72,7 +73,7 @@
         <div>
           <v-btn
             outlined
-            v-if="tab != 0"
+            v-if="tab != 0 && !resultForNoBack"
             color="primary"
             large
             @click="back"
@@ -120,6 +121,7 @@ export default {
   },
 
   data: () => ({
+    resultForNoBack: false,
     countries: "",
     urlVar: "exchange.snakeomatic",
     amount: 1,
@@ -185,6 +187,9 @@ export default {
   //   });
   // },
   methods: {
+    setResult(v) {
+      this.resultForNoBack = v;
+    },
     // https://exchange.snakeomatic.com/orders/create-payment-intent?amount=10400&currency=GBP&quantity=3&recipientaddresslineone=Big%20Street&recipientaddresslinetwo=Green%20District&recipientcity=London&recipientcountry=Germany(DE)&recipientemailaddress=fred%40example.com&recipienthousenameornumber=27A&recipientname=Fred%20Bloggs&recipientphonenumber=%2B447700900343&recipientpostcode=213213123&recipienttitle=Mrs
     checkout() {
       axios
