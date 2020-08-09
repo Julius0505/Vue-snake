@@ -34,6 +34,7 @@
           <span class="spanLink"> Return Policy</span>
         </div>
       </v-card-text>
+      <div @click="validate" class="valid"></div>
     </v-form>
   </div>
 </template>
@@ -98,5 +99,13 @@ export default {
     text-decoration: underline;
     cursor: pointer;
   }
+}
+.valid {
+  background: rgb(0, 0, 0, 0);
+  /* background: red; */
+  height: 44px;
+  width: 86px;
+  position: absolute;
+  right: 15px;
 }
 </style>

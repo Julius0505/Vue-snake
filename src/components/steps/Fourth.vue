@@ -3,8 +3,9 @@
     <p class="titlet">
       Please enter the destination address for your order
     </p>
-    <v-form>
-      <v-card-text>
+
+    <v-card-text>
+      <v-form v-model="valid" ref="form">
         <div class="userTitle">
           <v-text-field
             label="Title"
@@ -89,8 +90,9 @@
           outlined
           v-model="order.address2"
         ></v-text-field>
-      </v-card-text>
-    </v-form>
+      </v-form>
+    </v-card-text>
+    <div @click="validate" class="valid"></div>
   </div>
 </template>
 
@@ -108,7 +110,8 @@ export default {
       address1: "",
       address2: "",
       phone: "",
-      email: ""
+      email: "",
+      valid: true
     };
   },
   methods: {

@@ -15,7 +15,7 @@
         <v-btn class="apply" @click="validate" color="secondary"
           >Apply coupon</v-btn
         >
-        <p v-if="isValid" class="valid">
+        <p v-if="isValid" class="validCoupon">
           Coupon accepted. A discount of {{ order.discount }}% will be applied.
         </p>
       </v-form>
@@ -53,6 +53,9 @@ export default {
       if (!res) return "Coupon is invalid";
       else return true;
     },
+    validateForm() {
+      this.$refs.form.validate();
+    },
     validate: async function() {
       var res;
       try {
@@ -72,7 +75,6 @@ export default {
       } catch (err) {
         console.log(err);
       }
-      this.$refs.form.validate(res.data.useable);
     }
   }
 };
@@ -83,7 +85,7 @@ export default {
   width: 100%;
   margin-bottom: 15px;
 }
-.valid {
+.validCoupon {
   color: rgb(76, 175, 80);
   text-align: center;
 }

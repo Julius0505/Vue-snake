@@ -4,23 +4,26 @@
       Please enter other contact information which will allow the shipping
       company to contact you
     </p>
-    <v-card-text>
-      <v-text-field
-        type="email"
-        :rules="emailRules"
-        label="Email"
-        outlined
-        v-model="order.email"
-      ></v-text-field>
+    <v-form ref="form">
+      <v-card-text>
+        <v-text-field
+          type="email"
+          :rules="emailRules"
+          label="Email"
+          outlined
+          v-model="order.email"
+        ></v-text-field>
 
-      <v-text-field
-        :rules="phoneRules"
-        label="Phone"
-        outlined
-        @keypress="isNumber($event)"
-        v-model="order.phone"
-      ></v-text-field>
-    </v-card-text>
+        <v-text-field
+          :rules="phoneRules"
+          label="Phone"
+          outlined
+          @keypress="isNumber($event)"
+          v-model="order.phone"
+        ></v-text-field>
+      </v-card-text>
+    </v-form>
+    <div @click="validate" class="valid"></div>
   </div>
 </template>
 
@@ -48,6 +51,9 @@ export default {
     };
   },
   methods: {
+    validate() {
+      this.$refs.form.validate();
+    },
     isNumber: function(evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;

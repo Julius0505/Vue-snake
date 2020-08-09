@@ -121,12 +121,13 @@ export default {
   data: () => ({
     urlVar: "exchange.snakeomatic",
     amount: 1,
-    tab: 3,
+    tab: 0,
     price: {
       currency: "GPB"
     },
     secretKey: "",
     // order: {
+    //   title: "",
     //   amount: "",
     //   policyCheck: false,
     //   couponCode: "",
@@ -136,11 +137,13 @@ export default {
     //   firstName: "",
     //   secondName: "",
     //   postCode: "",
+    //   state: "",
     //   city: "",
-    //   address: "",
+    //   address1: "",
+    //   address2: "",
     //   email: "",
     //   phone: "",
-    //   currency: ""
+    //   currency: "GBP"
     // },
     currencies: [],
     order: {
@@ -177,7 +180,7 @@ export default {
     checkout() {
       axios
         .post(
-          `https://${this.urlVar}.com/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
+          `https://${this.urlVar}.com/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address1}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
         )
         .then(res => {
           this.secretKey = res.data;

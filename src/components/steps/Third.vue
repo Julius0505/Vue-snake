@@ -7,15 +7,18 @@
       <span class="underline"> Click for more details</span>
     </p>
     <v-card-text>
-      <v-select
-        solo
-        outlined
-        v-model="order.country"
-        :items="countries"
-        :rules="[v => !!v || 'Please select a country']"
-        label="Country"
-      ></v-select>
+      <v-form ref="form">
+        <v-select
+          solo
+          outlined
+          v-model="order.country"
+          :items="countries"
+          :rules="[v => !!v || 'Please select a country']"
+          label="Country"
+        ></v-select>
+      </v-form>
     </v-card-text>
+    <div @click="validate" class="valid"></div>
   </div>
 </template>
 
@@ -24,6 +27,11 @@ export default {
   props: ["order", "back", "next", "countries"],
   data() {
     return {};
+  },
+  methods: {
+    validate() {
+      this.$refs.form.validate();
+    }
   }
 };
 </script>
