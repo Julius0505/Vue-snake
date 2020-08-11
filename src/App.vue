@@ -40,7 +40,7 @@ export default {
   padding-top: 37px;
 }
 .contantWrapper {
-  padding-top: 20px;
+  padding: 20px;
   max-width: 1100px;
   margin: auto;
   height: 100%;

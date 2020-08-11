@@ -1,6 +1,8 @@
 <template>
   <div class="contantWrapper">
-    Here you can find out details about available countries for shipping
+    We currently only ship to the UK and the European Union. We hope to ship to
+    more countries worldwide as soon as we have distribution arrangements ready
+    and FCC testing completed.
   </div>
 </template>
 

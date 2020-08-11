@@ -5,7 +5,6 @@ import Home from "../components/Home.vue";
 import BuyMore from "../components/BuyMore.vue";
 import ReturnPolicy from "../components/ReturnPolicy.vue";
 import CountryDetails from "../components/CountryDetails.vue";
-
 Vue.use(VueRouter);
 
 const routes = [
