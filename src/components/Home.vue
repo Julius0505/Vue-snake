@@ -1,11 +1,27 @@
 <template>
-  <div class="contantWrapper">
-    <router-link to="/shop">Buy snakes</router-link>
-  </div>
+  <div></div>
 </template>
 
 <script>
-export default {};
+import Vue from "vue";
+import VideoBackground from "vue-responsive-video-background-player";
+Vue.component("video-background", VideoBackground);
+export default {
+  data() {
+    return {};
+  },
+
+  mounted() {}
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.routerLink {
+  text-decoration: none;
+  color: white !important;
+}
+.homeButtons {
+  height: 60px !important;
+}
+</style>
+<style scoped lang="scss"></style>

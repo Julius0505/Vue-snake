@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card class="mx-auto" max-width="530">
+    <v-card class="mx-auto buyCard" max-width="530">
       <v-tabs class="tabs" v-if="tab < 6" v-model="tab" :show-arrows="false">
         <v-tab>Start</v-tab>
         <v-tab :disabled="disabled2">Country</v-tab>
@@ -394,6 +394,9 @@ p {
 }
 
 @media screen and (max-width: 500px) {
+  .v-card {
+    padding: 2px;
+  }
   p {
     font-size: 16px;
   }
@@ -420,5 +423,8 @@ p {
 input,
 textarea {
   background-color: rgb(0, 0, 0, 0) !important;
+}
+.buyCard {
+  margin-top: -22px;
 }
 </style>
