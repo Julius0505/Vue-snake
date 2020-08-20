@@ -1,5 +1,6 @@
 <template>
   <div>
+    test
     <ConfirmAccount v-if="isConfirmAccount" />
   </div>
 </template>
@@ -23,7 +24,7 @@ export default {
   mounted() {
     if (
       this.$router.currentRoute.fullPath.includes(
-        "/email/response.html?purpose=account-activation-email"
+        "/link/response?purpose=account-acknowledgement"
       )
     ) {
       console.log(1);

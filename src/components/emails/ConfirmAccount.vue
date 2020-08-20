@@ -1,6 +1,5 @@
 <template>
   <div>
-    "Confirmed"
     {{ msg }}
   </div>
 </template>
@@ -14,15 +13,17 @@ export default {
     };
   },
   mounted() {
+    console.log('Confirm page')
+    let indexToSlice = this.$router.currentRoute.fullPath.indexOf('token')+ 6
     let token = this.$router.currentRoute.fullPath
       .split("")
-      .slice(60)
+      .slice(indexToSlice)
       .join("");
 
     console.log(token);
     axios
       .post(
-        `https://exchange.snakeomatic.com/web/link/response?allParams=${token}`
+        `https://exchange.snakeomatic.com/web/link/response?purpose=account-acknowledgement&token=${token}`
       )
       .then(res => {
         console.log(res);

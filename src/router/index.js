@@ -35,7 +35,7 @@ const routes = [
     component: CountryDetails
   },
   {
-    path: "/email/:url",
+    path: "/link/:url",
     name: "Email",
     component: Email
   }

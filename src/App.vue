@@ -15,7 +15,7 @@
             dense
             dark
             :fixed="true"
-            ><router-link to="/" v-if="$router.currentRoute.name !== 'Home'"
+            ><router-link class="noDec" to="/" v-if="$router.currentRoute.name !== 'Home'"
               >Home
             </router-link>
           </v-app-bar>
@@ -85,8 +85,9 @@ export default {
   },
   mounted() {
     setTimeout(() => (this.videoPlayed = true), 0);
-  }
+  },
 };
+
 </script>
 <style lang="scss">
 .underBar {
@@ -167,5 +168,8 @@ export default {
   right: 0;
   top: 0;
   bottom: 0;
+}
+.noDec {
+  text-decoration: none;
 }
 </style>
