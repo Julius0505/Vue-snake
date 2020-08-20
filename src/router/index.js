@@ -5,6 +5,7 @@ import Home from "../components/Home.vue";
 import BuyMore from "../components/BuyMore.vue";
 import ReturnPolicy from "../components/ReturnPolicy.vue";
 import CountryDetails from "../components/CountryDetails.vue";
+import Email from "../components/emails/Email.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
     path: "/shop/country-details",
     name: "Country Details",
     component: CountryDetails
+  },
+  {
+    path: "/email/:url",
+    name: "Email",
+    component: Email
   }
 ];
 
