@@ -2,6 +2,7 @@
   <v-app>
     <div class="video-container">
       <video-background
+        v-if="$router.currentRoute.name != 'Video'"
         :ended="videoEnded"
         src="SnakeVideo.mp4"
         class="snakeVideo"
@@ -15,7 +16,10 @@
             dense
             dark
             :fixed="true"
-            ><router-link class="noDec" to="/" v-if="$router.currentRoute.name !== 'Home'"
+            ><router-link
+              class="noDec"
+              to="/"
+              v-if="$router.currentRoute.name !== 'Home'"
               >Home
             </router-link>
           </v-app-bar>
@@ -29,9 +33,11 @@
         v-if="$router.currentRoute.name == 'Home' && videoPlayed"
       >
         <div class="contantWrapp homeButtonsWrapper">
-          <v-btn color="info" class="homeButtons">
-            <router-link class="routerLink" to="/">Watch Me</router-link>
-          </v-btn>
+          <router-link class="routerLink" to="/video">
+            <v-btn color="info" class="homeButtons linkBtn">
+              Watch Me
+            </v-btn>
+          </router-link>
           <v-btn color="pink" class="homeButtons">
             <router-link class="routerLink" to="/">Read More</router-link>
           </v-btn>
@@ -81,13 +87,17 @@ export default {
   computed: {
     currentRouter() {
       return this.$router.currentRoute.name;
+    },
+    isVideoPlay() {
+      if (this.$router.currentRoute.name != "Video") {
+        return true;
+      } else return false;
     }
   },
   mounted() {
     setTimeout(() => (this.videoPlayed = true), 0);
-  },
+  }
 };
-
 </script>
 <style lang="scss">
 .underBar {

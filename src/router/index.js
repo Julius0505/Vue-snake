@@ -6,6 +6,7 @@ import BuyMore from "../components/BuyMore.vue";
 import ReturnPolicy from "../components/ReturnPolicy.vue";
 import CountryDetails from "../components/CountryDetails.vue";
 import Email from "../components/emails/Email.vue";
+import Video from "../components/Video.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -38,6 +39,11 @@ const routes = [
     path: "/link/:url",
     name: "Email",
     component: Email
+  },
+  {
+    path: "/video",
+    name: "Video",
+    component: Video
   }
 ];
 
