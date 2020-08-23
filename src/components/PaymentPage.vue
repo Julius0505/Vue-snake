@@ -3,6 +3,7 @@
     <v-card class="mx-auto buyCard" max-width="530">
       <v-tabs class="tabs" v-if="tab < 6" v-model="tab" :show-arrows="false">
         <v-tab>Start</v-tab>
+         <v-tab>Quantity</v-tab>
         <v-tab :disabled="disabled2">Country</v-tab>
         <v-tab :disabled="disabled4">Coupon</v-tab>
         <v-tab :disabled="disabledAdress">Address</v-tab>
@@ -13,12 +14,13 @@
       <!-- {{ order }} -->
 
       <v-tabs-items>
+        <Start v-if="tab==0"></Start>
         <First
           :back="back"
           :next="next"
           ref="first"
           :order="order"
-          v-if="tab === 0"
+          v-if="tab === 1"
         />
 
         <Second
@@ -27,29 +29,29 @@
           :back="back"
           :next="next"
           :order="order"
-          v-if="tab === 2"
+          v-if="tab === 3"
         />
         <Third
           :back="back"
           :next="next"
           :order="order"
           :countries="countries"
-          v-if="tab === 1"
+          v-if="tab === 2"
         />
         <Fourth
           :countries="countries"
           :back="back"
           :next="next"
           :order="order"
-          v-if="tab === 3"
+          v-if="tab === 4"
         />
-        <Fifth :back="back" :next="next" :order="order" v-if="tab === 4" />
+        <Fifth :back="back" :next="next" :order="order" v-if="tab === 5" />
         <Sixth
           :getPrice="getPrice"
           :back="back"
           :next="next"
           :order="order"
-          v-if="tab === 5"
+          v-if="tab === 6"
         />
         <Seventh
           :getPrice="getPrice"
@@ -58,7 +60,7 @@
           :back="back"
           :next="next"
           :order="order"
-          v-if="tab === 6"
+          v-if="tab === 7"
         />
         <Checkout
           :tab="tab"
@@ -66,7 +68,7 @@
           :order="order"
           :secretKey="secretKey"
           :setResult="setResult"
-          v-if="tab === 7"
+          v-if="tab === 8"
         />
       </v-tabs-items>
       <v-card-text class="actions">
@@ -83,7 +85,7 @@
         </div>
 
         <v-btn
-          v-if="tab !== 7"
+          v-if="tab !== 8"
           outlined
           color="primary"
           :disabled="isNext"
@@ -101,6 +103,7 @@
 import Checkout from "./steps/Checkout.vue";
 import axios from "axios";
 import First from "./steps/First.vue";
+import Start from "./steps/Start.vue";
 import Second from "./steps/Second.vue";
 import Third from "./steps/Third.vue";
 import Fourth from "./steps/Fourth.vue";
@@ -117,7 +120,8 @@ export default {
     Fifth,
     Sixth,
     Seventh,
-    Checkout
+    Checkout,
+    Start
   },
 
   data: () => ({
@@ -206,9 +210,9 @@ export default {
     },
 
     next() {
-      if (this.tab < 6) {
+      if (this.tab < 7) {
         this.tab++;
-      } else if (this.tab == 6) {
+      } else if (this.tab == 7) {
         this.checkout();
       }
     },
@@ -273,15 +277,15 @@ export default {
   },
   computed: {
     isNext() {
-      if (this.tab === 0) {
+      if (this.tab === 1) {
         return this.disabled2;
-      } else if (this.tab === 1) {
-        return this.disabled4;
       } else if (this.tab === 2) {
-        return this.disabledAdress;
+        return this.disabled4;
       } else if (this.tab === 3) {
-        return this.disabled5;
+        return this.disabledAdress;
       } else if (this.tab === 4) {
+        return this.disabled5;
+      } else if (this.tab === 5) {
         return this.disabled6;
       } else return false;
     },
@@ -392,8 +396,18 @@ p {
 .tabs {
   padding-left: 15px;
 }
+input,
+textarea {
+  background-color: rgb(0, 0, 0, 0) !important;
+}
+.buyCard {
+  margin-top: -16px;
+}
 
 @media screen and (max-width: 500px) {
+  .buyCard {
+  margin-top: -20px;
+}
   .v-card {
     padding: 2px;
   }
@@ -420,11 +434,5 @@ p {
   }
 }
 
-input,
-textarea {
-  background-color: rgb(0, 0, 0, 0) !important;
-}
-.buyCard {
-  margin-top: -22px;
-}
+
 </style>

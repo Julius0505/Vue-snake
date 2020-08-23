@@ -38,9 +38,11 @@
               Watch Me
             </v-btn>
           </router-link>
-          <v-btn color="pink" class="homeButtons">
-            <router-link class="routerLink" to="/">Read More</router-link>
+          <router-link class="routerLink" to="/info">
+          <v-btn color="pink" class="homeButtons linkBtn">
+            Read More
           </v-btn>
+          </router-link>
           <v-btn color="primary" class="homeButtons">
             <router-link
               class="routerLink"
@@ -100,6 +102,9 @@ export default {
 };
 </script>
 <style lang="scss">
+body {
+  background-color: #121212;
+}
 .underBar {
   padding-top: 37px;
 }

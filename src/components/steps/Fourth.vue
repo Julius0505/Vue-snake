@@ -31,7 +31,7 @@
           <v-text-field
             class="secondName"
             :rules="[v => v.length <= 30 || 'Max 30 characters']"
-            label="Second name"
+            label="Last name"
             outlined
             v-model="order.secondName"
           ></v-text-field>

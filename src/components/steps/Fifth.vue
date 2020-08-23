@@ -8,17 +8,27 @@
       <v-card-text>
         <v-text-field
           type="email"
-          :rules="emailRules"
+          :rules="[
+            v => !!v || 'Email is required',
+            v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+          ]"
           label="Email"
           outlined
+          validate-on-blur
           v-model="order.email"
         ></v-text-field>
 
         <v-text-field
-          :rules="phoneRules"
+          :rules="[
+        v => !!v || 'Phone number is required',
+        v => v.length >= 7 || 'Phone number must be valid',
+        v => v.length <= 15 || 'Phone number must be valid',
+        () => this.texter() || 'Phone number must be valid'
+      ]"
           label="Phone"
           outlined
           @keypress="isNumber($event)"
+          validate-on-blur
           v-model="order.phone"
         ></v-text-field>
       </v-card-text>
@@ -38,16 +48,6 @@ export default {
       fortmatPhone: /[!@#$%^&*()_\=\[\]{};':"\\|,.<>\/?qwertyuiopasdfghjkl;zxcvbnm,.]+/,
       phone: "+",
       email: "",
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-      ],
-      phoneRules: [
-        v => !!v || "Phone number is required",
-        v => v.length >= 7 || "Phone number must be valid",
-        v => v.length <= 15 || "Phone number must be valid",
-        () => this.texter() || "Phone number must be valid"
-      ]
     };
   },
   methods: {

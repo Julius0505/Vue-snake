@@ -24,7 +24,7 @@
           <div class="grid">
             <p>Address:</p>
             <p class="primaryColor">
-              {{ `${order.address} ${order.postCode} ${order.city}` }}
+              {{ `${order.address1}${order.address2} ${order.address2} ${order.postCode} ${order.city}` }}
             </p>
           </div>
         </v-list-item>

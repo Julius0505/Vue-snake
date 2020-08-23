@@ -1,5 +1,6 @@
 <template>
-  <v-card-text :key="tab">
+<v-card>
+ <div class="wrapp">
     <div class="loadingWrapper">
       <v-progress-circular
         v-if="loading"
@@ -10,12 +11,12 @@
       ></v-progress-circular>
     </div>
     <div class="message" v-if="result">
-      <v-card-title class="resultMsg" v-if="result && !error">
-        Thank you for your order! You'll receive a confirmation on your email!
-      </v-card-title>
-      <v-card-title class="resultMsg" v-if="error">
+      <p class="resultMsg" v-if="result && !error">
+        "Thank you for your order. An email message confirming your order has been sent to {{order.email}}. We will let you know when your snakes have been dispatched.".
+      </p>
+      <p class="resultMsg" v-if="error">
         Sorry, something went wrong.
-      </v-card-title>
+      </p>
     </div>
     <div>
       <v-card-text>
@@ -62,7 +63,7 @@
             <v-text-field
               class="secondName"
               :rules="[v => v.length <= 30 || 'Max 30 characters']"
-              label="Second name"
+              label="Last name"
               outlined
               v-model="billing.secondName"
             ></v-text-field>
@@ -140,7 +141,8 @@
         >Pay now</v-btn
       >
     </div>
-  </v-card-text>
+    </div>
+  </v-card>
 </template>
 <script src="https://js.stripe.com/v3/"></script>
 
@@ -284,7 +286,10 @@ export default {
       card.on("change", function(event) {
         if (event.complete) {
           self.cardInputCoplete = true;
-        } else if (event.error) {
+        } else if (!event.complete) {
+          self.cardInputCoplete = false;
+        } 
+        else if (event.error) {
           self.cardErrorMsg = event.error.message;
         } else {
           self.cardErrorMsg = "";
@@ -296,9 +301,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.resultMsg {
+   word-wrap: break-word !important;
+}
 .message {
   padding: 20px;
-  height: 100px;
+  padding-bottom: 0;
   width: 100%;
   display: flex;
   align-items: center;
@@ -340,5 +348,8 @@ export default {
   .resultMsg {
     font-size: 16px !important;
   }
+}
+.wrapp {
+  padding: 20px;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    test
     <ConfirmAccount v-if="isConfirmAccount" />
   </div>
 </template>
@@ -27,7 +26,7 @@ export default {
         "/link/response?purpose=account-acknowledgement"
       )
     ) {
-      console.log(1);
+      console.log('Email page');
       this.isConfirmAccount = true;
     }
   }

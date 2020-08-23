@@ -7,6 +7,7 @@ import ReturnPolicy from "../components/ReturnPolicy.vue";
 import CountryDetails from "../components/CountryDetails.vue";
 import Email from "../components/emails/Email.vue";
 import Video from "../components/Video.vue";
+import ReadMore from "../components/ReadMore.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -44,6 +45,11 @@ const routes = [
     path: "/video",
     name: "Video",
     component: Video
+  },
+  {
+    path: "/info",
+    name: "ReadMore",
+    component: ReadMore
   }
 ];
 

@@ -2,13 +2,14 @@
   <div>
     <div class="item">
       <div class="player">
-        <video-player
+        <iframe class="video"  src="https://www.youtube.com/embed/XGGrF2EjYO0?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- <video-player
           class="vjs-custom-skin"
           ref="videoPlayer"
           :options="playerOptions"
           :playsinline="true"
         >
-        </video-player>
+        </video-player> -->
       </div>
     </div>
   </div>
@@ -17,11 +18,11 @@
 <script>
 import "video.js/dist/video-js.css";
 
-import { videoPlayer } from "vue-video-player";
+// import { videoPlayer } from "vue-video-player";
 export default {
-  components: {
-    videoPlayer
-  },
+  // components: {
+  //   videoPlayer
+  // },
   data() {
     return {
       // videojs options
@@ -35,17 +36,29 @@ export default {
           {
             type: "video/mp4",
             // mp4
-            src: "http://vjs.zencdn.net/v/oceans.mp4"
-            // webm
-            // src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+            src: "https://www.youtube.com/watch?v=XGGrF2EjYO0&autoplay=1&feature=youtu.be"
+           
           }
         ],
-        poster:
-          "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg"
+       
       }
     };
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.player {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+}
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+</style>
