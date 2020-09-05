@@ -1,148 +1,157 @@
 <template>
-<v-card>
- <div class="wrapp">
-    <div class="loadingWrapper">
-      <v-progress-circular
-        v-if="loading"
-        :size="300"
-        :width="40"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
-    </div>
-    <div class="message" v-if="result">
-      <p class="resultMsg" v-if="result && !error">
-        "Thank you for your order. An email message confirming your order has been sent to {{order.email}}. We will let you know when your snakes have been dispatched.".
-      </p>
-      <p class="resultMsg" v-if="error">
-        Sorry, something went wrong.
-      </p>
-    </div>
-    <div>
-      <v-card-text>
-        <p class="price" v-if="!loading || !result">
-          {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
-        </p>
-      </v-card-text>
-      <div>
-        <div class="card" v-if="!noCardForm" ref="card"></div>
-        <p class="errMsg">{{ cardErrorMsg }}</p>
+  <div>
+    <v-card-text class="wrapp">
+      <div class="loadingWrapper">
+        <v-progress-circular
+          v-if="loading"
+          :size="300"
+          :width="40"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
       </div>
-      <br />
-      <v-checkbox
-        v-if="!result && !loading"
-        id="policyCheck"
-        v-model="adressStatus"
-        label="Billing address is the same as shipping"
-        required
-      ></v-checkbox>
-      <v-form v-if="!adressStatus && !result && !loading" ref="form">
+      <div class="message" v-if="result">
+        <p class="resultMsg" v-if="result && !error">
+          Thank you for your order. An email message confirming your order has
+          been sent to {{ order.email }}. We will let you know when your snakes
+          have been dispatched.
+        </p>
+        <p class="resultMsg" v-if="error">
+          Sorry, something went wrong.
+        </p>
+      </div>
+      <div>
         <v-card-text>
-          <div class="userTitle">
-            <v-text-field
-              label="Title"
-              :rules="[
-                v => !!v || 'Title is required',
-                v => v.length <= 5 || 'Max 5 characters'
-              ]"
-              outlined
-              v-model="billing.title"
-            ></v-text-field>
-          </div>
-          <div class="name">
-            <v-text-field
-              class="firstName"
-              label="First name"
-              :rules="[
-                v => !!v || 'Name is required',
-                v => v.length <= 30 || 'Max 30 characters'
-              ]"
-              outlined
-              v-model="billing.firstName"
-            ></v-text-field>
-            <v-text-field
-              class="secondName"
-              :rules="[v => v.length <= 30 || 'Max 30 characters']"
-              label="Last name"
-              outlined
-              v-model="billing.secondName"
-            ></v-text-field>
-          </div>
-
-          <div class="country">
-            <v-text-field
-              class="countryField"
-              label="Country"
-              outlined
-              v-model="billing.country"
-              :rules="[
-                v => !!v || 'Country is required',
-                v => v.length <= 15 || 'Max 15 characters'
-              ]"
-            ></v-text-field>
-            <v-text-field
-              class="postCode"
-              label="Post code"
-              outlined
-              v-model="billing.postCode"
-              :rules="[
-                v => !!v || 'Required',
-                v => v.length <= 15 || 'Max 15 characters'
-              ]"
-              id="postCode"
-            ></v-text-field>
-          </div>
-
-          <v-text-field
-            :rules="[v => v.length <= 45 || 'Max 45 characters']"
-            label="Province / State"
-            outlined
-            v-model="billing.state"
-          ></v-text-field>
-          <v-text-field
-            :rules="[
-              v => !!v || 'City is required',
-              v => v.length <= 45 || 'Max 45 characters'
-            ]"
-            label="City"
-            outlined
-            v-model="billing.city"
-          ></v-text-field>
-          <v-text-field
-            :rules="[
-              v => !!v || 'Address is required',
-              v => v.length <= 45 || 'Max 45 characters'
-            ]"
-            label="Address line 1"
-            outlined
-            v-model="billing.address1"
-          ></v-text-field>
-          <v-text-field
-            :rules="[v => v.length <= 45 || 'Max 45 characters']"
-            label="Address line 2"
-            outlined
-            v-model="billing.address2"
-          ></v-text-field>
+          <p class="price" v-if="!loading || !result">
+            {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
+          </p>
         </v-card-text>
-      </v-form>
-      <div
-        v-if="!adressStatus && !result && !loading"
-        @click="validateForm"
-        class="valid"
-      ></div>
-      <v-btn
-        v-if="!result && !loading"
-        :disabled="!isPayNowActive"
-        large
-        class="submitPayment"
-        @click="payNow"
-        outlined
-        color="primary"
-        >Pay now</v-btn
-      >
-    </div>
-    </div>
-  </v-card>
+        <div>
+          <div class="card" v-if="!noCardForm" ref="card"></div>
+          <p class="errMsg">{{ cardErrorMsg }}</p>
+        </div>
+        <br />
+        <v-checkbox
+          v-if="!result && !loading"
+          id="policyCheck"
+          v-model="adressStatus"
+          label="Billing address is the same as shipping"
+          required
+        ></v-checkbox>
+        <v-form v-if="!adressStatus && !result && !loading" ref="form">
+          <v-card-text>
+            <div class="userTitle">
+              <v-text-field
+                label="Title"
+                :rules="[
+                  v => !!v || 'Title is required',
+                  v => v.length <= 5 || 'Max 5 characters'
+                ]"
+                outlined
+                v-model="billing.title"
+              ></v-text-field>
+            </div>
+            <div class="name">
+              <v-text-field
+                class="firstName"
+                label="First name"
+                :rules="[
+                  v => !!v || 'Name is required',
+                  v => v.length <= 30 || 'Max 30 characters'
+                ]"
+                outlined
+                v-model="billing.firstName"
+              ></v-text-field>
+              <v-text-field
+                class="secondName"
+                :rules="[v => v.length <= 30 || 'Max 30 characters']"
+                label="Last name"
+                outlined
+                v-model="billing.secondName"
+              ></v-text-field>
+            </div>
+
+            <div class="country">
+              <v-text-field
+                class="countryField"
+                label="Country"
+                outlined
+                v-model="billing.country"
+                :rules="[
+                  v => !!v || 'Country is required',
+                  v => v.length <= 15 || 'Max 15 characters'
+                ]"
+              ></v-text-field>
+              <v-text-field
+                class="postCode"
+                label="Post code"
+                outlined
+                v-model="billing.postCode"
+                :rules="[
+                  v => !!v || 'Required',
+                  v => v.length <= 15 || 'Max 15 characters'
+                ]"
+                id="postCode"
+              ></v-text-field>
+            </div>
+
+            <v-text-field
+              :rules="[v => v.length <= 45 || 'Max 45 characters']"
+              label="Province / State"
+              outlined
+              v-model="billing.state"
+            ></v-text-field>
+            <v-text-field
+              :rules="[
+                v => !!v || 'City is required',
+                v => v.length <= 45 || 'Max 45 characters'
+              ]"
+              label="City"
+              outlined
+              v-model="billing.city"
+            ></v-text-field>
+            <v-text-field
+              :rules="[
+                v => !!v || 'Address is required',
+                v => v.length <= 45 || 'Max 45 characters'
+              ]"
+              label="Address line 1"
+              outlined
+              v-model="billing.address1"
+            ></v-text-field>
+            <v-text-field
+              :rules="[v => v.length <= 45 || 'Max 45 characters']"
+              label="Address line 2"
+              outlined
+              v-model="billing.address2"
+            ></v-text-field>
+          </v-card-text>
+        </v-form>
+        <div
+          v-if="!adressStatus && !result && !loading"
+          @click="validateForm"
+          class="valid"
+        ></div>
+        <v-btn
+          v-if="!result && !loading"
+          :disabled="!isPayNowActive"
+          large
+          class="submitPayment"
+          @click="payNow"
+          outlined
+          color="primary"
+          >Pay now</v-btn
+        >
+      </div>
+      <div class="btn-div">
+        <router-link to="/" class="link">
+          <v-btn v-if="result && !error" large outlined color="primary"
+            >Back</v-btn
+          >
+        </router-link>
+      </div>
+    </v-card-text>
+  </div>
 </template>
 <script src="https://js.stripe.com/v3/"></script>
 
@@ -150,7 +159,7 @@
 /* eslint-disable no-unused-vars */
 
 let stripe = Stripe(
-    "pk_test_51GwqHLBFCoJ8vqH8CqGQTokpO0owv9in81AkKc5197KAEjmfX4PqArBcB735hEgx1aEWAKsGu8XDDhcE7ZwFz5DU00z0M9qUPH"
+    "pk_live_51GwqHLBFCoJ8vqH8FUMwGcDuMFW9NqBjjcCYaCkVqnhMPHMXTBFDxIc5iCMpPJ0sEMSDpAo2YI7PKNWl7sxK08TV00Q39Jx2ag"
   ),
   elements = stripe.elements(),
   card = undefined;
@@ -288,8 +297,7 @@ export default {
           self.cardInputCoplete = true;
         } else if (!event.complete) {
           self.cardInputCoplete = false;
-        } 
-        else if (event.error) {
+        } else if (event.error) {
           self.cardErrorMsg = event.error.message;
         } else {
           self.cardErrorMsg = "";
@@ -302,7 +310,7 @@ export default {
 
 <style lang="scss" scoped>
 .resultMsg {
-   word-wrap: break-word !important;
+  word-wrap: break-word !important;
 }
 .message {
   padding: 20px;
@@ -351,5 +359,11 @@ export default {
 }
 .wrapp {
   padding: 20px;
+}
+.btn-div {
+  padding-top: 20px;
+}
+.link {
+  text-decoration: none;
 }
 </style>

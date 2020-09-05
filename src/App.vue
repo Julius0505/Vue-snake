@@ -33,31 +33,35 @@
         v-if="$router.currentRoute.name == 'Home' && videoPlayed"
       >
         <div class="contantWrapp homeButtonsWrapper">
-          <router-link class="routerLink" to="/video">
+          <router-link class="routerLink lBtn" to="/video">
             <v-btn color="info" class="homeButtons linkBtn">
               Watch Me
             </v-btn>
           </router-link>
-          <router-link class="routerLink" to="/info">
-          <v-btn color="pink" class="homeButtons linkBtn">
-            Read More
-          </v-btn>
+          <router-link class="routerLink lBtn" to="/info">
+            <v-btn color="error" class="homeButtons linkBtn">
+              Read More
+            </v-btn>
           </router-link>
-          <v-btn color="primary" class="homeButtons">
-            <router-link
-              class="routerLink"
-              to="/
+          <!-- <router-link
+            class="routerLink lBtn"
+            to="/
         "
-              >Take a closer look</router-link
-            >
-          </v-btn>
-          <router-link class="routerLink" to="/shop">
+          > -->
+          <a href="/model/index.html">
+            <v-btn color="primary" class="homeButtons linkBtn">
+              Take a closer look
+            </v-btn>
+          </a>
+          <!-- </router-link> -->
+          <router-link class="routerLink lBtn" to="/shop">
             <v-btn color="pink" class="homeButtons linkBtn">
               Buy Now
             </v-btn>
           </router-link>
         </div>
       </v-fade-transition>
+      <input type="text" />
     </div>
   </v-app>
 </template>
@@ -102,6 +106,9 @@ export default {
 };
 </script>
 <style lang="scss">
+/* input {
+  background-color: #12121200;
+} */
 body {
   background-color: #121212;
 }
@@ -127,7 +134,8 @@ body {
   transition: 2s ease-in-out;
 }
 .linkBtn {
-  width: 100%;
+  width: calc(50% - 20px);
+  margin: 10px;
 }
 .routerLink {
   text-decoration: none;
@@ -142,9 +150,9 @@ body {
   padding: 20px;
   max-width: 1100px;
   margin-top: -200px;
-  display: grid;
+  /* display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 20px;
+  grid-gap: 20px; */
 }
 @media screen and (max-width: 1100px) {
   .snakeVideo {
@@ -152,9 +160,13 @@ body {
   }
   .homeButtonsWrapper {
     padding: 30px;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr;
+    grid-gap: 40px; */
     margin-top: 50px;
-    grid-gap: 40px;
+  }
+  .linkBtn {
+    width: calc(50% - 40px);
+    margin: 20px;
   }
 }
 
@@ -166,15 +178,19 @@ body {
     padding-left: 0;
     padding-right: 0;
   }
-
+  .linkBtn {
+    width: calc(50% - 20px);
+    margin: 10px;
+  }
   .homeButtonsWrapper {
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr;
+    grid-gap: 20px; */
     margin-top: 50px;
-    grid-gap: 20px;
+
     padding: 10px;
   }
   .homeButtons {
-    font-size: 11px !important;
+    font-size: 10px !important;
   }
 }
 .routerView {
@@ -186,5 +202,8 @@ body {
 }
 .noDec {
   text-decoration: none;
+}
+.lBtn {
+  width: 50% !important;
 }
 </style>

@@ -23,5 +23,9 @@ export default {
 .homeButtons {
   height: 60px !important;
 }
+
+input {
+  background: rgba(0, 0, 0, 0) !important;
+}
 </style>
 <style scoped lang="scss"></style>

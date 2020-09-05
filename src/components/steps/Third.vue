@@ -2,7 +2,7 @@
   <div>
     <p class="titlet">
       Please tell us where you would like your snakes delivered to. If your
-      destination country is not listed then sorry, we cannot proceed
+      destination country is not listed then sorry, we cannot proceed.
       <br />
       <span class="underline"
         ><router-link to="/shop/country-details" target="_blank"
@@ -45,6 +45,7 @@ export default {
   .v-menu__content {
     /* margin-left: 0px; */
     min-width: 100vw !important;
+    max-height: calc(100vh - 246px) !important;
   }
 }
 </style>

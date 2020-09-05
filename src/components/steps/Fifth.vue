@@ -20,11 +20,11 @@
 
         <v-text-field
           :rules="[
-        v => !!v || 'Phone number is required',
-        v => v.length >= 7 || 'Phone number must be valid',
-        v => v.length <= 15 || 'Phone number must be valid',
-        () => this.texter() || 'Phone number must be valid'
-      ]"
+            v => !!v || 'Phone number is required',
+            v => v.length >= 7 || 'Phone number must be valid',
+            v => v.length <= 15 || 'Phone number must be valid',
+            () => this.texter() || 'Phone number must be valid'
+          ]"
           label="Phone"
           outlined
           @keypress="isNumber($event)"
@@ -47,7 +47,7 @@ export default {
     return {
       fortmatPhone: /[!@#$%^&*()_\=\[\]{};':"\\|,.<>\/?qwertyuiopasdfghjkl;zxcvbnm,.]+/,
       phone: "+",
-      email: "",
+      email: ""
     };
   },
   methods: {

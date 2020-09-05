@@ -23,10 +23,10 @@ export default {
   mounted() {
     if (
       this.$router.currentRoute.fullPath.includes(
-        "/link/response?purpose=account-acknowledgement"
+        "purpose=account-acknowledgement&"
       )
     ) {
-      console.log('Email page');
+      console.log("Email page");
       this.isConfirmAccount = true;
     }
   }

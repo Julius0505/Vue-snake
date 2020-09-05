@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <v-card class="mx-auto buyCard" max-width="530">
-      <v-tabs class="tabs" v-if="tab < 6" v-model="tab" :show-arrows="false">
+      <v-tabs class="tabs" v-if="tab < 7" v-model="tab" :show-arrows="false">
         <v-tab>Start</v-tab>
-         <v-tab>Quantity</v-tab>
+        <v-tab>Quantity</v-tab>
         <v-tab :disabled="disabled2">Country</v-tab>
         <v-tab :disabled="disabled4">Coupon</v-tab>
         <v-tab :disabled="disabledAdress">Address</v-tab>
@@ -14,7 +14,7 @@
       <!-- {{ order }} -->
 
       <v-tabs-items>
-        <Start v-if="tab==0"></Start>
+        <Start v-if="tab == 0"></Start>
         <First
           :back="back"
           :next="next"
@@ -71,7 +71,7 @@
           v-if="tab === 8"
         />
       </v-tabs-items>
-      <v-card-text class="actions">
+      <div class="actions">
         <div>
           <v-btn
             outlined
@@ -94,7 +94,7 @@
           class="next-button"
           >Next</v-btn
         >
-      </v-card-text>
+      </div>
     </v-card>
   </v-container>
 </template>
@@ -196,13 +196,13 @@ export default {
     },
     // https://exchange.snakeomatic.com/orders/create-payment-intent?amount=10400&currency=GBP&quantity=3&recipientaddresslineone=Big%20Street&recipientaddresslinetwo=Green%20District&recipientcity=London&recipientcountry=Germany(DE)&recipientemailaddress=fred%40example.com&recipienthousenameornumber=27A&recipientname=Fred%20Bloggs&recipientphonenumber=%2B447700900343&recipientpostcode=213213123&recipienttitle=Mrs
     checkout() {
+      this.tab++;
       axios
         .post(
           `https://${this.urlVar}.com/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address1}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
         )
         .then(res => {
           this.secretKey = res.data;
-          this.tab++;
         })
         .catch(err => {
           console.log(err);
@@ -210,7 +210,9 @@ export default {
     },
 
     next() {
-      if (this.tab < 7) {
+      if (this.tab == 8) {
+        return;
+      } else if (this.tab < 7) {
         this.tab++;
       } else if (this.tab == 7) {
         this.checkout();
@@ -389,6 +391,7 @@ p {
 .actions {
   display: flex;
   justify-content: space-between;
+  padding: 16px;
 }
 .v-card__text {
   padding-top: 0;
@@ -398,7 +401,7 @@ p {
 }
 input,
 textarea {
-  background-color: rgb(0, 0, 0, 0) !important;
+  background-color: rgb(0, 0, 0) !important;
 }
 .buyCard {
   margin-top: -16px;
@@ -406,8 +409,8 @@ textarea {
 
 @media screen and (max-width: 500px) {
   .buyCard {
-  margin-top: -20px;
-}
+    margin-top: -20px;
+  }
   .v-card {
     padding: 2px;
   }
@@ -433,6 +436,10 @@ textarea {
     width: 500px !important;
   }
 }
-
-
+.v-input__slot {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+::selection {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
 </style>

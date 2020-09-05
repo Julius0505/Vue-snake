@@ -37,7 +37,7 @@
           ></v-checkbox>
           <span class="spanLink"
             ><router-link target="_blank" to="/shop/return-policy"
-              >Return Policy</router-link
+              >Returns Policy</router-link
             >
           </span>
         </div>

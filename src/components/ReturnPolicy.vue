@@ -1,7 +1,7 @@
 <template>
   <div class="contantWrapper">
     <v-card>
-      <v-card-title> PlugAndPlink Returns Policy </v-card-title>
+      <v-card-title> PlugAndPlink Return Policy </v-card-title>
       <v-card-text>
         1. You may return the snakes you have purchased for any, or no reason,
         if you notify us within fourteen days of receiving them. After notifying

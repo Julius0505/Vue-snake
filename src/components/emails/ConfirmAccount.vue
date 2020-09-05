@@ -13,8 +13,8 @@ export default {
     };
   },
   mounted() {
-    console.log('Confirm page')
-    let indexToSlice = this.$router.currentRoute.fullPath.indexOf('token')+ 6
+    console.log("Confirm page");
+    let indexToSlice = this.$router.currentRoute.fullPath.indexOf("token") + 6;
     let token = this.$router.currentRoute.fullPath
       .split("")
       .slice(indexToSlice)
