@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card class="mx-auto buyCard" max-width="530">
+    <v-card class="mx-auto buyCard" max-width="860">
       <v-tabs class="tabs" v-if="tab < 7" v-model="tab" :show-arrows="false">
         <v-tab>Start</v-tab>
         <v-tab>Quantity</v-tab>

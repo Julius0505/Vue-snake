@@ -2,8 +2,8 @@
   <v-app>
     <div class="video-container">
       <video-background
-        v-if="$router.currentRoute.name != 'Video'"
         :ended="videoEnded"
+        overlay="rgb(0,0,0,50%)"
         src="SnakeVideo.mp4"
         class="snakeVideo"
         :loop="false"
@@ -26,19 +26,24 @@
         </v-fade-transition>
       </video-background>
 
-      <div class="contantWrapper routerView">
+      <div
+        v-bind:class="{
+          contantWrapper: $router.currentRoute.name != 'Video',
+          routerView: true
+        }"
+      >
         <router-view></router-view>
       </div>
       <v-fade-transition
         v-if="$router.currentRoute.name == 'Home' && videoPlayed"
       >
         <div class="contantWrapp homeButtonsWrapper">
-          <router-link class="routerLink lBtn" to="/video">
+          <router-link class="routerLink lBtn" to="/watch-me">
             <v-btn color="info" class="homeButtons linkBtn">
               Watch Me
             </v-btn>
           </router-link>
-          <router-link class="routerLink lBtn" to="/info">
+          <router-link class="routerLink lBtn" to="/read-more">
             <v-btn color="error" class="homeButtons linkBtn">
               Read More
             </v-btn>
@@ -88,6 +93,9 @@ export default {
   methods: {
     videoEnded() {
       console.log("ended");
+    },
+    videoLoaded() {
+      console.log(1);
     }
   },
   computed: {
@@ -109,15 +117,22 @@ export default {
 /* input {
   background-color: #12121200;
 } */
+
 body {
   background-color: #121212;
+}
+
+@media screen and (min-width: 1200px) {
+  body {
+    overflow: hidden;
+  }
 }
 .underBar {
   padding-top: 37px;
 }
 .contantWrapper {
   padding: 50px;
-  max-width: 1100px;
+  max-width: 1700px;
   margin: auto;
   height: 100%;
 }
@@ -191,6 +206,12 @@ body {
   }
   .homeButtons {
     font-size: 10px !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .contantWrapper {
+    padding: 0;
   }
 }
 .routerView {

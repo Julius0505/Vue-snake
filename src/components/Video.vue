@@ -1,8 +1,17 @@
 <template>
   <div>
     <div class="item">
+      <div class="video-page-title">
+        Watch Me
+      </div>
       <div class="player">
-        <iframe class="video"  src="https://www.youtube.com/embed/XGGrF2EjYO0?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe
+          class="video"
+          src="https://www.youtube.com/embed/XGGrF2EjYO0?autoplay=1"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
         <!-- <video-player
           class="vjs-custom-skin"
           ref="videoPlayer"
@@ -36,11 +45,10 @@ export default {
           {
             type: "video/mp4",
             // mp4
-            src: "https://www.youtube.com/watch?v=XGGrF2EjYO0&autoplay=1&feature=youtu.be"
-           
+            src:
+              "https://www.youtube.com/watch?v=XGGrF2EjYO0&autoplay=1&feature=youtu.be"
           }
-        ],
-       
+        ]
       }
     };
   }
@@ -48,7 +56,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.item {
+  margin: auto;
+  max-width: 1200px;
+  height: 100%;
+  padding-top: 100px;
+}
 .player {
+  border: 5px solid #4eaf33;
   position: relative;
   width: 100%;
   padding-bottom: 56.25%;
@@ -60,5 +75,20 @@ export default {
   width: 100%;
   height: 100%;
   border: 0;
+}
+.video-page-title {
+  font-size: 36px !important;
+  text-align: center;
+}
+@media screen and (max-width: 1200px) {
+  .video-page-title {
+    display: none;
+  }
+  .item {
+    padding-top: 48px;
+  }
+  .player {
+    border: none;
+  }
 }
 </style>

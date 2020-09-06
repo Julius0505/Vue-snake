@@ -6,47 +6,66 @@
 
     <v-card-text>
       <v-form v-model="valid" ref="form">
-        <div class="userTitle">
-          <v-text-field
-            label="Title"
-            :rules="[
-              v => !!v || 'Title is required',
-              v => v.length <= 5 || 'Max 5 characters'
-            ]"
-            outlined
-            v-model="order.title"
-          ></v-text-field>
+        <div class="name-container">
+          <div class="userTitle">
+            <v-text-field
+              label="Title"
+              :rules="[
+                v => !!v || 'Title is required',
+                v => v.length <= 5 || 'Max 5 characters'
+              ]"
+              outlined
+              v-model="order.title"
+            ></v-text-field>
+          </div>
+          <div class="name">
+            <v-text-field
+              class="firstName"
+              label="First name"
+              :rules="[
+                v => !!v || 'Name is required',
+                v => v.length <= 30 || 'Max 30 characters'
+              ]"
+              outlined
+              v-model="order.firstName"
+            ></v-text-field>
+            <v-text-field
+              class="secondName"
+              :rules="[v => v.length <= 30 || 'Max 30 characters']"
+              label="Last name"
+              outlined
+              v-model="order.secondName"
+            ></v-text-field>
+          </div>
         </div>
-        <div class="name">
-          <v-text-field
-            class="firstName"
-            label="First name"
-            :rules="[
-              v => !!v || 'Name is required',
-              v => v.length <= 30 || 'Max 30 characters'
-            ]"
-            outlined
-            v-model="order.firstName"
-          ></v-text-field>
-          <v-text-field
-            class="secondName"
-            :rules="[v => v.length <= 30 || 'Max 30 characters']"
-            label="Last name"
-            outlined
-            v-model="order.secondName"
-          ></v-text-field>
-        </div>
+        <v-select
+          class="countryInput"
+          v-model="order.country"
+          :rules="[v => !!v || 'Country  is required']"
+          solo
+          outlined
+          :items="countries"
+          label="Country"
+        ></v-select>
 
-        <div class="country">
-          <v-select
-            class="countryInput"
-            v-model="order.country"
-            :rules="[v => !!v || 'Country  is required']"
-            solo
+        <div class="adress-container">
+          <v-text-field
+            :rules="[
+              v => !!v || 'City is required',
+              v => v.length <= 45 || 'Max 45 characters'
+            ]"
+            label="City"
             outlined
-            :items="countries"
-            label="Country"
-          ></v-select>
+            v-model="order.city"
+          ></v-text-field>
+
+          <v-text-field
+            class="province"
+            :rules="[v => v.length <= 45 || 'Max 45 characters']"
+            label="Province / State"
+            outlined
+            v-model="order.state"
+          ></v-text-field>
           <v-text-field
             class="postCode"
             label="Post code"
@@ -59,22 +78,6 @@
             id="postCode"
           ></v-text-field>
         </div>
-
-        <v-text-field
-          :rules="[v => v.length <= 45 || 'Max 45 characters']"
-          label="Province / State"
-          outlined
-          v-model="order.state"
-        ></v-text-field>
-        <v-text-field
-          :rules="[
-            v => !!v || 'City is required',
-            v => v.length <= 45 || 'Max 45 characters'
-          ]"
-          label="City"
-          outlined
-          v-model="order.city"
-        ></v-text-field>
         <v-text-field
           :rules="[
             v => !!v || 'Address is required',
@@ -123,10 +126,15 @@ export default {
 </script>
 
 <style lang="scss">
+.name-container {
+  display: flex;
+  flex-direction: row;
+}
 .userTitle {
-  width: calc(50% - 7.5px);
 }
 .name {
+  margin-left: 15px;
+  flex: 0 1 80% !important;
   display: flex;
   flex-direction: row;
 }
@@ -137,6 +145,18 @@ export default {
   margin-left: 15px !important;
   flex: 0 1 50% !important;
 }
+
+.adress-container {
+  display: flex;
+  flex-direction: row;
+}
+.postCode {
+  margin-left: 15px !important;
+}
+.province {
+  margin-left: 15px !important;
+}
+
 .country {
   display: flex;
   flex-direction: row;
@@ -147,10 +167,7 @@ export default {
 .countryInput {
   flex: 0 1 70% !important;
 }
-.postCode {
-  margin-left: 15px !important;
-  flex: 0 1 30% !important;
-}
+
 .dropdown {
 }
 .v-select__slot {

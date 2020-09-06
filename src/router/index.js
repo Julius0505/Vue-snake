@@ -42,12 +42,12 @@ const routes = [
     component: Email
   },
   {
-    path: "/video",
+    path: "/watch-me",
     name: "Video",
     component: Video
   },
   {
-    path: "/info",
+    path: "/read-more",
     name: "ReadMore",
     component: ReadMore
   }
