@@ -2,7 +2,7 @@
   <div>
     <p class="titlet">
       Please enter other contact information which will allow the shipping
-      company to contact you
+      company to contact you.
     </p>
     <v-form ref="form">
       <v-card-text>

@@ -8,6 +8,8 @@ import CountryDetails from "../components/CountryDetails.vue";
 import Email from "../components/emails/Email.vue";
 import Video from "../components/Video.vue";
 import ReadMore from "../components/ReadMore.vue";
+import PrivacyPolicy from "../components/PrivacyPolicy.vue";
+import ErrorPage from "../components/404.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -50,13 +52,26 @@ const routes = [
     path: "/read-more",
     name: "ReadMore",
     component: ReadMore
-  }
+  },
+  {
+    path: "/privacy-policy",
+    name: "Privacy Policy Page",
+    component: PrivacyPolicy
+  },
+  {
+    path: "/not-there",
+    name: "404 Page",
+    component: ErrorPage
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior() {
+    return {x: 0, y: 0}
+  } 
 });
 
 export default router;

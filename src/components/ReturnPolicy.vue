@@ -1,5 +1,5 @@
 <template>
-  <div class="contantWrapper">
+  <div class="contantWrapper return-section">
     <v-card>
       <v-card-title> PlugAndPlink Return Policy </v-card-title>
       <v-card-text>
@@ -31,6 +31,9 @@
 </template>
 
 <script>
+import Vue from "vue";
+import VideoBackground from "vue-responsive-video-background-player";
+Vue.component("video-background", VideoBackground);
 export default {};
 </script>
 
@@ -43,5 +46,29 @@ export default {};
 li {
   text-decoration: none;
   list-style: none;
+}
+.return-section{
+  margin: 30px auto;
+  min-height: calc(100vh - 350px);
+  max-width: 90%;
+}
+@media screen and (max-width: 1440px){
+  .return-section{
+    margin-top: 0px;
+    .theme--dark.v-card{
+      margin-top: 30px;
+    }
+  }
+}
+
+@media screen and (max-width: 660px){
+  .return-section{
+    margin-top: -50px;
+  }
+}
+@media screen and (max-width: 500px){
+  .return-section{
+    margin-top: -180px;
+  }
 }
 </style>

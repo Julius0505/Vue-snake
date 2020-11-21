@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="titlet">
-      Please enter the destination address for your order
+      Please enter the delivery address for your order.
     </p>
 
     <v-card-text>
@@ -9,7 +9,7 @@
         <div class="name-container">
           <div class="userTitle">
             <v-text-field
-              label="Title"
+              label="Title" spellcheck="false"
               :rules="[
                 v => !!v || 'Title is required',
                 v => v.length <= 5 || 'Max 5 characters'
@@ -21,7 +21,7 @@
           <div class="name">
             <v-text-field
               class="firstName"
-              label="First name"
+              label="First name" spellcheck="false"
               :rules="[
                 v => !!v || 'Name is required',
                 v => v.length <= 30 || 'Max 30 characters'
@@ -29,7 +29,7 @@
               outlined
               v-model="order.firstName"
             ></v-text-field>
-            <v-text-field
+            <v-text-field spellcheck="false"
               class="secondName"
               :rules="[v => v.length <= 30 || 'Max 30 characters']"
               label="Last name"
@@ -39,7 +39,7 @@
           </div>
         </div>
         <v-select
-          class="countryInput"
+          class="countryInput" spellcheck="false"
           v-model="order.country"
           :rules="[v => !!v || 'Country  is required']"
           solo
@@ -49,7 +49,7 @@
         ></v-select>
 
         <div class="adress-container">
-          <v-text-field
+          <v-text-field spellcheck="false"
             :rules="[
               v => !!v || 'City is required',
               v => v.length <= 45 || 'Max 45 characters'
@@ -60,14 +60,14 @@
           ></v-text-field>
 
           <v-text-field
-            class="province"
+            class="province" spellcheck="false"
             :rules="[v => v.length <= 45 || 'Max 45 characters']"
             label="Province / State"
             outlined
             v-model="order.state"
           ></v-text-field>
           <v-text-field
-            class="postCode"
+            class="postCode" spellcheck="false"
             label="Post code"
             outlined
             v-model="order.postCode"
@@ -78,7 +78,7 @@
             id="postCode"
           ></v-text-field>
         </div>
-        <v-text-field
+        <v-text-field spellcheck="false"
           :rules="[
             v => !!v || 'Address is required',
             v => v.length <= 45 || 'Max 45 characters'
@@ -87,7 +87,7 @@
           outlined
           v-model="order.address1"
         ></v-text-field>
-        <v-text-field
+        <v-text-field spellcheck="false"
           :rules="[v => v.length <= 45 || 'Max 45 characters']"
           label="Address line 2"
           outlined
@@ -205,5 +205,42 @@ export default {
     margin-left: 0 !important;
     width: 100%;
   }
+  .name-container {
+    flex-direction: column;
+  }
+  .name {
+    margin-left: 0;
+    display: flex;
+    flex-direction: row;
+  }
+  .firstName {
+    flex: 0 1 50% !important;
+  }
+  .secondName {
+    margin-left: 15px !important;
+    flex: 0 1 50% !important;
+  }
+  .userTitle {
+    width: 50%;
+  }
+  .adress-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .postCode {
+    margin-left: 0 !important;
+  }
+  .province {
+    margin-left: 0 !important;
+  }
+}
+@media screen and (max-width: 1200px) {
+}
+.theme--dark.v-tabs-items,
+.theme--dark.v-tabs > .v-tabs-bar{
+  background-color: unset;
+}
+.theme--dark.v-card {
+    background: rgb(0 0 0 / 80%);
 }
 </style>

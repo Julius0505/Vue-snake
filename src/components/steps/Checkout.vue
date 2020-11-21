@@ -51,9 +51,9 @@
                 v-model="billing.title"
               ></v-text-field>
             </div>
-            <div class="name">
+            <div class="nameCheckout">
               <v-text-field
-                class="firstName"
+                
                 label="First name"
                 :rules="[
                   v => !!v || 'Name is required',
@@ -158,11 +158,36 @@
 <script>
 /* eslint-disable no-unused-vars */
 
-let stripe = Stripe(
+//  let hostname = window.location.hostname
+//     if(hostname !="plugandplink.com") {
+// let stripe = Stripe(
+//     "pk_test_51GwqHLBFCoJ8vqH8CqGQTokpO0owv9in81AkKc5197KAEjmfX4PqArBcB735hEgx1aEWAKsGu8XDDhcE7ZwFz5DU00z0M9qUPH"
+//   ),
+  
+//   elements = stripe.elements(),
+//   card = undefined;
+//     } else {
+//       let stripe = Stripe(
+//     "pk_live_51GwqHLBFCoJ8vqH8FUMwGcDuMFW9NqBjjcCYaCkVqnhMPHMXTBFDxIc5iCMpPJ0sEMSDpAo2YI7PKNWl7sxK08TV00Q39Jx2ag"
+//   ),
+  
+//   elements = stripe.elements(),
+//   card = undefined;
+//     }
+let stripe
+ let hostname = window.location.hostname
+    if(hostname !="plugandplink.com") { 
+       stripe = Stripe(
+    "pk_test_51GwqHLBFCoJ8vqH8CqGQTokpO0owv9in81AkKc5197KAEjmfX4PqArBcB735hEgx1aEWAKsGu8XDDhcE7ZwFz5DU00z0M9qUPH"
+  )
+    }else {
+ stripe = Stripe(
     "pk_live_51GwqHLBFCoJ8vqH8FUMwGcDuMFW9NqBjjcCYaCkVqnhMPHMXTBFDxIc5iCMpPJ0sEMSDpAo2YI7PKNWl7sxK08TV00Q39Jx2ag"
-  ),
-  elements = stripe.elements(),
-  card = undefined;
+  )
+    }
+
+let elements = stripe.elements()
+let  card = undefined;
 let style = {
   invalid: {
     // All of the error styles go inside of here. pi_1Gygfw2T3o5wGswk08bog5CB
@@ -309,6 +334,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.nameCheckout {
+  display: flex;
+  flex-direction: row;
+}
+.firstName {
+  width: 50% !important; 
+}
 .resultMsg {
   word-wrap: break-word !important;
 }
@@ -352,6 +384,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 @media screen and (max-width: 500px) {
   .resultMsg {
     font-size: 16px !important;

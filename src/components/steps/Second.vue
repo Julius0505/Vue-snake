@@ -39,7 +39,7 @@ export default {
   computed: {
     err: function() {
       if (this.isInvalid) {
-        return ["Coupon is invalid"];
+        return ["Please enter a coupon code"];
       } else return null;
     }
   },
@@ -60,7 +60,7 @@ export default {
       var res;
       try {
         res = await axios.post(
-          `https://${this.urlVar}.com/orders/check-coupon?coupon=${this.order.couponCode}`
+          `https://${this.urlVar}/orders/check-coupon?coupon=${this.order.couponCode}`
         );
 
         if (!res.data.useable) {

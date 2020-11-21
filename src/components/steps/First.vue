@@ -84,10 +84,10 @@ export default {
 }
 @media screen and (max-width: 375px) {
   .v-label {
-    font-size: 13px !important;
+    font-size: 12px !important;
   }
   .v-slider {
-    margin: 0px 12px !important;
+    margin: 0px 13px !important;
   }
   #policyCheck {
     display: none !important;
@@ -100,7 +100,7 @@ export default {
     justify-content: space-between;
   }
   .polic {
-    font-size: 13px !important;
+    font-size: 12px !important;
   }
   .spanLink {
     padding-left: 5px;
@@ -109,11 +109,13 @@ export default {
   }
 }
 .valid {
-  background: rgb(0, 0, 0, 0);
+  background: rgb(100, 0, 0, 0 );
   /* background: red; */
-  height: 44px;
-  width: 86px;
+  height: 70px;
+  width: 278px;
   position: absolute;
   right: 15px;
+  bottom: -75px;
+  border-radius: 50px;
 }
 </style>

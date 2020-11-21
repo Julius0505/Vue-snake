@@ -1,5 +1,8 @@
 <template>
-  <v-container>
+  <v-container class="container-shop">
+    <div class="page-title shop-title">
+     Shop
+    </div>
     <v-card class="mx-auto buyCard" max-width="860">
       <v-tabs class="tabs" v-if="tab < 7" v-model="tab" :show-arrows="false">
         <v-tab>Start</v-tab>
@@ -14,7 +17,7 @@
       <!-- {{ order }} -->
 
       <v-tabs-items>
-        <Start v-if="tab == 0"></Start>
+        <Start :pricing="pricing" :urlVar="urlVar" v-if="tab == 0"></Start>
         <First
           :back="back"
           :next="next"
@@ -63,6 +66,7 @@
           v-if="tab === 7"
         />
         <Checkout
+         :urlVar="urlVar"
           :tab="tab"
           :price="price"
           :order="order"
@@ -72,28 +76,29 @@
         />
       </v-tabs-items>
       <div class="actions">
-        <div>
+        <div class="actions-prev">
           <v-btn
             outlined
             v-if="tab != 0 && !resultForNoBack"
             color="primary"
             large
-            @click="back"
+            @click="back(); scrollTop();"
             class="next-button"
-            >Back</v-btn
+          >
+            <img src="../assets/green_button.png" alt="prev" /> Back</v-btn
           >
         </div>
-
         <v-btn
           v-if="tab !== 8"
           outlined
           color="primary"
           :disabled="isNext"
-          @click="next"
+          @click="next(); scrollTop();"
           large
           class="next-button"
-          >Next</v-btn
         >
+          Next <img src="../assets/gray_button.svg" alt="next"
+        /></v-btn>
       </div>
     </v-card>
   </v-container>
@@ -125,54 +130,55 @@ export default {
   },
 
   data: () => ({
+    pricing: {},
     resultForNoBack: false,
     countries: "",
-    urlVar: "exchange.snakeomatic",
+    urlVar: "exchange.snakeomatic.com",
     amount: 1,
     tab: 0,
     price: {
       currency: "GPB"
     },
     secretKey: "",
-    // order: {
-    //   title: "",
-    //   amount: "",
-    //   policyCheck: false,
-    //   couponCode: "",
-    //   couponIsValid: false,
-    //   discount: 0,
-    //   country: "",
-    //   firstName: "",
-    //   secondName: "",
-    //   postCode: "",
-    //   state: "",
-    //   city: "",
-    //   address1: "",
-    //   address2: "",
-    //   email: "",
-    //   phone: "",
-    //   currency: "GBP"
-    // },
-    currencies: [],
     order: {
-      title: "Mr",
+      title: "",
       amount: "",
       policyCheck: false,
-      couponCode: "plugandplink-orgoffer",
+      couponCode: "",
       couponIsValid: false,
       discount: 0,
       country: "",
-      firstName: "Dmitry",
-      secondName: "Loza",
-      postCode: "6900",
+      firstName: "",
+      secondName: "",
+      postCode: "",
       state: "",
-      city: "zsd",
-      address1: "sada21",
-      address2: "sada21",
-      email: "ankarn41k@gmail.com",
-      phone: "+380997453583",
+      city: "",
+      address1: "",
+      address2: "",
+      email: "",
+      phone: "",
       currency: "GBP"
     },
+    currencies: [],
+    // order: {
+    //   title: "Mr",
+    //   amount: "",
+    //   policyCheck: false,
+    //   couponCode: "plugandplink-orgoffer",
+    //   couponIsValid: false,
+    //   discount: 0,
+    //   country: "",
+    //   firstName: "Dmitry",
+    //   secondName: "Loza",
+    //   postCode: "6900",
+    //   state: "",
+    //   city: "zsd",
+    //   address1: "sada21",
+    //   address2: "sada21",
+    //   email: "ankarn41k@gmail.com",
+    //   phone: "+380997453583",
+    //   currency: "GBP"
+    // },
     stepsValid: {
       s1: false,
       s2: false,
@@ -199,7 +205,7 @@ export default {
       this.tab++;
       axios
         .post(
-          `https://${this.urlVar}.com/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address1}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
+          `https://${this.urlVar}/orders/create-payment-intent?amount=${this.price.grandTotal}&coupon=${this.order.couponCode}&currency=${this.price.currency}&quantity=${this.order.amount}&recipientaddresslineone=${this.order.address1}&recipientcity=${this.order.city}&recipientcountry=${this.order.country}&recipientemailaddress=${this.order.email}&recipienthousenameornumber=27A&recipientname=${this.order.firstName} ${this.order.secondName}&recipientphonenumber=${this.order.phone}&recipientpostcode=${this.order.postCode}&recipienttitle=${this.order.title}`
         )
         .then(res => {
           this.secretKey = res.data;
@@ -217,6 +223,14 @@ export default {
       } else if (this.tab == 7) {
         this.checkout();
       }
+      // if (document.documentElement.clientWidth < 768) {
+      //      window.scrollTo(0,140);
+      // }
+    },
+    scrollTop(){
+      if (document.documentElement.clientWidth < 568) {
+         window.scrollTo(0,140);
+      }
     },
     back() {
       if (this.tab == 0) {
@@ -226,10 +240,37 @@ export default {
         };
       } else this.tab--;
     },
+    hostCheck() {
+ let hostname = window.location.hostname
+    if(hostname !="localhost") {
+      this.urlVar = `exchange.${hostname}`
+    }
+console.log(window.location.hostname)
+    },
+    getPricing() {
+    axios
+        .get(
+          `https://${this.urlVar}/orders/unit-price`
+        )
+        .then(res => {
+         
+          this.pricing = res.data
+        })
+        .catch(err => {
+         if(err.response.status == 400) {
+ let defaultPricing = {
+      unitPriceWithSalesTax: 2083,
+      postageCharge: 3000,
+      currency: "EUR"
+          }
+          this.pricing = defaultPricing
+         }    
+        });
+},
     getCountries: async function() {
       try {
         const countries = await axios.get(
-          `https://${this.urlVar}.com/orders/list-destinations`
+          `https://${this.urlVar}/orders/list-destinations`
         );
 
         this.countries = countries.data;
@@ -240,7 +281,7 @@ export default {
     getCur: async function() {
       try {
         const currencies = await axios.get(
-          `https://${this.urlVar}.com/orders/list-currencies`
+          `https://${this.urlVar}/orders/list-currencies`
         );
         this.currencies = currencies.data;
       } catch (err) {
@@ -255,7 +296,7 @@ export default {
 
       try {
         const price = await axios.post(
-          `https://${this.urlVar}.com/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
+          `https://${this.urlVar}/orders/price?country=${this.order.country}&coupon=${this.order.couponCode}${currency}&quantity=${this.order.amount}`
         );
         this.price = price.data;
         this.order.currency = price.data.currency;
@@ -274,6 +315,8 @@ export default {
     }
   },
   created: function() {
+    this.hostCheck()
+    this.getPricing()
     this.getCountries();
     this.getCur();
   },
@@ -342,6 +385,16 @@ export default {
 };
 </script>
 <style lang="scss">
+.page-title {
+    display: block;
+    font-size: 34px;
+    text-align: center;
+    margin-top: 70px;
+}
+.container-shop{
+   min-height: calc(100vh - 280px);
+  font-family: 'McLaren', cursive !important;
+}
 .v-select__selection.v-select__selection--comma {
   height: 30px !important;
   display: flex;
@@ -352,12 +405,9 @@ export default {
   display: flex;
   align-items: center;
 }
-* {
-  font-family: "McLaren", cursive !important;
-}
 .v-card {
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 .amount {
   margin: 0 20px;
@@ -366,22 +416,30 @@ export default {
   text-align: center !important;
 }
 .titlet {
-  font-family: "McLaren", cursive !important;
   padding: 16px;
 }
 .v-card__title {
   word-break: break-all !important;
 }
-
+.v-text-field.v-text-field--solo .v-input__control input{
+  caret-color: transparent !important;
+}
+.v-text-field.v-text-field--solo .v-input__control input:focus { text-indent: -9999em; }
+.v-text-field.v-text-field--solo .v-input__control input:focus{
+    outline : none;
+}
+.v-menu__content{
+  z-index: 99999999999 !important;
+}
 .primaryColor {
   color: #4db6ac;
+  max-width: 700px;
 }
 .underline {
   cursor: pointer;
   text-decoration: underline;
 }
 p {
-  font-family: "McLaren", cursive !important;
   margin: 0 !important;
   font-size: 20px;
 
@@ -392,6 +450,8 @@ p {
   display: flex;
   justify-content: space-between;
   padding: 16px;
+  padding-top: 0px;
+  margin-top: -15px;
 }
 .v-card__text {
   padding-top: 0;
@@ -405,11 +465,118 @@ textarea {
 }
 .buyCard {
   margin-top: -16px;
+  z-index: 9;
+}
+.v-application .actions .primary--text {
+  color: #fff !important;
+  border: none;
+}
+.v-btn:not(.v-btn--round).v-size--large {
+  height: 70px;
+  padding: 0px 90px;
+  border: none;
+}
+.theme--dark.v-btn:hover::before {
+  display: none;
 }
 
+.actions button {
+  background: url("../assets/prev.svg") no-repeat;
+  background-size: 100% 100%;
+  outline: none;
+}
+.actions button:hover {
+  opacity: 0.7;
+}
+
+.actions button img {
+  margin: 0px 10px;
+}
+.v-select__slot{
+  height: 38px !important;
+}
+.titlet {
+    padding: 16px;
+    font-size: 16px;
+    /* margin: 25px auto 50px !important; */
+    /* max-width: 54%; */
+}
+.v-btn:not(.v-btn--round).v-size--large{
+  margin-top: 20px;
+}
+.actions .actions-prev button {
+  background: url("../assets/prev.svg") no-repeat;
+  background-size: 100% 100%;
+  outline: none;
+}
+.v-text-field--outlined .v-label{
+  top: 10px;
+}
+.v-text-field--filled > .v-input__control > .v-input__slot, .v-text-field--full-width > .v-input__control > .v-input__slot, .v-text-field--outlined > .v-input__control > .v-input__slot{
+  min-height: 36px;
+}
+.theme--dark.v-card{
+  margin-top: 40px;
+}
+.page-title br{
+  display: none;
+}
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+    margin-bottom: 20px;
+}
+input:-internal-autofill-selected{
+  background-color: transparent !important;
+}
+
+.shop-title{
+  margin-top: 0px;
+}
+
+@media screen and (max-width: 1440px) {
+  .shop-title{
+    font-size: 28px;
+  }
+  .theme--dark.v-card {
+    margin-top: 20px;
+  }
+  .v-btn:not(.v-btn--round).v-size--large {
+    height: 50px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .page-title{
+    margin-top: 100px;
+  }
+}
+@media screen and (max-width: 680px) {
+  .actions button {
+    height: 40px !important;
+    padding: 0px 40px !important;
+  }
+  .actions button img {
+    margin: 0px 5px;
+  }
+  .page-title br{
+      display: block;
+    }
+  .page-title{
+    font-size: 32px;
+    max-width: 400px;
+    margin: 80px auto 26px;
+    line-height: 36px;
+  }
+  .container-shop{
+   min-height: calc(100vh - 260px);
+  }
+}
 @media screen and (max-width: 500px) {
   .buyCard {
     margin-top: -20px;
+  }
+  .actions .v-btn__content{
+    padding: 0px;
+    font-size: 10px;
   }
   .v-card {
     padding: 2px;
@@ -426,6 +593,9 @@ textarea {
   }
   .container {
     padding: 0 !important;
+  }
+  .v-btn:not(.v-btn--round).v-size--large{
+    margin: 20px 0px;
   }
 }
 @media screen and (max-width: 1200px) {

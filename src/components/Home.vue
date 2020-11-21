@@ -1,5 +1,19 @@
 <template>
-  <div></div>
+  <div class="home">
+    <!-- <header class="header">
+      <div class="header-wrapper">
+        <div class="header-logo">
+          <img src="../assets/logo-home.svg" />
+        </div>
+        <div class="header-mail">
+          <a href="mailto:contact@plugandplink.com"
+            ><img src="../assets/mail_icon.svg" alt="" />
+            contact@plugandplink.com</a
+          >
+        </div>
+      </div>
+    </header> -->
+  </div>
 </template>
 
 <script>
@@ -27,5 +41,7 @@ export default {
 input {
   background: rgba(0, 0, 0, 0) !important;
 }
+
+
 </style>
 <style scoped lang="scss"></style>

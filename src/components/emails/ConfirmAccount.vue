@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="confrim">
+    thank you
     {{ msg }}
   </div>
 </template>
@@ -9,7 +10,8 @@ import axios from "axios";
 export default {
   data() {
     return {
-      msg: ""
+      msg: "",
+      urlVar: "exchange.snakeomatic.com",
     };
   },
   mounted() {
@@ -20,10 +22,14 @@ export default {
       .slice(indexToSlice)
       .join("");
 
-    console.log(token);
+ let hostname = window.location.hostname
+    if(hostname !="localhost") {
+      this.urlVar = `exchange.${hostname}`
+    }
+    
     axios
-      .post(
-        `https://exchange.snakeomatic.com/web/link/response?purpose=account-acknowledgement&token=${token}`
+      .get(
+        `https://${this.urlVar}/web/link/response?purpose=account-acknowledgement&token=${token}`
       )
       .then(res => {
         console.log(res);
@@ -36,4 +42,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.confrim {
+  margin-top: 20px;
+  padding: 20px;
+}
+</style>

@@ -41,6 +41,26 @@ export default {
 </script>
 
 <style lang="scss">
+.v-menu__content{
+  background: #000;
+}
+// ::-webkit-scrollbar { 
+//   -webkit-appearance: none;
+// 	width: 8px;
+// }
+// ::-webkit-scrollbar-button { 
+//    background-color: #999;
+// }
+// ::-webkit-scrollbar-track {  
+//   background-color: #999;
+// }
+// ::-webkit-scrollbar-thumb { 
+//   border-radius: 2px;
+// 	background-color: rgba(0,0,0,0.5);
+//   -webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
+//   height: 100px;
+// }
+  
 @media screen and (max-width: 500px) {
   .v-menu__content {
     /* margin-left: 0px; */

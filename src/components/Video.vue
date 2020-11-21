@@ -1,24 +1,18 @@
 <template>
-  <div>
+  <div class="video-page-wrapper">
     <div class="item">
       <div class="video-page-title">
-        Watch Me
+        Watch me <br>
       </div>
       <div class="player">
-        <iframe
+        <!-- <iframe
           class="video"
-          src="https://www.youtube.com/embed/XGGrF2EjYO0?autoplay=1"
+          src="https://www.youtube.com/embed/DU2-LcdlqNM?autoplay=1"
           frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
-        ></iframe>
-        <!-- <video-player
-          class="vjs-custom-skin"
-          ref="videoPlayer"
-          :options="playerOptions"
-          :playsinline="true"
-        >
-        </video-player> -->
+        ></iframe> -->
+        <iframe  class="video" src="https://www.youtube-nocookie.com/embed/SVeEzhb_rQc?rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -56,17 +50,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.video-page-wrapper {
+  height:  calc(100vh - 290px);
+}
 .item {
-  margin: auto;
-  max-width: 1200px;
-  height: 100%;
-  padding-top: 100px;
+  margin: 10px auto 0px;
+  max-width: calc((100vh - 340px)*1.777);
+  /* height: 100%; */
+ max-height:  calc(100vh - 340px);
+}
+.video-page-title br{
+  display: none;
 }
 .player {
-  border: 5px solid #4eaf33;
   position: relative;
-  width: 100%;
-  padding-bottom: 56.25%;
+  /* width: 1100px; */
+  padding-bottom: 50.25%;
+  /* max-height: 60%; */
+  margin:auto;
+  /* padding-bottom: 10px; */
+  /* margin-bottom: 100px; */
 }
 .video {
   position: absolute;
@@ -75,20 +78,59 @@ export default {
   width: 100%;
   height: 100%;
   border: 0;
+  border: 5px solid #4eaf33;
 }
 .video-page-title {
-  font-size: 36px !important;
+  font-size: 34px !important;
   text-align: center;
+  margin-bottom: 27px;
 }
 @media screen and (max-width: 1200px) {
-  .video-page-title {
-    display: none;
-  }
+ 
   .item {
-    padding-top: 48px;
+    padding-top: 0px;
   }
   .player {
     border: none;
+  }
+}
+@media screen and (max-width: 1100px){
+   .video-page-title {
+        font-size: 32px;
+        max-width: 400px;
+        margin: 60px auto 25px;
+        line-height: 37px;
+  }
+   .player {
+     margin-top: 60px;
+     width: 100%;
+  }
+  .video{
+    height: 100%;
+  }
+}
+@media screen and (max-width: 768px){
+  .player{
+   margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 680px){
+  .video-page-title br{
+    display: block;
+  }
+  .video-page-title {
+    margin: 0px auto 5px;
+  }
+  .player{
+    width: 90%;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .item{
+    margin-top: 0px;
   }
 }
 </style>
