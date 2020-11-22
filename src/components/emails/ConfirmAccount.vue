@@ -1,6 +1,5 @@
 <template>
   <div class="confrim">
-    thank you
     {{ msg }}
   </div>
 </template>
@@ -11,7 +10,7 @@ export default {
   data() {
     return {
       msg: "",
-      urlVar: "exchange.snakeomatic.com",
+      urlVar: "exchange.snakeomatic.com"
     };
   },
   mounted() {
@@ -22,11 +21,11 @@ export default {
       .slice(indexToSlice)
       .join("");
 
- let hostname = window.location.hostname
-    if(hostname !="localhost") {
-      this.urlVar = `exchange.${hostname}`
+    let hostname = window.location.hostname;
+    if (hostname != "localhost") {
+      this.urlVar = `exchange.${hostname}`;
     }
-    
+
     axios
       .get(
         `https://${this.urlVar}/web/link/response?purpose=account-acknowledgement&token=${token}`
