@@ -8,16 +8,18 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@deckdeckgo/qrcode": "^2.0.1",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-browser-geolocation": "^1.8.0",
+    "vue-device-detector": "^1.1.6",
     "vue-phone-number-input": "^1.1.9",
     "vue-responsive-video-background-player": "^1.1.1",
     "vue-router": "^3.3.2",
     "vue-svg-loader": "^0.16.0",
     "vue-video-player": "^5.0.2",
-    "vuetify": "^2.2.11",
+    "vuetify": "^2.3.15",
     "vuex": "^3.5.1"
   },
   "devDependencies": {

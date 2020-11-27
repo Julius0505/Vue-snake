@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <div class="video-container">
-      <video-background v-bind:class="{ dark : isActive}"
+      <video-background
+        v-bind:class="{ dark: isActive }"
         :ended="videoEnded"
         overlay="transparent"
         src="SnakeVideo.mp4"
@@ -16,127 +17,103 @@
               </router-link>
             </div>
 
-           <div class="header-right">
-              <div class="header-mail">
-              <!-- <a href="mailto:contact@plugandplink.com"
-                ><img src="./assets/mail_icon.svg" alt="" />
-                contact@plugandplink.com</a
-              > -->
+            <div class="header-right">
+              <div class="header-mail"></div>
+              <div class="header-menu"></div>
             </div>
-            <div class="header-menu">
-            <!-- <div class="hamburger-menu">
-            <input id="menu__toggle" type="checkbox" />
-            <label class="menu__btn" for="menu__toggle">
-              <span></span>
-            </label>
-
-            <ul class="menu__box">
-              <li><a class="menu__item" href="#">Главная</a></li>
-              <li><a class="menu__item" href="#">Проекты</a></li>
-              <li><a class="menu__item" href="#">Команда</a></li>
-              <li><a class="menu__item" href="#">Блог</a></li>
-              <li><a class="menu__item" href="#">Контакты</a></li>
-            </ul>
-           </div> -->
-           <div class="header-apps">
-              <p>Coming soon to:</p>
-              <div class="header-apps__block block-apps">
-                <a href="#">
-                  <img src="./assets/app-store.jpg" alt="app store">
-                </a>
-                <a href="#">
-                  <img src="./assets/google-play.png" alt="google play">
-                </a>
-              </div>
-           </div>
-            </div>
-           </div>
           </div>
         </header>
-        <v-fade-transition>
-          <!-- <v-app-bar
-            v-if="videoPlayed"
-            transition="fade-transition"
-            class="appBar"
-            dense
-            dark
-            :fixed="true"
-            ><router-link
-              class="noDec"
-              to="/"
-              v-if="$router.currentRoute.name !== 'Home'"
-              >Home
-            </router-link>
-          </v-app-bar> -->
-        </v-fade-transition>
       </video-background>
       <div class="contantWrapper routerView">
         <router-view> </router-view>
-      <v-fade-transition
-        v-if="$router.currentRoute.name == 'Home' && videoPlayed"
-      >
-        <div class="contantWrapp homeButtonsWrapper choise">
+        <div v-if="$router.currentRoute.name == 'Home' && videoPlayed">
+          <div class="contantWrapp homeButtonsWrapper choise">
             <transition name="nexti" v-if="lastText">
-              <h1>Watch the notes your remote teacher shows you without taking your eyes off your keyboard.</h1>
+              <h1>
+                Watch the notes your remote teacher shows you without taking
+                your eyes off your keyboard.
+              </h1>
             </transition>
-          <div class="choise-wrapper" v-if="lastText">
-            <router-link class="routerLink routerLink-blue lBtn" to="/watch-me">
-              <v-btn class="homeButtons linkBtn">
-                <img src="./assets/play_icon.svg" alt="mglass icon" /> Watch Me
-              </v-btn>
-            </router-link>
-            <router-link
-              class="routerLink routerLink-orange lBtn"
-              to="/read-more"
-            >
-              <v-btn class="homeButtons linkBtn">
-                <img src="./assets/read_icon.svg" alt="mglass icon" /> Read More
-              </v-btn>
-            </router-link>
-            <!-- <router-link
+            <div class="choise-wrapper" v-if="lastText">
+              <router-link
+                class="routerLink routerLink-blue lBtn"
+                to="/watch-me"
+              >
+                <v-btn class="homeButtons linkBtn">
+                  <img src="./assets/play_icon.svg" alt="mglass icon" /> Watch
+                  Me
+                </v-btn>
+              </router-link>
+              <router-link
+                class="routerLink routerLink-orange lBtn"
+                to="/read-more"
+              >
+                <v-btn class="homeButtons linkBtn">
+                  <img src="./assets/read_icon.svg" alt="mglass icon" /> Read
+                  More
+                </v-btn>
+              </router-link>
+              <!-- <router-link
             class="routerLink lBtn"
             to="/
         "
           > -->
-            <a href="/model/index.html" class="routerLink-green routerLink lBt">
-              <v-btn class="homeButtons linkBtn">
-                <img src="./assets/mglass_icon.svg" alt="mglass icon" /> Take a
-                closer look
-              </v-btn>
-            </a>
-            <!-- </router-link> -->
-            <router-link class="routerLink lBtn routerLink-pink" to="/shop">
-              <v-btn class="homeButtons linkBtn">
-                <img src="./assets/cart_icon.svg" alt="cart icon" /> Buy Now
-              </v-btn>
-            </router-link>
-          </div>
-        </div>
-      </v-fade-transition>
-        <footer >
-        <div class="footer-wrapper">
-              <div class="footer-left">
-                <div class="footer-logo">
-                  <router-link to="/" class="home-link">
-                  <img src="./assets/logo-home.svg" />
-                </router-link>
-              </div>
-                <div class="footer-create">
-                    <p>PlugAndPlink is created by Arzesh Ltd</p>
-                       <router-link to="/privacy-policy">Privacy Policy</router-link>
-                </div>
-              </div>
-              <div class="footer-right">
-                  <div class="footer-numbers">
-                    <p>UK registered company number 8501859 </p>
-                    <p>VAT registration number 161 4730 26</p>
-                </div>
-                <div class="footer-contacts">
-                  <p>Telephone <a href="tel:+441233225873">+441233225873</a></p>
-                  <p><a href="mailto:info@plugandplink.com">info@plugandplink.com</a></p>
-                </div>
+              <a
+                href="/model/index.html"
+                class="routerLink-green routerLink lBt"
+              >
+                <v-btn class="homeButtons linkBtn">
+                  <img src="./assets/mglass_icon.svg" alt="mglass icon" /> Take
+                  a closer look
+                </v-btn>
+              </a>
+              <!-- </router-link> -->
+              <router-link class="routerLink lBtn routerLink-pink" to="/shop">
+                <v-btn class="homeButtons linkBtn">
+                  <img src="./assets/cart_icon.svg" alt="cart icon" /> Buy Now
+                </v-btn>
+              </router-link>
+            </div>
+            <div class="download-app" v-if="lastText">
+              <h4>Get the app</h4>
+              <div class="download-app__source">
+                <a href="#">
+                  <img src="./assets/app-store.png" alt="App store"
+                /></a>
+                <a href="#"
+                  ><img src="./assets/google-play.png" alt="Google"
+                /></a>
               </div>
             </div>
+          </div>
+        </div>
+        <footer v-if="videoPlayed">
+          <div v-if="videoPlayed" class="footer-wrapper">
+            <div class="footer-logo">
+              <router-link to="/" class="home-link">
+                <img src="./assets/logo-home.svg" />
+              </router-link>
+            </div>
+            <div class="footer-create">
+              <p>PlugAndPlink is created by Arzesh Ltd</p>
+              <router-link to="/privacy-policy">Privacy Policy</router-link>
+            </div>
+            <div class="footer-numbers">
+              <p>UK registered company number 8501859</p>
+              <p>VAT registration number 161 4730 26</p>
+            </div>
+            <div class="footer-add">
+              <p>EU Design reg 007523394</p>
+              <p>UK Design reg 6057651</p>
+              <p>Patents applied for</p>
+            </div>
+            <div class="footer-contacts">
+              <p>Telephone <a href="tel:+441233225873">+441233225873</a></p>
+              <p>
+                <a href="mailto:info@plugandplink.com">info@plugandplink.com</a>
+              </p>
+            </div>
+          </div>
         </footer>
       </div>
       <!-- <input type="text" /> -->
@@ -182,85 +159,121 @@ export default {
   },
   mounted() {
     setTimeout(() => (this.videoPlayed = true), 0);
-    setTimeout(() => (
-         this.lastText = true,
-         this.isActive = true
-      ), 4000);
+    setTimeout(() => ((this.lastText = true), (this.isActive = true)), 4000);
   }
 };
 </script>
 <style lang="scss">
-
-.nexti-enter-active, .nexti-leave-active {
+body {
+  font-family: "McLaren", "sans-serif" !important;
+}
+.nexti-enter-active,
+.nexti-leave-active {
   transition: all 0.9s;
   opacity: 1;
 }
 
-.nexti-enter, .nexti-leave-to {
+.nexti-enter,
+.nexti-leave-to {
   opacity: 0;
   transform: translateX(50px) rotate(90deg);
 }
 
-footer{
+footer {
   background: rgba(35, 35, 35, 35);
   color: #4eaf33 !important;
   height: 140px;
   width: 100%;
+  p {
+    font-family: "McLaren", "sans-serif" !important;
+    color: white !important;
+  }
 }
-.footer-wrapper{
+.footer-wrapper {
+  color: white !important;
+  font-family: "McLaren", "sans-serif" !important;
   max-width: 85%;
   margin: 0px auto;
   padding: 30px 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
 }
 
-.footer-wrapper a{
+.footer-wrapper a {
   text-decoration: none;
   color: #fff !important;
 }
 
-.footer-wrapper a:hover{
-     color: #4eaf33 !important;
-     transition: 0.3s;
+.footer-wrapper a:hover {
+  color: #4eaf33 !important;
+  transition: 0.3s;
 }
 
-.footer-logo{
+.footer-logo {
   max-width: 127px;
 }
 
-.footer-logo img{
+.footer-logo img {
   object-fit: cover;
   width: 100%;
 }
 
+.footer-left {
+  width: 35%;
+}
+
+.footer-right {
+  width: 56%;
+}
 .footer-left,
-.footer-right{
-    width: 38%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.footer-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer-numbers,
-.footer-contacts{
+.footer-contacts {
   text-align: left;
 }
 
 .footer-contacts p,
 .footer-numbers p,
-.footer-create p{
+.footer-create p,
+.footer-add p {
   font-size: 16px !important;
+}
+
+.download-app {
+  font-family: "McLaren", "sans-serif" !important;
+  max-width: 70%;
+  margin: 0px auto;
+  h4 {
+    font-size: 40px;
+    line-height: 60px;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  // .download-app__source
+
+  &__source {
+    display: flex;
+    justify-content: space-between;
+    a {
+      display: inline-block;
+      margin: 0px 15px;
+    }
+  }
 }
 
 // HAMBURGER MENU
 
-.header-right{
-    display: flex;
-    justify-content: space-between;
-    width: 43%;
+.header-right {
+  display: flex;
+  justify-content: space-between;
+  width: 43%;
 }
 
 #menu__toggle {
@@ -305,16 +318,16 @@ footer{
   height: 4px;
   border-radius: 3px;
 
-  background-color: #C1C7D1;
+  background-color: #c1c7d1;
 
-  transition-duration: .25s;
+  transition-duration: 0.25s;
 }
 .menu__btn > span::before {
-  content: '';
+  content: "";
   top: -8px;
 }
 .menu__btn > span::after {
-  content: '';
+  content: "";
   top: 8px;
 }
 
@@ -335,9 +348,9 @@ footer{
   list-style: none;
 
   background-color: #000;
-  box-shadow: 1px 0px 6px rgba(0, 0, 0, .2);
+  box-shadow: 1px 0px 6px rgba(0, 0, 0, 0.2);
 
-  transition-duration: .25s;
+  transition-duration: 0.25s;
 }
 
 .menu__item {
@@ -346,19 +359,18 @@ footer{
 
   color: #333;
 
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 20px;
   font-weight: 600;
 
   text-decoration: none;
 
-  transition-duration: .25s;
+  transition-duration: 0.25s;
 }
 .menu__item:hover {
   background-color: rgb(32, 32, 32);
 }
 // END MENU
-
 
 .home-link {
   cursor: pointer;
@@ -373,7 +385,7 @@ body {
   max-width: 100%;
   margin: auto;
 }
-.contantWrapp{
+.contantWrapp {
   min-height: calc(100vh - 280px);
   display: flex;
   justify-content: center;
@@ -385,8 +397,8 @@ body {
 }
 .video-container {
   width: 100vw;
- height: 100vh;
- position: relative;
+  height: 100vh;
+  position: relative;
 }
 .snakeVideo {
   width: 100vw;
@@ -412,7 +424,7 @@ body {
 
 .homeButtonsWrapper {
   margin: auto;
-  padding: 90px 0px;
+  padding: 90px 0px 20px;
   text-align: center;
 }
 
@@ -422,17 +434,18 @@ body {
   margin: 0 auto;
   width: 90%;
   padding: 0px 0px 60px;
-   font-family: 'McLaren', cursive !important;
+  font-family: "McLaren", "sans-serif" !important;
 }
 
-.choise h1{
-   font-family: 'McLaren', cursive !important;
-    width: 100%;
-    margin: 0 auto;
-    width: 1200px;
+.choise h1 {
+  font-family: "McLaren", "sans-serif" !important;
+  width: 100%;
+  margin: 0 auto;
+  width: 1200px;
 }
 
-.choise-wrapper .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined){
+.choise-wrapper
+  .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
   font-size: 16px;
 }
 
@@ -441,8 +454,8 @@ body {
 }
 
 .theme--dark.v-application {
-    background: rgba(35, 35, 35, 0.7) !important;
-    backdrop-filter: blur(30px);
+  background: rgba(35, 35, 35, 0.7) !important;
+  backdrop-filter: blur(30px);
 }
 
 .choise-wrapper
@@ -502,19 +515,17 @@ body {
 }
 
 .header-wrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 89%;
-    margin: 25px auto 0px;
+  display: flex;
+  justify-content: space-between;
+  width: 89%;
+  margin: 25px auto 0px;
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus
-input:-webkit-autofill, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus input:-webkit-autofill,
 textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover
-textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
@@ -522,7 +533,13 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: #fff;
   -webkit-box-shadow: 0 0 0px 1000px transparent inset;
   transition: background-color 5000s ease-in-out 0s;
-  background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(0,174,255,0.04) 50%,rgba(255,255,255,0) 51%,rgba(0,174,255,0.03) 100%);  
+  background: -webkit-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(0, 174, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0) 51%,
+    rgba(0, 174, 255, 0.03) 100%
+  );
 }
 
 .header-logo img {
@@ -547,25 +564,25 @@ select:-webkit-autofill:focus {
   color: #81bd6b;
   transition: 0.3s;
 }
-.header-menu{
-    width: 100%;
-    max-width: 322px;
+.header-menu {
+  width: 100%;
+  max-width: 322px;
 }
 .header-apps {
-    background-color: #f8f4f1;
-    padding: 5px;
-	p{
-      color: #b3b3b3;
-      text-transform: uppercase;
-      font-size: 14px;
-      font-weight: 600;
+  background-color: #f8f4f1;
+  padding: 5px;
+  p {
+    color: #b3b3b3;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
   }
 }
 .block-apps {
   display: flex;
   justify-content: space-between;
-  a{
-    img{
+  a {
+    img {
       width: 150px;
       border-radius: 10px;
       max-height: 47px;
@@ -573,7 +590,7 @@ select:-webkit-autofill:focus {
   }
 }
 
-.header-menu nav{
+.header-menu nav {
   margin-right: 40px;
 }
 
@@ -587,7 +604,7 @@ select:-webkit-autofill:focus {
   margin-right: 10px;
 }
 
-.v-ripple__container{
+.v-ripple__container {
   display: none;
   opacity: 0 !important;
 }
@@ -598,12 +615,21 @@ select:-webkit-autofill:focus {
   top: 140px;
 }
 @media screen and (max-width: 1700px) {
-  .choise-wrapper a{
-      width: 25%;
+  .choise-wrapper a {
+    width: 25%;
   }
-  .footer-left, .footer-right{
-    width: 46%;
+  .footer-right {
+    width: 65%;
   }
+  .footer-left {
+    width: 32%;
+    .footer-logo {
+      margin-right: 20px;
+    }
+  }
+  // .footer-left, .footer-right{
+  //   width: 46%;
+  // }
   .routerLink-orange,
   .routerLink-blue,
   .routerLink-pink,
@@ -611,31 +637,59 @@ select:-webkit-autofill:focus {
     background-size: contain;
     background-position: center;
   }
+  .footer-create {
+    max-width: 230px;
+  }
+  .video-container .contantWrapp h1 {
+    font-size: 30px;
+    margin-bottom: 30px;
+  }
+  .download-app h4 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .download-app__source img {
+    max-width: 210px;
+  }
+  .choise .v-btn__content {
+    font-size: 16px;
+  }
 }
 
-.dark .video-overlay{
-    background: rgba(0, 0, 0, 0.5) !important;
+.dark .video-overlay {
+  background: rgba(0, 0, 0, 0.5) !important;
 }
 @media screen and (max-width: 1440px) {
-  .choise h1{
+  .choise h1 {
     width: 1250px;
+  }
+
+  .homeButtonsWrapper {
+    padding-top: 40px;
+  }
+  .download-app__source img {
+    max-width: 200px;
+  }
+  .footer-contacts p,
+  .footer-numbers p,
+  .footer-create p,
+  .footer-add p,
+  .footer-create a {
+    font-size: 12px !important;
   }
   .contantWrapp {
     min-height: calc(100vh - 260px);
   }
-  footer{
+  footer {
     height: 153px;
   }
   .routerView {
     top: 110px;
   }
-  .header .header-mail a{
+  .header .header-mail a {
     font-size: 18px;
   }
-   .footer-left, .footer-right{
-    width: 48%;
-  }
-  .menu__btn{
+  .menu__btn {
     top: 60px;
     right: 60px;
   }
@@ -643,10 +697,11 @@ select:-webkit-autofill:focus {
     width: 30%;
     max-width: 182px;
   }
-  .choise-wrapper{
+  .choise-wrapper {
     padding-bottom: 45px;
   }
-  .choise-wrapper .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined){
+  .choise-wrapper
+    .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
     padding: 10px 0px;
   }
   .video-container .contantWrapp h1 {
@@ -655,7 +710,7 @@ select:-webkit-autofill:focus {
   .choise-wrapper a {
     height: auto;
   }
-  .v-btn__content{
+  .v-btn__content {
     padding: 0px 15px;
   }
   .choise-wrapper
@@ -677,22 +732,38 @@ select:-webkit-autofill:focus {
   .header-logo {
     width: 23%;
   }
-  .footer-numbers, .footer-contacts{
-    width: 48%;
-  }
+  // .footer-numbers, .footer-contacts{
+  //   width: 48%;
+  // }
 }
 
 @media screen and (max-width: 1240px) {
-  .choise h1{
+  .choise h1 {
     width: 1000px;
   }
 }
 
 @media screen and (max-width: 1100px) {
-  .choise h1{
+  .choise h1 {
     width: 85%;
   }
- .homeButtonsWrapper {
+  .download-app__source img {
+    width: 85%;
+    min-width: 110px;
+  }
+  .footer-create {
+    max-width: 150px;
+    margin-left: 15px;
+  }
+  .footer-numbers {
+    max-width: 160px;
+    margin-left: 10px;
+  }
+  .footer-add,
+  .footer-contacts {
+    margin-left: 10px;
+  }
+  .homeButtonsWrapper {
     padding: 30px;
     margin-top: 34px;
     // position: absolute;
@@ -700,30 +771,40 @@ select:-webkit-autofill:focus {
     // left: 50%;
     // transform: translate(-50%,-50%);
     width: 100%;
- }
- .contantWrapp {
-    min-height: calc(100vh - 153px);
- }
- .footer-wrapper {
-    max-width: 90%;
- }
- .footer-left, .footer-right {
-    width: 44%;
   }
- .footer-contacts p, .footer-numbers p, .footer-create p{
-   font-size: 12px !important;
- }
+  .contantWrapp {
+    min-height: calc(100vh - 153px);
+  }
+  .footer-wrapper {
+    max-width: 90%;
+  }
+  .footer-left,
+  .footer-right {
+    width: 100%;
+  }
+  .footer-add p {
+    font-size: 12px !important;
+  }
+  .footer-logo,
+  .footer-create {
+    width: auto;
+  }
+  .footer-contacts p,
+  .footer-numbers p,
+  .footer-create p {
+    font-size: 12px !important;
+  }
   .contantWrapper {
     max-width: 100%;
   }
- .header-logo {
+  .header-logo {
     width: 37%;
   }
-  .video-container .contantWrapp h1{
+  .video-container .contantWrapp h1 {
     max-width: 800px;
     margin: 0 auto;
   }
-  .snakeVideo{
+  .snakeVideo {
     max-height: unset;
   }
   .video-container .contantWrapp h1 {
@@ -733,102 +814,137 @@ select:-webkit-autofill:focus {
     padding: 30px;
     margin-top: 34px;
   }
-  .video-wrapper{
+  .video-wrapper {
     height: 100vh;
   }
   .linkBtn {
     width: calc(50% - 40px);
     margin: 20px;
   }
-  .contantWrapp  .choise-wrapper a {
+  .contantWrapp .choise-wrapper a {
     margin: 0px 3px;
   }
-  .homeButtonsWrapper{
+  .homeButtonsWrapper {
     padding: 30px 0px;
   }
-  .choise-wrapper .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined){
+  .choise-wrapper
+    .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
     font-size: 12px;
   }
-  .choise-wrapper{
+  .choise-wrapper {
     width: 100%;
   }
-  .choise-wrapper a img{
+  .choise-wrapper a img {
     width: 12px;
     height: 12px;
   }
-  .header .header-mail{
+  .header .header-mail {
     margin: 10px 0px;
   }
-  .header .header-mail a{
+  .header .header-mail a {
     font-size: 20px;
   }
-  .header-logo{
+  .header-logo {
     margin: 0px;
   }
-  .header-wrapper{
+  .header-wrapper {
     width: 88%;
     margin: 49px auto;
   }
-    .choise-wrapper,
-  .video-container .contantWrapp h1{
+  .choise-wrapper,
+  .video-container .contantWrapp h1 {
     width: 90%;
   }
-  .video-container{
+  .video-container {
     height: unset;
   }
-  .footer-logo,
-  .footer-create{
-    width: 48%;
+  .choise .v-btn__content {
+    font-size: 8px;
   }
 }
 
 @media screen and (max-width: 800px) {
+  footer {
+    height: 200px;
+  }
+  .choise-wrapper,
+  .homeButtonsWrapper {
+    padding-bottom: 0px;
+  }
   .block-apps a img {
     width: 100px;
     border-radius: 10px;
     max-height: 32px;
   }
+  .footer-wrapper {
+    flex-wrap: wrap;
+  }
+  .footer-logo,
+  .footer-create,
+  .footer-contacts,
+  .footer-add {
+    width: 22%;
+    margin-bottom: 10px;
+  }
   .header-menu {
     max-width: 220px;
   }
-  .header-apps p{
+  .header-apps p {
     font-size: 12px;
     margin-bottom: 5px;
   }
-  .choise-wrapper{
+  .choise-wrapper {
     flex-wrap: wrap;
   }
-   .footer-contacts p, .footer-numbers p, .footer-create p{
+  .footer-contacts p,
+  .footer-numbers p,
+  .footer-create p {
     font-size: 10px !important;
   }
-  .menu__btn{
+  .menu__btn {
     right: 50px;
   }
   .header .header-mail {
     margin: 10px 0px;
   }
-  .choise-wrapper a{
+  .choise-wrapper a {
     width: 48% !important;
   }
   .homeButtonsWrapper {
     top: 60%;
     width: 100%;
   }
-  .contantWrapp .choise-wrapper a{
+  .contantWrapp .choise-wrapper a {
     margin: 0px 0px 10px;
   }
-   .header .header-mail a{
-     font-size: 14px;
-   }
-   .footer-logo{
-     max-width: 100px;
-   }
+  .header .header-mail a {
+    font-size: 14px;
+  }
+  .footer-logo {
+    max-width: 100px;
+  }
 }
 @media screen and (max-width: 660px) {
-  footer{
-    height: 260px;
+  footer {
+    height: 400px;
   }
-  .header-right{
+  .download-app {
+    max-width: 90%;
+  }
+  .footer-logo,
+  .footer-create,
+  .footer-contacts,
+  .footer-add,
+  .footer-numbers {
+    width: 100%;
+    text-align: center;
+    margin-left: 0px;
+  }
+  .choise-wrapper,
+  .homeButtonsWrapper {
+    padding-bottom: 35px;
+  }
+  .header-right {
     margin-right: 20px;
   }
   .block-apps a img {
@@ -845,42 +961,45 @@ select:-webkit-autofill:focus {
   .contantWrapp {
     min-height: calc(100vh - 260px);
   }
-  .footer-right{
-     width: 100%;
-     flex-direction: column;
-     font-size: 10px;
-     margin-top: 10px;
+  .footer-right {
+    width: 100%;
+    flex-direction: column;
+    font-size: 10px;
+    margin-top: 10px;
   }
-  .footer-left{
+  .footer-left {
     flex-direction: column;
     width: 100%;
     text-align: center;
     justify-content: center;
   }
-  .footer-logo, .footer-create{
+  .footer-logo,
+  .footer-create {
     width: 100%;
   }
-  .footer-logo{
+  .footer-logo {
     margin-bottom: 5px;
     max-width: 70px;
   }
-  .footer-create p{
+  .footer-create p {
     font-size: 12px !important;
   }
-  .footer-wrapper{
+  .footer-wrapper {
     flex-direction: column;
     justify-content: center;
     width: 95%;
   }
-  .footer-numbers, .footer-contacts{
+  .footer-numbers,
+  .footer-contacts {
     text-align: center;
     margin-bottom: 15px;
     width: 100%;
   }
-  .footer-contacts p, .footer-numbers p{
+  .footer-contacts p,
+  .footer-numbers p {
     font-size: 12px !important;
   }
-  .footer-create p{
+  .footer-create p {
     font-size: 10px !important;
   }
   .menu__btn {
@@ -901,20 +1020,20 @@ select:-webkit-autofill:focus {
   .header-logo img {
     width: 129px;
   }
-  .header .header-mail a{
+  .header .header-mail a {
     display: none;
   }
   .header {
     z-index: 100;
     position: absolute;
-    height:0px;
+    height: 0px;
     top: 60px;
-    left:0;
+    left: 0;
     width: 100%;
   }
   .header-wrapper {
     width: 100%;
-    height:100% !important;
+    height: 100% !important;
     margin: auto;
     display: flex;
     padding-left: 20px;
@@ -925,11 +1044,12 @@ select:-webkit-autofill:focus {
     padding: 0;
     margin: 0;
   }
-  .video-container .contantWrapp h1 {
+  .video-container .contantWrapp h1,
+  .download-app h4 {
     font-size: 32px;
   }
   .choise-wrapper
-  .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+    .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
     height: 42px !important;
   }
   .choise-wrapper a {
@@ -943,7 +1063,7 @@ select:-webkit-autofill:focus {
   .homeButtons {
     height: 40px !important;
   }
-  #menuToggle{
+  #menuToggle {
     top: -15px;
   }
 }
@@ -952,20 +1072,15 @@ select:-webkit-autofill:focus {
     width: 283%;
     height: 100%;
   }
-  .contantWrapp {
-    min-height: calc(100vh - 260px);
-  }
-   footer{
-    height: 260px;
-  }
   .homeButtonsWrapper {
     top: 20%;
     margin-top: 0px;
   }
-  .choise-wrapper .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+  .choise-wrapper
+    .theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
     font-size: 8px !important;
   }
-  .v-application .error--text{
+  .v-application .error--text {
     padding-bottom: 15px;
   }
   .contantWrapper {
@@ -973,9 +1088,20 @@ select:-webkit-autofill:focus {
     padding-left: 0;
     padding-right: 0;
   }
-  .video-container .contantWrapp h1{
-    font-size: 16px;
+  .video-container .contantWrapp h1 {
     margin-bottom: 10px;
+  }
+  .video-container .contantWrapp h1,
+  .download-app h4 {
+    font-size: 16px;
+  }
+  .download-app {
+    margin: 0px auto;
+  }
+  .download-app__source a {
+    margin: 0px 5px;
+    max-width: 120px;
+    min-width: unset;
   }
   .linkBtn {
     width: calc(50% - 20px);
@@ -984,7 +1110,7 @@ select:-webkit-autofill:focus {
   .homeButtons {
     font-size: 10px !important;
   }
-  .header-right{
+  .header-right {
     display: none;
   }
 }
@@ -1004,4 +1130,3 @@ select:-webkit-autofill:focus {
   background: rgb(0, 0, 0, 0%) !important;
 }
 </style>
-

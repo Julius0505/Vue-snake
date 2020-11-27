@@ -2,7 +2,8 @@
   <div>
     <br />
     <v-card-title class="green-title">
-     Note: We're expecting the first shipment of snakes in October 2020, but you are welcome to pre-order.
+      Note: We're expecting the first shipment of snakes in October 2020, but
+      you are welcome to pre-order.
     </v-card-title>
     <v-card-text>
       You can only purchase PlugAndPlink snakes from us directly using this
@@ -18,26 +19,36 @@
       information required to process your order. All information is transmitted
       securely.
     </v-card-text>
-    <div class="shop-price__block">
-      <p>Price per snake (sales tax included) {{pricing.currency}} {{pricing.unitPriceWithSalesTax/100}}</p>
-      <p>Postage + packing {{pricing.currency}} {{pricing.postageCharge/100}}</p>
+    <div class="shop-price__block" v-if="pricing.currency">
+      <p>
+        Price per snake (sales tax included) {{ pricing.currency }}
+        {{ pricing.unitPriceWithSalesTax / 100 }}
+      </p>
+      <p>
+        Postage + packing {{ pricing.currency }}
+        {{ pricing.postageCharge / 100 }}
+      </p>
+    </div>
+    <div class="shop-price__block" v-if="!pricing.currency">
+      <p>
+        Price per snake (sales tax included)
+      </p>
+      <p>
+        Postage + packing
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
-import VueGeolocation from 'vue-browser-geolocation';
+import VueGeolocation from "vue-browser-geolocation";
 Vue.use(VueGeolocation);
 export default {
   props: ["urlVar", "pricing"],
-data() {
-  return {
+  data() {
+    return {};
   }
-
-},
-
-
 };
 </script>
 
@@ -45,9 +56,9 @@ data() {
 .v-card__text {
   font-size: 18px;
 }
-.shop-price__block{
+.shop-price__block {
   padding: 16px;
-  p{
+  p {
     color: #7ba56e;
     font-size: 18px;
   }

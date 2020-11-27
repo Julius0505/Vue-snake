@@ -18,7 +18,7 @@
                 font-size: 28px;
                 margin-bottom: 20px;
                 color: #fefffe;
-                font-family: "McLaren", cursive !important;
+                font-family: "McLaren", 'sans-serif' !important;
                 span{
                     display: block;
                     font-size: 48px;

@@ -20,7 +20,8 @@ Vue.component("video-background", VideoBackground);
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-export default {};
+export default {
+};
 </script>
 
 <style lang="scss" scoped>
