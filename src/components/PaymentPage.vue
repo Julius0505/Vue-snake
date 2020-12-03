@@ -391,9 +391,20 @@ console.log(window.location.hostname)
     text-align: center;
     margin-top: 70px;
 }
+.v-input__slider{
+  width: 90%;
+  margin: 0 auto;
+}
+.v-messages__message{
+  margin-top: 5px;
+}
+.v-input__slot{
+    width: 100%;
+    margin: 0 auto;
+}
 .container-shop{
    min-height: calc(100vh - 280px);
-  font-family: 'McLaren', cursive !important;
+  font-family: 'McLaren', 'sans-serif' !important;
 }
 .v-select__selection.v-select__selection--comma {
   height: 30px !important;

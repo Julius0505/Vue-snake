@@ -127,12 +127,12 @@
         font-size: 28px;
         margin-bottom: 20px;
         color: #fefffe;
-        font-family: "McLaren", cursive !important;
+        font-family: "McLaren", 'sans-serif' !important;
       }
     }
   }
   #privacy {
-    font-family: "McLaren", cursive !important;
+    font-family: "McLaren", 'sans-serif' !important;
     padding-bottom: 100px;
       strong{
       font-weight: 400;

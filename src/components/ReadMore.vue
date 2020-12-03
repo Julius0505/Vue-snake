@@ -1,139 +1,101 @@
 <template>
   <div class="container read-container">
     <div class="read-more">
-    <div class="page-title">
-       Read More
-    </div>
-    <v-card class="read-more-card">
-      <div class="read-more-wrapper">
-      <v-card-title color="primary" class="title">
-        What is Plug and Plink?
-      </v-card-title>
-      <v-card-text class="read-more_first">
-        <p class="read-more-subtitle">PlugAndPlink lets two pianos connect over the Internet.</p> 
-        <v-list class="list">
-          <v-list-item>
-            Notes played on one piano sound on both pianos
-          </v-list-item>
-          <v-list-item>
-            Notes played on the remote piano make lights come on on the local
-            piano
-          </v-list-item>
-        </v-list>
-
-        This means that instead of having to keep looking at your phone and
-        looking back at your piano, your teacher can point out notes to play
-        directly in your line of sight. 
-        The result is that remote piano lessons become a lot more effective.
-      </v-card-text>
-      <v-card-title color="primary" class="title">
-        What does PlugAndPlink look like?
-      </v-card-title>
-      <v-card-text>
-        <p class="read-more-subtitle">PlugAndPlink is shaped like a snake. </p>
-        <v-list class="list">
-          <v-list-item>
-            The body of the snake is shaped so
-            that it fits neatly on your keyboard but leaves you enough space to
-            still play your keyboard.
-          </v-list-item>
-          <v-list-item>
-            The neck of the snake can be bent into whatever shape best suits your piano.
-          </v-list-item>
-          <v-list-item>
-        The nostrils of the snake indicate the mode of the snake such as waiting to pair with the app or paired and working.
-          </v-list-item>
-          <v-list-item>
-        There is no difference between the snake which your teacher uses and the snake which you have.
-          </v-list-item>
-        </v-list>
-
-            
-      </v-card-text>
-      <v-card-title color="primary" class="title">
-        Do I need the app?
-      </v-card-title>
-      <v-card-text class="read-more_first">
-        The snake alone does nothing without the app. The snake is controlled
-        entirely through the app. 
-        The app guides you through setting up your snake and checking that it is
-        working. 
-
-       You can create a PlugAndPlink account using the app.
-       You need an account so
-        that you can find the other person you want to share your snake with.
-      </v-card-text>
-      <v-card-title class="title">
-        Is piano sharing the only thing which PlugAndPlink does?
-      </v-card-title>
-      <v-card-text>
-        For the 2020 version (the first version) yes. We plan to add more
-        features in the future. But we think that piano sharing is the most
-        useful feature to offer at this time.
-      </v-card-text>
+      <div class="page-title">
+        Read More
       </div>
-    </v-card>
-  </div>
+      <v-card v-if="content" class="read-more-card">
+        <div class="read-more-wrapper">
+          <div v-html="content"></div>
+        </div>
+      </v-card>
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+  data() {
+    return {
+      content: ""
+    };
+  },
+
+  mounted() {
+    this.getHtml();
+    console.log(this.$router.currentRoute.path.replace("-", " "));
+  },
+  methods: {
+    getHtml: async function() {
+      try {
+        const page = await axios.get(
+          "https://exchange.snakeomatic.com/web/content?page=static/read-more/index.html"
+        );
+        this.content = page.data;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-.read-more{
-  font-family: 'McLaren', cursive !important;
+.read-more {
+  font-family: "McLaren", "sans-serif" !important;
 }
-.container{
+.container {
   padding: 0px;
 }
-.read-container{
+.read-container {
   // min-height: calc(100vh - 140px);
 }
-.read-more_first{
+.read-more_first {
   margin-bottom: 37px;
 }
-.v-list-item{
+.v-list-item {
   min-height: auto;
 }
-.v-card__subtitle, .v-card__text, .v-card__title,
-.v-list.list.v-sheet.theme--dark{
+.v-card__subtitle,
+.v-card__text,
+.v-card__title,
+.v-list.list.v-sheet.theme--dark {
   padding: 0;
 }
-.v-list-item.theme--dark::before{
-  content: '.';
+.v-list-item.theme--dark::before {
+  content: ".";
   position: absolute;
   top: -8px;
   left: 0px;
   font-size: 25px;
 }
-.v-list-item.theme--dark{
+.v-list-item.theme--dark {
   line-height: 26px;
   padding-left: 10px;
 }
 
-.read-more-subtitle{
+.read-more-subtitle {
   padding-bottom: 18px;
   color: #fefffe !important;
- font-family: 'McLaren', cursive !important;
+  font-family: "McLaren", "sans-serif" !important;
   font-size: 16px;
   font-weight: 400;
   line-height: 22px;
 }
-.v-list-item{
+.v-list-item {
   padding: 0;
 }
-.page-title{
+.page-title {
   color: #fefffe;
- font-family: 'McLaren', cursive !important;
+  font-family: "McLaren", "sans-serif" !important;
   font-size: 34px;
   font-weight: 400;
   line-height: 33.36px;
   margin-bottom: 47px;
 }
-.v-card__text{
-   font-family: 'McLaren', cursive !important;
+.v-card__text {
+  font-family: "McLaren", "sans-serif" !important;
 }
 .read-more {
   overflow-y: auto !important;
@@ -147,11 +109,11 @@ export default {};
   font-family: "Mc Laren";
   font-weight: 400;
   line-height: 22px;
-  color: #23A440;
+  color: #23a440;
   font-size: 18px;
   margin-bottom: 30px;
 }
-.read-more-wrapper{
+.read-more-wrapper {
   width: 100%;
   max-width: 1920px;
   box-sizing: border-box;
@@ -159,39 +121,43 @@ export default {};
   overflow-y: scroll;
 }
 
-.read-more .v-card{
+.read-more .v-card {
   max-width: 85%;
   margin: 0 auto;
 }
-// .read-more-wrapper::-webkit-scrollbar { 
+// .read-more-wrapper::-webkit-scrollbar {
 //   -webkit-appearance: none;
 // 	width: 16px;
 // }
-// .read-more-wrapper::-webkit-scrollbar-button { 
+// .read-more-wrapper::-webkit-scrollbar-button {
 //    background-color: #999;
 // }
-.read-more-wrapper::-webkit-scrollbar-track {  
+.read-more-wrapper::-webkit-scrollbar-track {
   background-color: #999;
 }
-// .read-more-wrapper::-webkit-scrollbar-thumb { 
+// .read-more-wrapper::-webkit-scrollbar-thumb {
 //   border-radius: 5px;
 // 	background-color: rgba(0,0,0,0.5);
 //   -webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
 //   height: 40px;
 // }
 
- .read-more-wrapper::-webkit-scrollbar { 
-   -webkit-appearance: none;
-	  width: 7px;
- }
- .read-more-wrapper::-webkit-scrollbar-thumb { 
-   border-radius: 2px;
-	background-color:#666;
-	-webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
- }
- .read-more-wrapper::-webkit-scrollbar-corner { background-color: #999;}
- .read-more-wrapper::-webkit-resizer { background-color: #666;}
-  
+.read-more-wrapper::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+.read-more-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: #666;
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+.read-more-wrapper::-webkit-scrollbar-corner {
+  background-color: #999;
+}
+.read-more-wrapper::-webkit-resizer {
+  background-color: #666;
+}
+
 .v-card__title {
   word-break: normal;
 }
@@ -204,43 +170,45 @@ export default {};
   font-size: 16px;
   font-weight: 400;
   line-height: 22px;
-
+}
+.read-more-wrapper {
+  color: white !important;
 }
 
-.list{
+.list {
   margin-bottom: 23px;
 }
 
-.page-title br{
+.page-title br {
   display: none;
 }
 .read-more[data-v-76f91e8a] {
-    max-height: calc(100vh - 290px);
+  height: calc(100vh - 290px);
 }
 @media screen and (max-width: 1580px) {
-  .read-more{
+  .read-more {
     padding-bottom: 6px;
   }
   .read-more[data-v-76f91e8a] {
     max-height: calc(100vh - 310px);
   }
-  .container{
+  .container {
     padding: 12px 0px;
   }
 }
 
-@media screen and (max-width: 1200px){
-    .read-more-card {
+@media screen and (max-width: 1200px) {
+  .read-more-card {
     overflow: hidden;
   }
   .read-more[data-v-76f91e8a][data-v-76f91e8a] {
     max-height: calc(100vh - 288px);
   }
-    .read-more{
+  .read-more {
     top: 0px;
     margin-top: 0px;
   }
-  .page-title{
+  .page-title {
     margin-bottom: 58px;
   }
   .read-more-wrapper[data-v-76f91e8a] {
@@ -248,48 +216,48 @@ export default {};
   }
 }
 @media screen and (max-width: 680px) {
-  .read-container{
+  .read-container {
     min-height: calc(100vh - 260px);
   }
-    .read-more-card{
-      margin: 0;
-      width: 100vw !important;
-    }
-    .read-more-wrapper{
-      padding: 32px 55px 32px 35px;
-    }
-    .read-more .v-card{
-      max-width: 100%;
-    }
-    .read-more{
-      padding: 0;
-      padding-bottom: 50.5px;
-      margin-top: 80px;
-    }
-    .contantWrapper  .page-title{
-      font-size: 32px;
-      max-width:400px;
-      margin: 5px auto 25px;
-      line-height: 36px;
-    }
-    .read-more-card  .read-more-wrapper{
-      /* max-height: 568px; */
-      padding: 22px 11px 25px 12px;
-    }
-    .v-sheet.v-card{
-      border-radius: 0px !important;
-    }
-    .read-more-wrapper::-webkit-scrollbar { 
-      -webkit-appearance: none;
-      width: 10px;
-    }
+  .read-more-card {
+    margin: 0;
+    width: 100vw !important;
+  }
+  .read-more-wrapper {
+    padding: 32px 55px 32px 35px;
+  }
+  .read-more .v-card {
+    max-width: 100%;
+  }
+  .read-more {
+    padding: 0;
+    padding-bottom: 50.5px;
+    margin-top: 80px;
+  }
+  .contantWrapper .page-title {
+    font-size: 32px;
+    max-width: 400px;
+    margin: 5px auto 25px;
+    line-height: 36px;
+  }
+  .read-more-card .read-more-wrapper {
+    /* max-height: 568px; */
+    padding: 22px 11px 25px 12px;
+  }
+  .v-sheet.v-card {
+    border-radius: 0px !important;
+  }
+  .read-more-wrapper::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+  }
 }
 @media screen and (max-width: 500px) {
   .v-card__text {
     font-size: 14px;
     line-height: 20px;
   }
-  .page-title br{
+  .page-title br {
     display: block;
   }
   .title {
@@ -297,17 +265,17 @@ export default {};
     font-size: 16px;
     margin-bottom: 30px;
   }
-  .v-list-item.theme--dark::before{
-  content: '.';
+  .v-list-item.theme--dark::before {
+    content: ".";
     font-size: 35px;
     top: -10px;
   }
-  .read-more-subtitle{
+  .read-more-subtitle {
     font-size: 14px;
     line-height: 20px;
     padding-bottom: 26px;
   }
-  .v-list-item.theme--dark{
+  .v-list-item.theme--dark {
     padding-left: 15px;
     line-height: 20px;
   }
@@ -318,27 +286,26 @@ export default {};
     margin-bottom: 25px;
     line-height: 26.36px;
   }
-
 }
 
 @media screen and (max-width: 360px) {
   .v-card__text {
     font-size: 12px;
   }
-  .read-more-subtitle{
+  .read-more-subtitle {
     font-size: 12px;
   }
   .title {
     font-size: 15px !important;
     margin-bottom: 20px;
   }
-  .read-more{
+  .read-more {
     padding-bottom: 25px;
   }
-  .read-more-card{
+  .read-more-card {
     margin: 0px 10px 0px 10px;
   }
-  .read-more-wrapper{
+  .read-more-wrapper {
     /* padding: 16px 29px 16px 18px; */
   }
 }
@@ -348,18 +315,18 @@ export default {};
 .list {
   background-color: rgb(0, 0, 0, 0%);
 }
-  .page-title {
-    display: block;
-    font-size: 34px;
-    text-align: center;
-  }
+.page-title {
+  display: block;
+  font-size: 34px;
+  text-align: center;
+}
 
-@media screen and (max-width: 1440px){
-  .read-more .page-title{
+@media screen and (max-width: 1440px) {
+  .read-more .page-title {
     font-size: 28px;
     margin-bottom: 20px;
   }
-  .read-more{
+  .read-more {
     margin-top: 0px;
   }
 }
@@ -369,7 +336,6 @@ export default {};
     background-color: rgb(0, 0, 0, 50%);
   }
   */
-
 }
 
 @media screen and (max-width: 500px) {
@@ -377,33 +343,32 @@ export default {};
     overflow: hidden;
     background-color: rgb(0, 0, 0, 50%);
   }
-
 }
 .read-more {
-overflow: hidden !important;
+  overflow: hidden !important;
 }
 .page-title {
   margin-top: 10px;
 }
 
 @media screen and (min-width: 1200px) {
-.page-title {
-  margin-top: 0px;
-}
-.ream-more-card {
-  height: 100vh !important;
-}
-.read-more-wrapper {
-    max-height:  calc(100vh - 400px);
+  .page-title {
+    margin-top: 0px;
+  }
+  .ream-more-card {
+    height: 100vh !important;
+  }
+  .read-more-wrapper {
+    max-height: calc(100vh - 400px);
   }
 }
 @media screen and (max-width: 1200px) {
-.read-more-wrapper {
+  .read-more-wrapper {
     overflow: hidden;
     height: 100% !important;
   }
-.read-more {
-height: auto;
-}
+  .read-more {
+    height: auto;
+  }
 }
 </style>

@@ -10,6 +10,7 @@ import Video from "../components/Video.vue";
 import ReadMore from "../components/ReadMore.vue";
 import PrivacyPolicy from "../components/PrivacyPolicy.vue";
 import ErrorPage from "../components/404.vue";
+import InstallApp from "../components/InstallApp"
 Vue.use(VueRouter);
 
 const routes = [
@@ -62,6 +63,11 @@ const routes = [
     path: "/not-there",
     name: "404 Page",
     component: ErrorPage
+  },
+  {
+    path: "/app",
+    name: "app install",
+    component: InstallApp
   },
 ];
 
