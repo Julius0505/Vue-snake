@@ -15,7 +15,7 @@
           max="5"
         ></v-slider>
         <p class="underline">
-          <router-link to="/shop/buy-more" target="_blank"
+          <router-link to="content/page=buy-more" target="_blank"
             >I want to buy more than 5 snakes</router-link
           >
         </p>
@@ -36,7 +36,7 @@
             required
           ></v-checkbox>
           <span class="spanLink"
-            ><router-link target="_blank" to="/shop/return-policy"
+            ><router-link target="_blank" to="/content/page=returns"
               >Returns Policy</router-link
             >
           </span>
@@ -109,7 +109,7 @@ export default {
   }
 }
 .valid {
-  background: rgb(100, 0, 0, 0 );
+  background: rgb(100, 0, 0, 0);
   /* background: red; */
   height: 70px;
   width: 278px;

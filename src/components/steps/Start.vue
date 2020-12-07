@@ -1,10 +1,10 @@
 <template>
   <div>
     <br />
-    <v-card-title class="green-title">
+    <!-- <v-card-title class="green-title">
       Note: We're expecting the first shipment of snakes in October 2020, but
       you are welcome to pre-order.
-    </v-card-title>
+    </v-card-title> -->
     <v-card-text>
       You can only purchase PlugAndPlink snakes from us directly using this
       payment gateway. We do not currently use resellers.

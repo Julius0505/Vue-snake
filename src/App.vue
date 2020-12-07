@@ -1,124 +1,131 @@
 <template>
-  <v-app>
+  <div>
     <div class="video-container">
-      <video-background
-        v-bind:class="{ dark: isActive }"
-        :ended="videoEnded"
-        overlay="transparent"
-        src="SnakeVideo.mp4"
-        class="snakeVideo"
-        :loop="false"
-      >
-        <header class="header">
-          <div class="header-wrapper">
-            <div class="header-logo">
-              <router-link to="/" class="home-link">
-                <img src="./assets/logo-home.svg" />
-              </router-link>
-            </div>
-
-            <div class="header-right">
-              <div class="header-mail"></div>
-              <div class="header-menu"></div>
-            </div>
+      <header class="header">
+        <div class="header-wrapper">
+          <div class="header-logo">
+            <router-link to="/" class="home-link">
+              <img src="./assets/logo-home.svg" />
+            </router-link>
           </div>
-        </header>
-      </video-background>
-      <div class="contantWrapper routerView">
-        <router-view> </router-view>
-        <div v-if="$router.currentRoute.name == 'Home' && videoPlayed">
-          <div class="contantWrapp homeButtonsWrapper choise">
-            <transition name="nexti" v-if="lastText">
-              <h1>
-                Watch the notes your remote teacher shows you without taking
-                your eyes off your keyboard.
-              </h1>
-            </transition>
-            <div class="choise-wrapper" v-if="lastText">
-              <router-link
-                class="routerLink routerLink-blue lBtn"
-                to="/watch-me"
-              >
-                <v-btn class="homeButtons linkBtn">
-                  <img src="./assets/play_icon.svg" alt="mglass icon" /> Watch
-                  Me
-                </v-btn>
-              </router-link>
-              <router-link
-                class="routerLink routerLink-orange lBtn"
-                to="/read-more"
-              >
-                <v-btn class="homeButtons linkBtn">
-                  <img src="./assets/read_icon.svg" alt="mglass icon" /> Read
-                  More
-                </v-btn>
-              </router-link>
-              <!-- <router-link
+
+          <div class="header-right">
+            <div class="header-mail"></div>
+            <div class="header-menu"></div>
+          </div>
+        </div>
+      </header>
+      <div class="snakeVideo-wrap">
+        <video-background
+          v-bind:class="{ dark: isActive }"
+          @playing="videoEnded"
+          overlay="transparent"
+          :src="require(`@/assets/SnakeVideo.mp4`)"
+          class="snakeVideo"
+          :loop="false"
+          :autoplay="true"
+        >
+        </video-background>
+      </div>
+      <v-app>
+        <div class="contantWrapper routerView">
+          <router-view> </router-view>
+          <div v-if="$router.currentRoute.name == 'Home' && videoPlayed">
+            <div class="contantWrapp homeButtonsWrapper choise">
+              <transition name="nexti" v-if="lastText">
+                <h1>
+                  Watch the notes your remote teacher shows you without taking
+                  your eyes off your keyboard.
+                </h1>
+              </transition>
+              <div class="choise-wrapper" v-if="lastText">
+                <router-link
+                  class="routerLink routerLink-blue lBtn"
+                  to="/watch-me"
+                >
+                  <v-btn class="homeButtons linkBtn">
+                    <img src="./assets/play_icon.svg" alt="mglass icon" /> Watch
+                    Me
+                  </v-btn>
+                </router-link>
+                <router-link
+                  class="routerLink routerLink-orange lBtn"
+                  to="content/page=read-more"
+                >
+                  <v-btn class="homeButtons linkBtn">
+                    <img src="./assets/read_icon.svg" alt="mglass icon" /> Read
+                    More
+                  </v-btn>
+                </router-link>
+                <!-- <router-link
             class="routerLink lBtn"
             to="/
         "
           > -->
-              <a
-                href="/model/index.html"
-                class="routerLink-green routerLink lBt"
-              >
-                <v-btn class="homeButtons linkBtn">
-                  <img src="./assets/mglass_icon.svg" alt="mglass icon" /> Take
-                  a closer look
-                </v-btn>
-              </a>
-              <!-- </router-link> -->
-              <router-link class="routerLink lBtn routerLink-pink" to="/shop">
-                <v-btn class="homeButtons linkBtn">
-                  <img src="./assets/cart_icon.svg" alt="cart icon" /> Buy Now
-                </v-btn>
-              </router-link>
-            </div>
-            <div class="download-app" v-if="lastText">
-              <h4>Get the app</h4>
-              <div class="download-app__source">
-                <a href="#">
-                  <img src="./assets/app-store.png" alt="App store"
-                /></a>
-                <a href="#"
-                  ><img src="./assets/google-play.png" alt="Google"
-                /></a>
+                <a
+                  href="/model/index.html"
+                  class="routerLink-green routerLink lBt"
+                >
+                  <v-btn class="homeButtons linkBtn">
+                    <img src="./assets/mglass_icon.svg" alt="mglass icon" />
+                    Take a closer look
+                  </v-btn>
+                </a>
+                <!-- </router-link> -->
+                <router-link class="routerLink lBtn routerLink-pink" to="/shop">
+                  <v-btn class="homeButtons linkBtn">
+                    <img src="./assets/cart_icon.svg" alt="cart icon" /> Buy Now
+                  </v-btn>
+                </router-link>
+              </div>
+              <div class="download-app" v-if="lastText">
+                <h4>Get the app</h4>
+                <div class="download-app__source">
+                  <a href="#">
+                    <img src="./assets/app-store.png" alt="App store"
+                  /></a>
+                  <a href="#"
+                    ><img src="./assets/google-play.png" alt="Google"
+                  /></a>
+                </div>
               </div>
             </div>
           </div>
+          <footer v-if="videoPlayed">
+            <div v-if="videoPlayed" class="footer-wrapper">
+              <div class="footer-logo">
+                <router-link to="/" class="home-link">
+                  <img src="./assets/logo-home.svg" />
+                </router-link>
+              </div>
+              <div class="footer-create">
+                <p>PlugAndPlink is created by Arzesh Ltd</p>
+                <router-link to="/privacy-policy">Privacy Policy</router-link>
+              </div>
+              <div class="footer-numbers">
+                <p>UK registered company number 8501859</p>
+                <p>VAT registration number 161 4730 26</p>
+              </div>
+              <div class="footer-add">
+                <p>EU Design reg 007523394</p>
+                <p>UK Design reg 6057651</p>
+                <p>Patents applied for</p>
+              </div>
+              <div class="footer-contacts">
+                <p>Telephone <a href="tel:+441233225873">+441233225873</a></p>
+                <p>
+                  <a href="mailto:info@plugandplink.com"
+                    >info@plugandplink.com</a
+                  >
+                </p>
+              </div>
+            </div>
+          </footer>
         </div>
-        <footer v-if="videoPlayed">
-          <div v-if="videoPlayed" class="footer-wrapper">
-            <div class="footer-logo">
-              <router-link to="/" class="home-link">
-                <img src="./assets/logo-home.svg" />
-              </router-link>
-            </div>
-            <div class="footer-create">
-              <p>PlugAndPlink is created by Arzesh Ltd</p>
-              <router-link to="/privacy-policy">Privacy Policy</router-link>
-            </div>
-            <div class="footer-numbers">
-              <p>UK registered company number 8501859</p>
-              <p>VAT registration number 161 4730 26</p>
-            </div>
-            <div class="footer-add">
-              <p>EU Design reg 007523394</p>
-              <p>UK Design reg 6057651</p>
-              <p>Patents applied for</p>
-            </div>
-            <div class="footer-contacts">
-              <p>Telephone <a href="tel:+441233225873">+441233225873</a></p>
-              <p>
-                <a href="mailto:info@plugandplink.com">info@plugandplink.com</a>
-              </p>
-            </div>
-          </div>
-        </footer>
-      </div>
-      <!-- <input type="text" /> -->
+        <!-- <input type="text" /> -->
+      </v-app>
     </div>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -133,7 +140,7 @@ export default {
   name: "App",
   data() {
     return {
-      videoPlayed: false,
+      videoPlayed: true,
       lastText: false,
       isActive: false
     };
@@ -158,8 +165,9 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => (this.videoPlayed = true), 0);
+    this.videoPlayer = true;
     setTimeout(() => ((this.lastText = true), (this.isActive = true)), 4000);
+    console.log(1);
   }
 };
 </script>
@@ -270,6 +278,12 @@ footer {
 
 // HAMBURGER MENU
 
+header {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
 .header-right {
   display: flex;
   justify-content: space-between;
@@ -375,6 +389,9 @@ footer {
 .home-link {
   cursor: pointer;
 }
+/* .routerView {
+  background-color: rgb(15, 15, 15);
+} */
 body {
   background-color: #121212;
 }
@@ -390,6 +407,9 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  h1 {
+    font-size: 30px;
+  }
 }
 .video-container .contantWrapp h1 {
   margin-bottom: 46px;
@@ -400,12 +420,22 @@ body {
   height: 100vh;
   position: relative;
 }
+.snakeVideo-wrap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+}
 .snakeVideo {
+  background-color: red;
   width: 100vw;
   // height: calc(100vw / 1.78);
   height: 100vh;
   max-height: 100vh;
   // margin-bottom: -350px;
+  /* position: fixed; */
+  /* top: 20px; */
 }
 .appBar {
   transition: 2s ease-in-out;
@@ -454,8 +484,8 @@ body {
 }
 
 .theme--dark.v-application {
-  background: rgba(35, 35, 35, 0.7) !important;
-  backdrop-filter: blur(30px);
+  background: rgba(35, 35, 35, 0) !important;
+  /* backdrop-filter: blur(30px); */
 }
 
 .choise-wrapper
@@ -543,12 +573,13 @@ select:-webkit-autofill:focus {
 }
 
 .header-logo img {
+  cursor: hover;
   object-fit: cover;
   width: 100%;
 }
 
 .header-logo {
-  width: 30%;
+  width: 100%;
   max-width: 261px;
 }
 
