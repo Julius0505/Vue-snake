@@ -100,7 +100,12 @@
               </div>
               <div class="footer-create">
                 <p>PlugAndPlink is created by Arzesh Ltd</p>
-                <router-link to="/privacy-policy">Privacy Policy</router-link>
+                 <router-link to="/content/page=info-for-teachers"
+                  >Info For Teachers</router-link
+                > <br/>
+                <router-link to="/content/page=privacy-policy"
+                  >Privacy Policy</router-link
+                >
               </div>
               <div class="footer-numbers">
                 <p>UK registered company number 8501859</p>
