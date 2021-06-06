@@ -33,20 +33,17 @@ export default {
       this.urlVar = `exchange.${hostname}`;
     }
     this.url = this.$router.currentRoute.path.slice(9);
-
     this.indexOfPage = this.url.indexOf("page");
-
-    console.log();
     this.getHtml();
   },
   methods: {
     getHtml: async function() {
       try {
         const page = await axios.get(
-          `https://${this.urlVar}/web/content?${this.url}/index.html`
+          `https://${this.urlVar}/web/content?${this.url}`
         );
         if (this.indexOfPage !== -1) {
-          this.title = this.url.slice(this.indexOfPage + 5).replace("-", " ");
+          this.title = this.url.slice(this.indexOfPage + 5).replace(/-/g, " ");
         }
         this.content = page.data;
       } catch (err) {
