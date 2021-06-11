@@ -24,13 +24,13 @@ export default {
             window.location.href= 'https://apps.apple.com/us/app/plugandplink/id1532723996'
         }
         else if(this.$device.android){
-            window.location.href= 'https://play.google.com/store/apps/details?id=com.plugandplink.anaconda'
+            window.location.href= 'https://play.google.com/store/apps/details?id=com.plugandplink.app'
         }
         else if(this.$device.windows){
-            window.location.href= 'https://play.google.com/store/apps/details?id=com.plugandplink.anaconda'
+            window.location.href= 'https://play.google.com/store/apps/details?id=com.plugandplink.app'
         }
         else{
-            window.location.href= 'https://play.google.com/store/apps/details?id=com.plugandplink.anaconda'
+            window.location.href= 'https://play.google.com/store/apps/details?id=com.plugandplink.app'
         }
     }
 };
