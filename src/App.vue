@@ -81,12 +81,12 @@
               <div class="download-app" v-if="lastText">
                 <h4>Get the app</h4>
                 <div class="download-app__source">
-                  <a href="#">
-                    <img src="./assets/app-store.png" alt="App store"
-                  /></a>
-                  <a href="#"
-                    ><img src="./assets/google-play.png" alt="Google"
-                  /></a>
+                  <router-link to="/app" class="a">
+                    <img src="./assets/app-store.png" alt="App store"/>
+                  </router-link>
+                  <router-link to="/app" class="a">
+                    <img src="./assets/google-play.png" alt="Google"/>
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -270,7 +270,7 @@ footer {
   &__source {
     display: flex;
     justify-content: space-between;
-    a {
+    .a {
       display: inline-block;
       margin: 0px 15px;
     }
