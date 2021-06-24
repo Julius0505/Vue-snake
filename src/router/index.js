@@ -8,6 +8,10 @@ import Model from "../components/Model.vue";
 import Static from "../components/Statics.vue";
 import ErrorPage from "../components/404.vue";
 import InstallApp from "../components/InstallApp";
+import Admin from "@/components/admin/Admin.vue";
+import Coupon from "@/components/admin/Coupon.vue";
+import DeliveryTracking from "@/components/admin/DeliveryTracking.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -54,6 +58,21 @@ const routes = [
     path: "/app",
     name: "app install",
     component: InstallApp
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin
+  },
+  {
+    path: "/admin/coupons",
+    name: "Coupons",
+    component: Coupon
+  },
+  {
+    path: "/admin/delivery-tracking",
+    name: "DeliveryTracking",
+    component: DeliveryTracking
   }
 ];
 
