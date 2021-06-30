@@ -1,19 +1,34 @@
 <template>
-  <div class="flex-2 flex flex-row h-full mt-8">
-    <div class="flex-2 coupon-list">
+  <div class="flex lg:flex-row md:flex-col sm:flex-col h-full mt-8 gap-8">
+    <div class="flex-2 w-2/3 sm:order-2 md:order-2 lg:order-1 coupon-list">
       <div
         class="list-title flex flex-col justify-start gap-4 my-4 items-start"
       >
-        <div class="flex flex-row  items-center gap-4">
-          <div class="bg-plprimary px-2 py-2 rounded-full text-lg border-2">
-              <img src="@/assets/add_white_24dp.svg" alt="" />
+        <div class="flex flex-row  items-center align-bottom gap-4">
+          <div>
+            <input
+              class="py-2 text-plthird px-3 rounded-lg border-2 border-plprimary mt-1 outline-none ring-2 ring-plprimary border-transparent"
+              type="password"
+              v-model="Password"
+              placeholder="Password"
+            />
           </div>
-          <button class="bg-plprimary px-4 py-2 rounded-lg text-lg">
+          <label class="inline-flex items-center py-2 rounded-lg">
+            <input
+              type="checkbox"
+              class="h-5 w-5 text-plprimary"
+              v-model="SingleUse"
+            /><span class="ml-2 text-gray-700">Single Use</span>
+          </label>
+          <button
+            class="bg-plprimary px-4 py-2 rounded-lg text-lg hover:bg-opacity-50"
+            @click="fetchCoupons()"
+          >
             Fetch Coupons
           </button>
         </div>
       </div>
-      <div>
+      <div class="rounded-lg shadow-xl">
         <table class="min-w-full table-auto">
           <thead class="justify-between h-14">
             <tr
@@ -34,117 +49,197 @@
               </th>
 
               <th class="px-8 py-1">
-                <span class="text-white text-xl">Singile</span>
-              </th>
-
-              <th class="px-8 py-1">
                 <span class="text-white text-xl">Action</span>
               </th>
             </tr>
           </thead>
           <tbody class="bg-gray-200">
-            <tr class="bg-white border-b-2 border-gray-200">
-              <td class="px-16 py-2 flex flex-row items-center">
-                <img
-                  class="h-8 w-8 rounded-full object-cover "
-                  src="https://randomuser.me/api/portraits/men/30.jpg"
-                  alt=""
-                />
-              </td>
+            <tr
+              v-for="coupon in coupons"
+              :key="coupon.id"
+              class="bg-white border-b-2 border-gray-200"
+            >
               <td>
-                <span class="text-center ml-2 font-semibold">Dean Lynch</span>
+                <span class="text-center ml-2 text-black">{{
+                  coupon.code
+                }}</span>
               </td>
-              <td class="px-16 py-2">
-                <button
-                  class="bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-white hover:border-indigo-500 hover:text-black "
-                >
-                  Open Link
-                </button>
+              <td class="px-16 py-2 text-black">
+                <span>{{ coupon.startDate }}</span>
               </td>
-              <td class="px-16 py-2">
-                <span>05/06/2020</span>
+              <td class="px-16 py-2 text-black">
+                <span>{{ coupon.finishDate }}</span>
               </td>
-              <td class="px-16 py-2">
-                <span>10:00</span>
+              <td class="px-16 py-2 text-black">
+                <span>{{ coupon.percentage }}%</span>
               </td>
 
-              <td class="px-16 py-2">
-                <span class="text-green-500">
-                  <img src="@/assets/delete_black_24dp.svg" alt="" />
-                </span>
-              </td>
-            </tr>
-            <tr class="bg-white border-b-2 border-gray-200">
-              <td class="px-16 py-2 flex flex-row items-center">
-                <img
-                  class="h-8 w-8 rounded-full object-cover "
-                  src="https://randomuser.me/api/portraits/men/76.jpg"
-                  alt=""
-                />
-              </td>
-              <td>
-                <span class="text-center ml-2 font-semibold">Ralph Barnes</span>
-              </td>
-              <td class="px-16 py-2">
+              <td class="px-16 py-2 text-black">
                 <button
-                  class="bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-white hover:border-indigo-500 hover:text-black "
+                  class="border-2 rounded-md border-black ring-2 ring-black px-2 py-1"
+                  @click="revoke(coupon.code)"
                 >
-                  Open Link
+                  Revoke
                 </button>
-              </td>
-              <td class="px-16 py-2">
-                <span>05/06/2020</span>
-              </td>
-              <td class="px-16 py-2">
-                <span>12:15</span>
-              </td>
-
-              <td class="px-16 py-2">
-                <span class="text-yellow-500">
-                  <img src="@/assets/delete_black_24dp.svg" alt="" />
-                </span>
-              </td>
-            </tr>
-            <tr class="bg-white border-b-2 border-gray-200">
-              <td class="px-16 py-2 flex flex-row items-center">
-                <img
-                  class="h-8 w-8 rounded-full object-cover "
-                  src="https://randomuser.me/api/portraits/men/38.jpg"
-                  alt=""
-                />
-              </td>
-              <td>
-                <span class="text-center ml-2 font-semibold"
-                  >Brett Castillo</span
-                >
-              </td>
-              <td class="px-16 py-2">
-                <button
-                  class="bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-white hover:border-indigo-500 hover:text-black "
-                >
-                  Open Link
-                </button>
-              </td>
-              <td class="px-16 py-2">
-                <span>05/06/2020</span>
-              </td>
-              <td class="px-16 py-2">
-                <span>08:35</span>
-              </td>
-
-              <td class="px-16 py-2">
-                <span class="text-yellow-500">
-                  <img src="@/assets/delete_black_24dp.svg" alt="" />
-                </span>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-    <div class="flex-1 create-coupon"></div>
+    <div
+      class="flex-1 sm:order-1 md:order-1 md:w-full lg:w-1/3 sm:w-full lg:order-2 create-coupon"
+    >
+      <div
+        class="list-title flex flex-col justify-start gap-4 my-4 items-start"
+      >
+        <div class="flex flex-row  items-center justify-center gap-4 w-full">
+          <h4 class="text-gray-600 font-bold text-2xl self-center">
+            Create Coupon
+          </h4>
+        </div>
+      </div>
+      <form class="flex items-center justify-center">
+        <div class="grid bg-white rounded-lg shadow-xl">
+          <div class="grid grid-cols-3 mt-2 mx-4 items-end">
+            <label
+              class="uppercase text-right col-span-1 py-2 pl-2 pr-8 mt-1 md:text-sm text-xs text-gray-500 text-plthird font-semibold"
+              >Code</label
+            >
+            <input
+              class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
+              type="text"
+              v-model="coupon.code"
+              placeholder="Code"
+            />
+          </div>
+          <div class="grid grid-cols-3 mt-2 mx-4 items-end">
+            <label
+              class="uppercase text-right col-span-1 py-2 pl-2 pr-8 mt-1 md:text-sm text-xs text-gray-500 text-plthird font-semibold"
+              >Days</label
+            >
+            <input
+              class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
+              type="number"
+              v-model="coupon.days"
+              placeholder="Days"
+            />
+          </div>
+          <div class="grid grid-cols-3 mt-2 mx-4 items-end">
+            <label
+              class="uppercase text-right col-span-1 py-2 pl-2 pr-8 mt-1 md:text-sm text-xs text-gray-500 text-plthird font-semibold"
+              >Percentage</label
+            >
+            <input
+              class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
+              type="number"
+              v-model="coupon.percentage"
+              placeholder="Percentage"
+            />
+          </div>
+          <div class="grid grid-cols-3 mt-2 mx-4 items-end">
+            <label
+              class="uppercase text-right col-span-1 py-2 pl-2 pr-8 mt-1 md:text-sm text-xs text-gray-500 text-plthird font-semibold"
+              >Password</label
+            >
+            <input
+              class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
+              type="password"
+              v-model="coupon.pwd"
+              placeholder="Password"
+            />
+          </div>
+          <div class="grid grid-cols-3 mt-2 mx-4 items-end">
+            <label
+              class="uppercase text-right col-span-1 py-2 pl-2 pr-8 mt-1 md:text-sm text-xs text-gray-500 text-plthird font-semibold"
+              >Single Use</label
+            >
+            <input
+              class="py-2 px-3 rounded-lg text-plprimary checked:plprimary  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
+              type="checkbox"
+              v-model="coupon.SingleUse"
+            />
+          </div>
+
+          <div
+            class="flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5"
+          >
+            <button
+              class="w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+            >
+              Cancel
+            </button>
+            <button
+              class="w-auto bg-plprimary hover:bg-opacity-70 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+              id="create_coupon"
+              @click="createCoupon()"
+            >
+              Create
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      SingleUse: false,
+      Password: "8721X",
+      coupon: {
+        percentage: 0,
+        code: "",
+        days: 0,
+        pwd: "",
+        SingleUse: false
+      },
+      coupons: [],
+      env: "snakeomatic",
+      post: {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      },
+      delete: {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+      }
+    };
+  },
+  methods: {
+    async fetchCoupons() {
+      const response = await fetch(
+        `https://exchange.${this.env}.com/coupons/list?password=${this.Password}&includeSingleUse=${this.SingleUse}`,
+        this.post
+      );
+      this.coupons = await response.json();
+      return this.coupons;
+    },
+
+    async revoke(code) {
+      console.log("delete " + code);
+      const response = await fetch(
+        `https://exchange.${this.env}.com/coupons/revoke?code=${code}&password=${this.Password}`,
+        this.post
+      );
+      const res = await response.json();
+
+      return res;
+    },
+    createCoupon() {
+      fetch(
+        `https://exchange.${this.env}.com/coupons/create?code=${this.coupon.code}&percentage=${this.coupon.percentage}&days=${this.coupon.days}&password=${this.coupon.pwd}&singleUse=${this.coupon.SingleUse}`,
+        this.post
+      )
+        .then(response => {
+          response.json;
+          console.log(response.json);
+          })
+        .then(data => {
+          console.log(data);
+        });
+    }
+  }
+};
 </script>

@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="$router.currentRoute.path.includes('admin')"
-      class="admin-container flex flex-col w-full items-center"
+      class="admin-container flex flex-col w-full"
     >
       <header class="flex-1 flex flex-row w-full justify-center">
         <div
@@ -11,11 +11,6 @@
           <div class="flex-2 ml-8">
             <router-link to="/">
               <div class="h-full w-36 home-icon"></div>
-            </router-link>
-          </div>
-          <div class="self-center">
-            <router-link to="/admin">
-              <div class="rounded-md border text-plthird hover:text-plprimary py-2 px-6">Admin</div>
             </router-link>
           </div>
           <div class="self-center">
