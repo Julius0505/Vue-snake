@@ -1,7 +1,7 @@
 <template>
   <v-container class="container-shop">
     <div class="page-title shop-title">
-     Shop
+      Shop
     </div>
     <v-card class="mx-auto buyCard" max-width="860">
       <v-tabs class="tabs" v-if="tab < 7" v-model="tab" :show-arrows="false">
@@ -66,7 +66,7 @@
           v-if="tab === 7"
         />
         <Checkout
-         :urlVar="urlVar"
+          :urlVar="urlVar"
           :tab="tab"
           :price="price"
           :order="order"
@@ -82,7 +82,10 @@
             v-if="tab != 0 && !resultForNoBack"
             color="primary"
             large
-            @click="back(); scrollTop();"
+            @click="
+              back();
+              scrollTop();
+            "
             class="next-button"
           >
             <img src="../assets/green_button.png" alt="prev" /> Back</v-btn
@@ -93,7 +96,10 @@
           outlined
           color="primary"
           :disabled="isNext"
-          @click="next(); scrollTop();"
+          @click="
+            next();
+            scrollTop();
+          "
           large
           class="next-button"
         >
@@ -227,9 +233,9 @@ export default {
       //      window.scrollTo(0,140);
       // }
     },
-    scrollTop(){
+    scrollTop() {
       if (document.documentElement.clientWidth < 568) {
-         window.scrollTo(0,140);
+        window.scrollTo(0, 140);
       }
     },
     back() {
@@ -241,32 +247,29 @@ export default {
       } else this.tab--;
     },
     hostCheck() {
- let hostname = window.location.hostname
-    if(hostname !="localhost") {
-      this.urlVar = `exchange.${hostname}`
-    }
-console.log(window.location.hostname)
+      let hostname = window.location.hostname;
+      if (hostname != "localhost") {
+        this.urlVar = `exchange.${hostname}`;
+      }
+      console.log(window.location.hostname);
     },
     getPricing() {
-    axios
-        .get(
-          `https://${this.urlVar}/orders/unit-price`
-        )
+      axios
+        .get(`https://${this.urlVar}/orders/unit-price`)
         .then(res => {
-         
-          this.pricing = res.data
+          this.pricing = res.data;
         })
         .catch(err => {
-         if(err.response.status == 400) {
- let defaultPricing = {
-      unitPriceWithSalesTax: 2083,
-      postageCharge: 3000,
-      currency: "EUR"
+          if (err.response.status == 400) {
+            let defaultPricing = {
+              unitPriceWithSalesTax: 2083,
+              postageCharge: 3000,
+              currency: "EUR"
+            };
+            this.pricing = defaultPricing;
           }
-          this.pricing = defaultPricing
-         }    
         });
-},
+    },
     getCountries: async function() {
       try {
         const countries = await axios.get(
@@ -315,8 +318,8 @@ console.log(window.location.hostname)
     }
   },
   created: function() {
-    this.hostCheck()
-    this.getPricing()
+    this.hostCheck();
+    this.getPricing();
     this.getCountries();
     this.getCur();
   },
@@ -386,25 +389,25 @@ console.log(window.location.hostname)
 </script>
 <style lang="scss">
 .page-title {
-    display: block;
-    font-size: 34px;
-    text-align: center;
-    margin-top: 70px;
+  display: block;
+  font-size: 34px;
+  text-align: center;
+  margin-top: 70px;
 }
-.v-input__slider{
+.v-input__slider {
   width: 90%;
   margin: 0 auto;
 }
-.v-messages__message{
+.v-messages__message {
   margin-top: 5px;
 }
-.v-input__slot{
-    width: 100%;
-    margin: 0 auto;
+.v-input__slot {
+  width: 100%;
+  margin: 0 auto;
 }
-.container-shop{
-   min-height: calc(100vh - 280px);
-  font-family: 'McLaren', 'sans-serif' !important;
+.container-shop {
+  min-height: calc(100vh - 280px);
+  font-family: "McLaren", "sans-serif" !important;
 }
 .v-select__selection.v-select__selection--comma {
   height: 30px !important;
@@ -432,14 +435,16 @@ console.log(window.location.hostname)
 .v-card__title {
   word-break: break-all !important;
 }
-.v-text-field.v-text-field--solo .v-input__control input{
+.v-text-field.v-text-field--solo .v-input__control input {
   caret-color: transparent !important;
 }
-.v-text-field.v-text-field--solo .v-input__control input:focus { text-indent: -9999em; }
-.v-text-field.v-text-field--solo .v-input__control input:focus{
-    outline : none;
+.v-text-field.v-text-field--solo .v-input__control input:focus {
+  text-indent: -9999em;
 }
-.v-menu__content{
+.v-text-field.v-text-field--solo .v-input__control input:focus {
+  outline: none;
+}
+.v-menu__content {
   z-index: 99999999999 !important;
 }
 .primaryColor {
@@ -503,16 +508,16 @@ textarea {
 .actions button img {
   margin: 0px 10px;
 }
-.v-select__slot{
+.v-select__slot {
   height: 38px !important;
 }
 .titlet {
-    padding: 16px;
-    font-size: 16px;
-    /* margin: 25px auto 50px !important; */
-    /* max-width: 54%; */
+  padding: 16px;
+  font-size: 16px;
+  /* margin: 25px auto 50px !important; */
+  /* max-width: 54%; */
 }
-.v-btn:not(.v-btn--round).v-size--large{
+.v-btn:not(.v-btn--round).v-size--large {
   margin-top: 20px;
 }
 .actions .actions-prev button {
@@ -520,31 +525,33 @@ textarea {
   background-size: 100% 100%;
   outline: none;
 }
-.v-text-field--outlined .v-label{
+.v-text-field--outlined .v-label {
   top: 10px;
 }
-.v-text-field--filled > .v-input__control > .v-input__slot, .v-text-field--full-width > .v-input__control > .v-input__slot, .v-text-field--outlined > .v-input__control > .v-input__slot{
+.v-text-field--filled > .v-input__control > .v-input__slot,
+.v-text-field--full-width > .v-input__control > .v-input__slot,
+.v-text-field--outlined > .v-input__control > .v-input__slot {
   min-height: 36px;
 }
-.theme--dark.v-card{
+.theme--dark.v-card {
   margin-top: 40px;
 }
-.page-title br{
+.page-title br {
   display: none;
 }
 .v-text-field.v-text-field--enclosed .v-text-field__details {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
-input:-internal-autofill-selected{
+input:-internal-autofill-selected {
   background-color: transparent !important;
 }
 
-.shop-title{
+.shop-title {
   margin-top: 0px;
 }
 
 @media screen and (max-width: 1440px) {
-  .shop-title{
+  .shop-title {
     font-size: 28px;
   }
   .theme--dark.v-card {
@@ -556,7 +563,7 @@ input:-internal-autofill-selected{
 }
 
 @media screen and (max-width: 1100px) {
-  .page-title{
+  .page-title {
     margin-top: 100px;
   }
 }
@@ -568,24 +575,24 @@ input:-internal-autofill-selected{
   .actions button img {
     margin: 0px 5px;
   }
-  .page-title br{
-      display: block;
-    }
-  .page-title{
+  .page-title br {
+    display: block;
+  }
+  .page-title {
     font-size: 32px;
     max-width: 400px;
     margin: 80px auto 26px;
     line-height: 36px;
   }
-  .container-shop{
-   min-height: calc(100vh - 260px);
+  .container-shop {
+    min-height: calc(100vh - 260px);
   }
 }
 @media screen and (max-width: 500px) {
   .buyCard {
     margin-top: -20px;
   }
-  .actions .v-btn__content{
+  .actions .v-btn__content {
     padding: 0px;
     font-size: 10px;
   }
@@ -605,7 +612,7 @@ input:-internal-autofill-selected{
   .container {
     padding: 0 !important;
   }
-  .v-btn:not(.v-btn--round).v-size--large{
+  .v-btn:not(.v-btn--round).v-size--large {
     margin: 20px 0px;
   }
 }

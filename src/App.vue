@@ -1,6 +1,46 @@
 <template>
   <div>
-    <div class="video-container">
+    <div
+      v-if="$router.currentRoute.path.includes('admin')"
+      class="admin-container flex flex-col w-full"
+    >
+      <header class="flex-1 flex flex-row w-full justify-center">
+        <div
+          class="flex flex-row h-20 gap-6  text-2xl bg-gradient-to-tr to-plthird from-plsecondary border-plprimary border rounded-lg mr-8"
+        >
+          <div class="flex-2 ml-8">
+            <router-link to="/">
+              <div class="h-full w-36 home-icon"></div>
+            </router-link>
+          </div>
+          <div class="self-center">
+            <router-link to="/admin/coupons">
+              <div
+                class="rounded-md border text-plthird hover:text-plprimary py-2 px-6"
+              >
+                Coupons
+              </div>
+            </router-link>
+          </div>
+          <div class="self-center">
+            <router-link to="/admin/delivery-tracking">
+              <div
+                class="rounded-md border text-plthird hover:text-plprimary py-2 px-6"
+              >
+                Delivery Tracking
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </header>
+      <v-app class="flex-2">
+        <div class="mt-12">
+          <router-view> </router-view>
+        </div>
+        <!-- <input type="text" /> -->
+      </v-app>
+    </div>
+    <div v-else class="video-container">
       <header class="header">
         <div class="header-wrapper">
           <div class="header-logo">
@@ -24,6 +64,7 @@
           class="snakeVideo"
           :loop="false"
           :autoplay="true"
+          v-if="$router.currentRoute.name !== 'Admin'"
         >
         </video-background>
       </div>
@@ -82,16 +123,16 @@
                 <h4>Get the app</h4>
                 <div class="download-app__source">
                   <router-link to="/app" class="a">
-                    <img src="./assets/app-store.png" alt="App store"/>
+                    <img src="./assets/app-store.png" alt="App store" />
                   </router-link>
                   <router-link to="/app" class="a">
-                    <img src="./assets/google-play.png" alt="Google"/>
+                    <img src="./assets/google-play.png" alt="Google" />
                   </router-link>
                 </div>
               </div>
             </div>
           </div>
-          <footer v-if="videoPlayed">
+          <footer v-if="videoPlayed && $router.currentRoute.name !== 'Admin'">
             <div v-if="videoPlayed" class="footer-wrapper">
               <div class="footer-logo">
                 <router-link to="/" class="home-link">
@@ -100,8 +141,13 @@
               </div>
               <div class="footer-create">
                 <p>PlugAndPlink is created by Arzesh Ltd</p>
-                  <router-link to="/content/page=info-for-teachers">Info For Teachers</router-link> <br/>
-                  <router-link to="/content/page=privacy-policy">Privacy Policy</router-link>
+                <router-link to="/content/page=info-for-teachers"
+                  >Info For Teachers</router-link
+                >
+                <br />
+                <router-link to="/content/page=privacy-policy"
+                  >Privacy Policy</router-link
+                >
               </div>
               <div class="footer-numbers">
                 <p>UK registered company number 8501859</p>
@@ -173,6 +219,11 @@ export default {
 };
 </script>
 <style lang="scss">
+.admin-container {
+  @apply px-10 py-10;
+  background-color: white;
+}
+
 body {
   font-family: "McLaren", "sans-serif" !important;
 }
@@ -182,6 +233,10 @@ body {
   opacity: 1;
 }
 
+.home-icon {
+  background: url("./assets/logo-home.svg") no-repeat center center;
+  background-size: contain;
+}
 .nexti-enter,
 .nexti-leave-to {
   opacity: 0;
