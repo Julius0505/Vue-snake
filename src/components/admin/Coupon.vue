@@ -186,20 +186,23 @@
 export default {
   data() {
     return {
-      SingleUse: false,
-      Password: "8721X",
+      SingleUse: "false",
+      Password: "",
       coupon: {
         percentage: 0,
         code: "",
         days: 0,
         pwd: "",
-        SingleUse: false
+        SingleUse: "false"
       },
       coupons: [],
       env: "snakeomatic",
       post: {
         method: "POST",
-        headers: { "Content-Type": "application/json" }
+        headers: {
+          Connection: "keep-alive",
+          Accept: "*/*"
+        }
       },
       delete: {
         method: "DELETE",
@@ -222,13 +225,14 @@ export default {
       console.log("delete " + code);
       const response = await fetch(
         `https://exchange.${this.env}.com/coupons/revoke?code=${code}&password=${this.Password}`,
-        this.delete
+        this.post
       );
       const res = await response.json();
 
       return res;
     },
     createCoupon() {
+      console.log("coupon " + this.coupon);
       fetch(
         `https://exchange.${this.env}.com/coupons/create?code=${this.coupon.code}&percentage=${this.coupon.percentage}&days=${this.coupon.days}&password=${this.coupon.pwd}&singleUse=${this.coupon.SingleUse}`,
         this.post
