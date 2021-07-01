@@ -100,7 +100,10 @@ export default {
       },
       post: {
         method: "POST",
-        headers: { "Content-Type": "application/json" }
+        headers: {
+          Connection: "keep-alive",
+          Accept: "*/*"
+        }
       },
       env: "snakeomatic",
       success: false,

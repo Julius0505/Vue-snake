@@ -97,6 +97,7 @@
           <h4 class="text-gray-600 font-bold text-2xl self-center">
             Create Coupon
           </h4>
+          <success-card :val="message" v-if="success"></success-card>
         </div>
       </div>
       <form class="flex items-center justify-center">
@@ -183,7 +184,9 @@
   </div>
 </template>
 <script>
+import SuccessCard from './SuccessCard.vue';
 export default {
+  components: { SuccessCard },
   data() {
     return {
       SingleUse: "false",
@@ -193,7 +196,7 @@ export default {
         code: "",
         days: 0,
         pwd: "",
-        SingleUse: "false"
+        SingleUse: false
       },
       coupons: [],
       env: "snakeomatic",
