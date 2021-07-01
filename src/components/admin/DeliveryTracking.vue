@@ -4,6 +4,11 @@
       <div
         class="list-title flex flex-col justify-start gap-4 my-4 items-start"
       >
+        <SuccessCard
+          v-if="success"
+          class="z-50 w-80 self-center"
+          :val="message"
+        ></SuccessCard>
         <div class="flex flex-row  items-center justify-center gap-4 w-full">
           <h4 class="text-gray-600 font-bold text-2xl self-center">
             Create Delivery Tracking
@@ -73,6 +78,7 @@
           >
             <button
               class="w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+              @click="clear"
             >
               Cancel
             </button>
@@ -88,7 +94,9 @@
   </div>
 </template>
 <script>
+import SuccessCard from "./SuccessCard.vue";
 export default {
+  components: { SuccessCard },
   data() {
     return {
       deliveryTracking: {
@@ -101,20 +109,31 @@ export default {
         method: "POST",
         headers: { "Content-Type": "application/json" }
       },
-      env: "snakeomatic"
-    }
+      env: "snakeomatic",
+      success: false,
+      message: "Delivery Tracking"
+    };
   },
   methods: {
-    async createTracking() {
-
-      const result = await fetch(
+    createTracking() {
+      fetch(
         `https://exchange.${this.env}.com/orders/add-tracking?orderNumber=${this.deliveryTracking.orderNumber}&trackingString=${this.deliveryTracking.trackingString}&deliveryCompany=${this.deliveryTracking.company}&password=${this.deliveryTracking.password}`,
         this.post
-      );
-
-      const val = await result.json();
-
-      return val;
+      ).then(res => {
+        this.success = true;
+        if (!res.ok) {
+          this.message = "Error happend ";
+        }
+      });
+    },
+    clear() {
+      this.deliveryTracking = {
+        orderNumber: "",
+        trackingString: "",
+        company: "",
+        password: ""
+      };
+      return this.deliveryTracking;
     }
   }
 };

@@ -204,7 +204,8 @@ export default {
       delete: {
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
-      }
+      },
+      success: false
     };
   },
   methods: {
@@ -233,8 +234,12 @@ export default {
         this.post
       )
         .then(response => {
-          response.json;
-          console.log(response.json);
+          if(response.ok) {
+            this.success = true;
+          } else {
+            this.success = true;
+            this.message = "Erro " + response.code;
+          }
           })
         .then(data => {
           console.log(data);
