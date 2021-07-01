@@ -222,7 +222,7 @@ export default {
       console.log("delete " + code);
       const response = await fetch(
         `https://exchange.${this.env}.com/coupons/revoke?code=${code}&password=${this.Password}`,
-        this.post
+        this.delete
       );
       const res = await response.json();
 
@@ -234,13 +234,13 @@ export default {
         this.post
       )
         .then(response => {
-          if(response.ok) {
+          if (response.ok) {
             this.success = true;
           } else {
             this.success = true;
             this.message = "Erro " + response.code;
           }
-          })
+        })
         .then(data => {
           console.log(data);
         });

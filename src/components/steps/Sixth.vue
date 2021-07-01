@@ -26,16 +26,16 @@
             <p class="primaryColor">
               <!-- {{ `${order.address1}${order.address2} ${order.address2} ${order.postCode} ${order.city}` }} -->
               <span>
-                {{`${order.address1}` }}
+                {{ `${order.address1}` }}
               </span>
-               <span>
-                {{`${order.address2}` }}
+              <span>
+                {{ `${order.address2}` }}
               </span>
-               <span>
-                {{`${order.postCode}` }}
+              <span>
+                {{ `${order.postCode}` }}
               </span>
-               <span>
-                {{`${order.city}` }}
+              <span>
+                {{ `${order.city}` }}
               </span>
               <!-- {{ `${order.address1}${order.address2} ${order.address2} ${order.postCode} ${order.city}` }} -->
             </p>
@@ -84,7 +84,7 @@ export default {
   text-align: right;
 }
 
-.grid .primaryColor>span{
+.grid .primaryColor > span {
   display: block;
   margin-bottom: 10px;
 }
@@ -106,9 +106,9 @@ export default {
 .v-list-item {
   padding: 0;
 }
-@media screen  and (max-width: 800px){
-    .grid .grid-adress{
-      margin-right: 20px !important;
-    }
+@media screen and (max-width: 800px) {
+  .grid .grid-adress {
+    margin-right: 20px !important;
+  }
 }
 </style>

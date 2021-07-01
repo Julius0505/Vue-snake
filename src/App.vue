@@ -15,7 +15,11 @@
           </div>
           <div class="self-center">
             <router-link to="/admin/coupons">
-              <div class="rounded-md border text-plthird hover:text-plprimary py-2 px-6">Coupons</div>
+              <div
+                class="rounded-md border text-plthird hover:text-plprimary py-2 px-6"
+              >
+                Coupons
+              </div>
             </router-link>
           </div>
           <div class="self-center">
@@ -31,8 +35,7 @@
       </header>
       <v-app class="flex-2">
         <div class="mt-12">
-
-         <router-view> </router-view>
+          <router-view> </router-view>
         </div>
         <!-- <input type="text" /> -->
       </v-app>

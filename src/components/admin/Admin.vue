@@ -4,7 +4,8 @@
   </div>
 </template>
 <script>
-import Coupon from './Coupon.vue';
+import Coupon from "./Coupon.vue";
 export default {
-  components: { Coupon },};
+  components: { Coupon }
+};
 </script>
