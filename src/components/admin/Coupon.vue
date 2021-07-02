@@ -184,7 +184,7 @@
   </div>
 </template>
 <script>
-import SuccessCard from './SuccessCard.vue';
+import SuccessCard from "./SuccessCard.vue";
 export default {
   components: { SuccessCard },
   data() {

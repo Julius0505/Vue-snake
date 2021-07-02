@@ -113,6 +113,7 @@ export default {
   },
   methods: {
     createTracking() {
+      console.log("called " + this.deliveryTracking);
       fetch(
         `https://exchange.${this.env}.com/orders/add-tracking?orderNumber=${this.deliveryTracking.orderNumber}&trackingString=${this.deliveryTracking.trackingString}&deliveryCompany=${this.deliveryTracking.company}&password=${this.deliveryTracking.password}`,
         this.post
@@ -123,7 +124,7 @@ export default {
         } else {
           this.message = "Error happend " + res.code;
         }
-      });
+      }).then(data => console.log(data));
     },
     clear() {
       this.deliveryTracking = {
