@@ -49,7 +49,7 @@
             <input
               class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
               type="text"
-              v-model="deliveryTracking.company"
+              v-model="deliveryTracking.deliveryCompany"
               placeholder="Delivery Company"
             />
           </div>
@@ -77,7 +77,7 @@
             </button>
             <button
               class="w-auto bg-plprimary hover:bg-opacity-70 rounded-lg shadow-xl font-medium text-white px-4 py-2"
-              @click="createTracking()"
+              @click="createTracking"
             >
               Create
             </button>
@@ -96,7 +96,7 @@ export default {
       deliveryTracking: {
         orderNumber: "",
         trackingString: "",
-        company: "",
+        deliveryCompany: "",
         password: ""
       },
       post: {
@@ -115,7 +115,7 @@ export default {
     createTracking() {
       console.log("called " + this.deliveryTracking);
       fetch(
-        `https://exchange.${this.env}.com/orders/add-tracking?orderNumber=${this.deliveryTracking.orderNumber}&trackingString=${this.deliveryTracking.trackingString}&deliveryCompany=${this.deliveryTracking.company}&password=${this.deliveryTracking.password}`,
+        `https://exchange.${this.env}.com/orders/add-tracking?orderNumber=${this.deliveryTracking.orderNumber}&trackingString=${this.deliveryTracking.trackingString}&deliveryCompany=${this.deliveryTracking.deliveryCompany}&password=${this.deliveryTracking.password}`,
         this.post
       )
         .then(res => {
