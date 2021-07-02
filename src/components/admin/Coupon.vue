@@ -97,6 +97,7 @@
           <h4 class="text-gray-600 font-bold text-2xl self-center">
             Create Coupon
           </h4>
+          <success-card :val="message" v-if="success"></success-card>
         </div>
       </div>
       <form class="flex items-center justify-center">
@@ -183,11 +184,13 @@
   </div>
 </template>
 <script>
+import SuccessCard from "./SuccessCard.vue";
 export default {
+  components: { SuccessCard },
   data() {
     return {
-      SingleUse: false,
-      Password: "8721X",
+      SingleUse: "false",
+      Password: "",
       coupon: {
         percentage: 0,
         code: "",
@@ -199,7 +202,10 @@ export default {
       env: "snakeomatic",
       post: {
         method: "POST",
-        headers: { "Content-Type": "application/json" }
+        headers: {
+          Connection: "keep-alive",
+          Accept: "*/*"
+        }
       },
       delete: {
         method: "DELETE",
@@ -222,13 +228,14 @@ export default {
       console.log("delete " + code);
       const response = await fetch(
         `https://exchange.${this.env}.com/coupons/revoke?code=${code}&password=${this.Password}`,
-        this.delete
+        this.post
       );
       const res = await response.json();
 
       return res;
     },
     createCoupon() {
+      console.log("coupon " + this.coupon);
       fetch(
         `https://exchange.${this.env}.com/coupons/create?code=${this.coupon.code}&percentage=${this.coupon.percentage}&days=${this.coupon.days}&password=${this.coupon.pwd}&singleUse=${this.coupon.SingleUse}`,
         this.post

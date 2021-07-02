@@ -25,6 +25,7 @@
             <input
               class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
               type="text"
+              v-model="deliveryTracking.orderNumber"
               placeholder="Order Number"
             />
           </div>
@@ -36,18 +37,8 @@
             <input
               class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
               type="text"
+              v-model="deliveryTracking.trackingString"
               placeholder="Tracking String"
-            />
-          </div>
-          <div class="grid grid-cols-3 mt-2 mx-4 items-end">
-            <label
-              class="uppercase text-right col-span-1 py-2 pl-2 pr-8 mt-1 md:text-sm text-xs text-gray-500 text-plthird font-semibold"
-              >Percentage</label
-            >
-            <input
-              class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
-              type="number"
-              placeholder="Percentage"
             />
           </div>
           <div class="grid grid-cols-3 mt-2 mx-4 items-end">
@@ -58,6 +49,7 @@
             <input
               class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
               type="text"
+              v-model="deliveryTracking.company"
               placeholder="Delivery Company"
             />
           </div>
@@ -69,6 +61,7 @@
             <input
               class="py-2 px-3 rounded-lg text-plthird  col-span-2 border-2 border-plprimary mt-1 focus:outline-none focus:ring-2 focus:ring-plprimary focus:border-transparent"
               type="password"
+              v-model="deliveryTracking.password"
               placeholder="Password"
             />
           </div>
@@ -84,6 +77,7 @@
             </button>
             <button
               class="w-auto bg-plprimary hover:bg-opacity-70 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+              @click="createTracking()"
             >
               Create
             </button>
@@ -107,7 +101,10 @@ export default {
       },
       post: {
         method: "POST",
-        headers: { "Content-Type": "application/json" }
+        headers: {
+          Connection: "keep-alive",
+          Accept: "*/*"
+        }
       },
       env: "snakeomatic",
       success: false,
@@ -116,15 +113,20 @@ export default {
   },
   methods: {
     createTracking() {
+      console.log("called " + this.deliveryTracking);
       fetch(
         `https://exchange.${this.env}.com/orders/add-tracking?orderNumber=${this.deliveryTracking.orderNumber}&trackingString=${this.deliveryTracking.trackingString}&deliveryCompany=${this.deliveryTracking.company}&password=${this.deliveryTracking.password}`,
         this.post
-      ).then(res => {
-        this.success = true;
-        if (!res.ok) {
-          this.message = "Error happend ";
-        }
-      });
+      )
+        .then(res => {
+          this.success = true;
+          if (res.ok) {
+            this.message = "Delivery Tracking";
+          } else {
+            this.message = "Error happend " + res.code;
+          }
+        })
+        .then(data => console.log(data));
     },
     clear() {
       this.deliveryTracking = {
