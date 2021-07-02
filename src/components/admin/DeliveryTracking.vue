@@ -117,14 +117,16 @@ export default {
       fetch(
         `https://exchange.${this.env}.com/orders/add-tracking?orderNumber=${this.deliveryTracking.orderNumber}&trackingString=${this.deliveryTracking.trackingString}&deliveryCompany=${this.deliveryTracking.company}&password=${this.deliveryTracking.password}`,
         this.post
-      ).then(res => {
-        this.success = true;
-        if (res.ok) {
-          this.message = "Delivery Tracking";
-        } else {
-          this.message = "Error happend " + res.code;
-        }
-      }).then(data => console.log(data));
+      )
+        .then(res => {
+          this.success = true;
+          if (res.ok) {
+            this.message = "Delivery Tracking";
+          } else {
+            this.message = "Error happend " + res.code;
+          }
+        })
+        .then(data => console.log(data));
     },
     clear() {
       this.deliveryTracking = {
