@@ -77,6 +77,7 @@
             </button>
             <button
               class="w-auto bg-plprimary hover:bg-opacity-70 rounded-lg shadow-xl font-medium text-white px-4 py-2"
+              @click="createTracking()"
             >
               Create
             </button>
@@ -111,18 +112,18 @@ export default {
     };
   },
   methods: {
-    async createTracking() {
-      const res = await fetch(
+    createTracking() {
+      fetch(
         `https://exchange.${this.env}.com/orders/add-tracking?orderNumber=${this.deliveryTracking.orderNumber}&trackingString=${this.deliveryTracking.trackingString}&deliveryCompany=${this.deliveryTracking.company}&password=${this.deliveryTracking.password}`,
         this.post
-      );
-
-      this.success = true;
-      if (res.ok) {
-        this.message = "Delivery Tracking";
-      } else {
-        this.message = "Error happend " + res.code;
-      }
+      ).then(res => {
+        this.success = true;
+        if (res.ok) {
+          this.message = "Delivery Tracking";
+        } else {
+          this.message = "Error happend " + res.code;
+        }
+      });
     },
     clear() {
       this.deliveryTracking = {
