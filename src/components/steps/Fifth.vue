@@ -22,7 +22,7 @@
           :rules="[
             v => !!v || 'Phone number is required',
             v => v.length >= 7 || 'Phone number must be valid',
-            v => v.length <= 15 || 'Phone number must be valid',
+            v => v.length <= 14 || 'Phone number must be valid',
             () => this.texter() || 'Phone number must be valid'
           ]"
           label="Phone"

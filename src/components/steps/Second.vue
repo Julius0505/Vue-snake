@@ -39,7 +39,7 @@ export default {
   computed: {
     err: function() {
       if (this.isInvalid) {
-        return ["Please enter a coupon code"];
+        return ["Please enter a valid coupon code"];
       } else return null;
     }
   },
