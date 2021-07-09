@@ -26,9 +26,21 @@
             {{ `${this.price.grandTotal / 100} ${this.price.currency}` }}
           </p>
         </v-card-text>
-        <div>
-          <div class="card" v-if="!noCardForm" ref="card"></div>
-          <p class="errMsg">{{ cardErrorMsg }}</p>
+        <div id="card-container" v-if="!noCardForm" ref="card">
+          <label>Card Number</label>
+          <div id="card-number"></div>
+          <div class="flex flex-row gap-4 mt-4">
+            <div class="flex-1">
+              <label>Card Expiry</label>
+              <div id="card-expiry"></div>
+            </div>
+            <div class="flex-1">
+              <label>Card CVC</label>
+              <div id="card-cvc"></div>
+            </div>
+          </div>
+
+          <div id="card-error" class="errMsg">{{ cardErrorMsg }}</div>
         </div>
         <br />
         <v-checkbox
@@ -186,10 +198,29 @@ if (hostname != "plugandplink.com") {
 }
 
 let elements = stripe.elements();
-let card = undefined;
-let style = {
+let cardNumber = null;
+let cardExpiry = null;
+let cardCvc = null;
+const style = {
+  base: {
+    //   height: "42px",
+    iconColor: "#c4f0ff",
+    color: "#fff",
+    fontWeight: 500,
+
+    fontSize: "20px",
+    fontSmoothing: "antialiased",
+
+    ":-webkit-autofill": {
+      color: "#fce883"
+    },
+    "::placeholder": {
+      color: "#FFFFFF"
+    }
+  },
   invalid: {
-    // All of the error styles go inside of here. pi_1Gygfw2T3o5wGswk08bog5CB
+    iconColor: "#FF5252",
+    color: "#FF5252"
   }
 };
 
@@ -199,6 +230,7 @@ export default {
   data() {
     return {
       noCardForm: false,
+      stripeValidationError: "",
       cardInputCoplete: false,
       loading: false,
       result: false,
@@ -221,6 +253,9 @@ export default {
     };
   },
   computed: {
+    stripeElements() {
+      return this.$stripe.elements();
+    },
     isPayNowActive() {
       if (
         (this.cardInputCoplete && this.adressStatus == true) ||
@@ -244,6 +279,17 @@ export default {
     }
   },
   methods: {
+    async createToken() {
+      const { token, error } = await this.$stripe.createToken(this.cardNumber);
+      if (error) {
+        // handle error here
+        document.getElementById("card-error").innerHTML = error.message;
+        return;
+      }
+      console.log(token);
+      // handle the token
+      // send it to your server
+    },
     validateForm() {
       if (!this.cardInputCoplete) {
         this.cardErrorMsg = "Your card number is incomplete.";
@@ -256,10 +302,10 @@ export default {
       this.loading = true;
       let self = this;
       this.setResult(true);
-      stripe
+      this.$stripe
         .confirmCardPayment(this.secretKey, {
           payment_method: {
-            card: card,
+            card: cardNumber,
             billing_details: {
               name: `${this.billingOb.firstName} ${this.billingOb.secondName}`,
               email: this.order.email
@@ -272,6 +318,7 @@ export default {
             self.result = true;
             self.error = true;
             self.setResult(false);
+            self.cardErrorMsg = result.error.message;
             console.log(result.error.message);
           } else {
             if (result.paymentIntent.status === "succeeded") {
@@ -285,49 +332,60 @@ export default {
   },
 
   beforeDestroy() {
-    card.destroy();
-    card = null;
+    cardNumber.destroy();
+    cardExpiry.destroy();
+    cardCvc.destroy();
+    cardNumber = null;
+    cardExpiry = null;
+    cardCvc = null;
   },
   mounted: function() {
+    let stripeElements = this.$stripe.elements();
+
     let self = this;
-    if (!card) {
-      card = elements.create("card", {
-        style: {
-          base: {
-            //   height: "42px",
-            iconColor: "#c4f0ff",
-            color: "#fff",
-            fontWeight: 500,
 
-            fontSize: "16px",
-            fontSmoothing: "antialiased",
+    cardNumber = stripeElements.create("cardNumber", { style });
+    cardNumber.mount("#card-number");
+    cardExpiry = stripeElements.create("cardExpiry", { style });
+    cardExpiry.mount("#card-expiry");
+    cardCvc = stripeElements.create("cardCvc", { style });
+    cardCvc.mount("#card-cvc");
 
-            ":-webkit-autofill": {
-              color: "#fce883"
-            },
-            "::placeholder": {
-              color: "#FFFFFF"
-            }
-          },
-          invalid: {
-            iconColor: "#FF5252",
-            color: "#FF5252"
-          }
-        }
-      });
-      card.mount(this.$refs.card);
-      card.on("change", function(event) {
-        if (event.complete) {
-          self.cardInputCoplete = true;
-        } else if (!event.complete) {
-          self.cardInputCoplete = false;
-        } else if (event.error) {
-          self.cardErrorMsg = event.error.message;
-        } else {
-          self.cardErrorMsg = "";
-        }
-      });
-    }
+    cardNumber.on("change", function(event) {
+      if (event.complete) {
+        self.cardInputCoplete = true;
+      } else if (!event.complete) {
+        self.cardInputCoplete = false;
+      } else if (event.error) {
+        self.cardErrorMsg = event.error.message;
+      } else {
+        self.cardErrorMsg = "";
+      }
+    });
+
+    cardExpiry.on("change", function(event) {
+      if (event.complete) {
+        self.cardInputCoplete = true;
+      } else if (!event.complete) {
+        self.cardInputCoplete = false;
+      } else if (event.error) {
+        self.cardErrorMsg = event.error.message;
+      } else {
+        self.cardErrorMsg = "";
+      }
+    });
+
+    cardCvc.on("change", function(event) {
+      if (event.complete) {
+        self.cardInputCoplete = true;
+      } else if (!event.complete) {
+        self.cardInputCoplete = false;
+      } else if (event.error) {
+        self.cardErrorMsg = event.error.message;
+      } else {
+        self.cardErrorMsg = "";
+      }
+    });
   }
 };
 </script>
@@ -397,5 +455,33 @@ export default {
 }
 .link {
   text-decoration: none;
+}
+#custom-button {
+  height: 30px;
+  outline: 1px solid grey;
+  background-color: green;
+  padding: 5px;
+  color: white;
+}
+
+#card-number,
+#card-expiry,
+#card-cvc {
+  padding: 13px;
+  margin-top: 10px;
+  border: 1px solid #545454;
+  border-radius: 5px;
+  width: 100%;
+  height: 40px;
+  margin-bottom: 12px;
+}
+
+#card-container {
+  width: 80%;
+  margin: auto;
+}
+
+#card-error {
+  color: red;
 }
 </style>

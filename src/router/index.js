@@ -36,6 +36,16 @@ const routes = [
     component: Home
   },
   {
+    path: "/landing/*",
+    name: "Home",
+    component: Home
+  },
+  {
+    path: "/landing",
+    name: "Home",
+    component: Home
+  },
+  {
     path: "*",
     redirect: "/not-there"
   },

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@deckdeckgo/qrcode": "^2.0.1",
+    "@vue-stripe/vue-stripe": "^4.2.5",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
