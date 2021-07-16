@@ -181,6 +181,8 @@ import VideoBackground from "vue-responsive-video-background-player";
 Vue.component("video-background", VideoBackground);
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
+import VueCardFormat from "vue-credit-card-validation";
+Vue.use(VueCardFormat);
 // import PaymentPage from "./components/PaymentPage";
 
 export default {
