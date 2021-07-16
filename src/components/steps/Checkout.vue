@@ -27,16 +27,28 @@
           </p>
         </v-card-text>
         <div id="card-container" v-if="!noCardForm" ref="card">
-          <label>Card Number</label>
-          <div id="card-number"></div>
+          <v-text-field
+            label="Card Number"
+            outlined
+            v-cardformat:formatCardNumber
+            v-model="cardNumber"
+          ></v-text-field>
           <div class="flex flex-row gap-4 mt-4">
             <div class="flex-1">
-              <label>Card Expiry</label>
-              <div id="card-expiry"></div>
+              <v-text-field
+                label="Card Expiry"
+                outlined
+                v-cardformat:formatCardExpiry
+                v-model="cardExpiry"
+              ></v-text-field>
             </div>
             <div class="flex-1">
-              <label>Card CVC</label>
-              <div id="card-cvc"></div>
+              <v-text-field
+                label="Card CVC"
+                outlined
+                v-cardformat:formatCardCVC
+                v-model="cardCvc"
+              ></v-text-field>
             </div>
           </div>
 
@@ -224,6 +236,7 @@ const style = {
   }
 };
 
+import VueCardFormat from "vue-credit-card-validation";
 import axios from "axios";
 export default {
   props: ["price", "secretKey", "order", "tab", "setResult"],
@@ -340,52 +353,6 @@ export default {
     cardCvc = null;
   },
   mounted: function() {
-    let stripeElements = this.$stripe.elements();
-
-    let self = this;
-
-    cardNumber = stripeElements.create("cardNumber", { style });
-    cardNumber.mount("#card-number");
-    cardExpiry = stripeElements.create("cardExpiry", { style });
-    cardExpiry.mount("#card-expiry");
-    cardCvc = stripeElements.create("cardCvc", { style });
-    cardCvc.mount("#card-cvc");
-
-    cardNumber.on("change", function(event) {
-      if (event.complete) {
-        self.cardInputCoplete = true;
-      } else if (!event.complete) {
-        self.cardInputCoplete = false;
-      } else if (event.error) {
-        self.cardErrorMsg = event.error.message;
-      } else {
-        self.cardErrorMsg = "";
-      }
-    });
-
-    cardExpiry.on("change", function(event) {
-      if (event.complete) {
-        self.cardInputCoplete = true;
-      } else if (!event.complete) {
-        self.cardInputCoplete = false;
-      } else if (event.error) {
-        self.cardErrorMsg = event.error.message;
-      } else {
-        self.cardErrorMsg = "";
-      }
-    });
-
-    cardCvc.on("change", function(event) {
-      if (event.complete) {
-        self.cardInputCoplete = true;
-      } else if (!event.complete) {
-        self.cardInputCoplete = false;
-      } else if (event.error) {
-        self.cardErrorMsg = event.error.message;
-      } else {
-        self.cardErrorMsg = "";
-      }
-    });
   }
 };
 </script>
