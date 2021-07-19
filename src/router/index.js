@@ -37,13 +37,11 @@ const routes = [
   },
   {
     path: "/landing/*",
-    name: "Home",
-    component: Home
+    redirect: { name: "Home" }
   },
   {
     path: "/landing",
-    name: "Home",
-    component: Home
+    redirect: { name: "Home" }
   },
   {
     path: "*",

@@ -1,5 +1,10 @@
 module.exports = {
-  transpileDependencies: ["vuetify"]
+  transpileDependencies: ["vuetify"],
+  chainWebpack: config => {
+    config.performance
+      .maxEntrypointSize(40000000)
+      .maxAssetSize(40000000)
+  }
   // pages: {
   //   index: {
   //     // entry for the page

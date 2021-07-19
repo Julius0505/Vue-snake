@@ -27,32 +27,33 @@
           </p>
         </v-card-text>
         <div id="card-container" v-if="!noCardForm" ref="card">
-          <v-text-field
-            label="Card Number"
-            outlined
-            v-cardformat:formatCardNumber
-            v-model="cardNumber"
-          ></v-text-field>
+          <label class="label_card_number" :style="cardNumberInput.style"
+            >Card Number</label
+          >
+          <div id="card-number"></div>
+          <div id="card-number-error" class="errMsg">
+            {{ cardNumberInput.errMsg }}
+          </div>
           <div class="flex flex-row gap-4 mt-4">
             <div class="flex-1">
-              <v-text-field
-                label="Card Expiry"
-                outlined
-                v-cardformat:formatCardExpiry
-                v-model="cardExpiry"
-              ></v-text-field>
+              <label class="label_card_expiry" :style="cardExpiryInput.style"
+                >Card Expiry MM/YY</label
+              >
+              <div id="card-expiry"></div>
+              <div id="card-expiry-error" class="errMsg">
+                {{ cardExpiryInput.errMsg }}
+              </div>
             </div>
             <div class="flex-1">
-              <v-text-field
-                label="Card CVC"
-                outlined
-                v-cardformat:formatCardCVC
-                v-model="cardCvc"
-              ></v-text-field>
+              <label class="label_card_cvc" :style="cardCvcInput.style"
+                >Card CVC</label
+              >
+              <div id="card-cvc"></div>
+              <div id="card-cvc-error" class="errMsg">
+                {{ cardCvcInput.errMsg }}
+              </div>
             </div>
           </div>
-
-          <div id="card-error" class="errMsg">{{ cardErrorMsg }}</div>
         </div>
         <br />
         <v-checkbox
@@ -180,20 +181,17 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-
 //  let hostname = window.location.hostname
 //     if(hostname !="plugandplink.com") {
 // let stripe = Stripe(
 //     "pk_test_51GwqHLBFCoJ8vqH8CqGQTokpO0owv9in81AkKc5197KAEjmfX4PqArBcB735hEgx1aEWAKsGu8XDDhcE7ZwFz5DU00z0M9qUPH"
 //   ),
-
 //   elements = stripe.elements(),
 //   card = undefined;
 //     } else {
 //       let stripe = Stripe(
 //     "pk_live_51GwqHLBFCoJ8vqH8FUMwGcDuMFW9NqBjjcCYaCkVqnhMPHMXTBFDxIc5iCMpPJ0sEMSDpAo2YI7PKNWl7sxK08TV00Q39Jx2ag"
 //   ),
-
 //   elements = stripe.elements(),
 //   card = undefined;
 //     }
@@ -208,26 +206,25 @@ if (hostname != "plugandplink.com") {
     "pk_live_51GwqHLBFCoJ8vqH8FUMwGcDuMFW9NqBjjcCYaCkVqnhMPHMXTBFDxIc5iCMpPJ0sEMSDpAo2YI7PKNWl7sxK08TV00Q39Jx2ag"
   );
 }
-
 let elements = stripe.elements();
 let cardNumber = null;
 let cardExpiry = null;
 let cardCvc = null;
 const style = {
   base: {
-    //   height: "42px",
+    // height: "32px",
     iconColor: "#c4f0ff",
     color: "#fff",
-    fontWeight: 500,
-
-    fontSize: "20px",
+    hideIcon: "false",
+    fontSize: "16px",
+    fontFamily: '"McLaren", sans-serif',
+    fontWeight: "500",
     fontSmoothing: "antialiased",
-
     ":-webkit-autofill": {
       color: "#fce883"
     },
     "::placeholder": {
-      color: "#FFFFFF"
+      color: "transparent"
     }
   },
   invalid: {
@@ -235,8 +232,6 @@ const style = {
     color: "#FF5252"
   }
 };
-
-import VueCardFormat from "vue-credit-card-validation";
 import axios from "axios";
 export default {
   props: ["price", "secretKey", "order", "tab", "setResult"],
@@ -244,7 +239,28 @@ export default {
     return {
       noCardForm: false,
       stripeValidationError: "",
-      cardInputCoplete: false,
+      cardInputComplete: false,
+      cardNumberInput: {
+        name: "card-number",
+        complete: false,
+        empty: true,
+        errMsg: "",
+        style: {}
+      },
+      cardExpiryInput: {
+        expiry: "card-expiry",
+        complete: false,
+        empty: true,
+        errMsg: "",
+        style: {}
+      },
+      cardCvcInput: {
+        cvc: "card-cvc",
+        complete: false,
+        empty: true,
+        errMsg: "",
+        style: {}
+      },
       loading: false,
       result: false,
       error: false,
@@ -271,8 +287,8 @@ export default {
     },
     isPayNowActive() {
       if (
-        (this.cardInputCoplete && this.adressStatus == true) ||
-        (this.cardInputCoplete &&
+        (this.cardInputComplete && this.adressStatus == true) ||
+        (this.cardInputComplete &&
           this.billing.title &&
           this.billing.firstName &&
           this.billing.postCode &&
@@ -304,7 +320,7 @@ export default {
       // send it to your server
     },
     validateForm() {
-      if (!this.cardInputCoplete) {
+      if (!this.cardInputComplete) {
         this.cardErrorMsg = "Your card number is incomplete.";
       }
       if (!this.adressStatus) {
@@ -343,7 +359,6 @@ export default {
         });
     }
   },
-
   beforeDestroy() {
     cardNumber.destroy();
     cardExpiry.destroy();
@@ -353,6 +368,137 @@ export default {
     cardCvc = null;
   },
   mounted: function() {
+    let stripeElements = this.$stripe.elements({
+      fonts: [
+        {
+          cssSrc:
+            "https://fonts.googleapis.com/css2?family=McLaren&display=swap"
+        }
+      ]
+    });
+    let self = this;
+    cardNumber = stripeElements.create("cardNumber", { style });
+    cardNumber.mount("#card-number");
+    cardExpiry = stripeElements.create("cardExpiry", { style });
+    cardExpiry.mount("#card-expiry");
+    cardCvc = stripeElements.create("cardCvc", { style });
+    cardCvc.mount("#card-cvc");
+
+    cardNumber.on("change", function(event) {
+      if (event.complete) {
+        self.cardNumberInput.complete = true;
+        self.cardInputComplete =
+          self.cardExpiryInput.complete && self.cardCvcInput.complete;
+      } else {
+        self.cardNumberInput.complete = false;
+        self.cardInputComplete = false;
+      }
+      if (event.error) {
+        self.cardNumberInput.errMsg = event.error.message;
+        self.cardNumberInput.style.color = "#ff5252";
+      } else {
+        self.cardNumberInput.errMsg = "";
+        self.cardNumberInput.style.color = "#4eaf33";
+      }
+      self.cardNumberInput.empty = event.empty;
+      cardNumber.update({ style });
+    });
+    cardExpiry.on("change", function(event) {
+      if (event.complete) {
+        self.cardExpiryInput.complete = true;
+        self.cardInputComplete =
+          self.cardNumberInput.complete && self.cardCvcInput.complete;
+      } else if (!event.complete) {
+        self.cardExpiryInput.complete = false;
+        self.cardInputComplete = false;
+      }
+      if (event.error) {
+        self.cardExpiryInput.errMsg = event.error.message;
+        self.cardExpiryInput.style.color = "#ff5252";
+      } else {
+        self.cardExpiryInput.errMsg = "";
+        self.cardExpiryInput.style.color = "#4eaf33";
+      }
+      self.cardExpiryInput.empty = event.empty;
+    });
+    cardCvc.on("change", function(event) {
+      if (event.complete) {
+        self.cardCvcInput.complete = true;
+        self.cardInputComplete =
+          self.cardExpiryInput.complete && self.cardNumberInput.complete;
+      } else if (!event.complete) {
+        self.cardCvcInput.complete = false;
+        self.cardInputComplete = false;
+      }
+      if (event.error) {
+        self.cardCvcInput.errMsg = event.error.message;
+        self.cardCvcInput.style.color = "#ff5252";
+      } else {
+        self.cardCvcInput.errMsg = "";
+        self.cardCvcInput.style.color = "#4eaf33";
+      }
+      self.cardCvcInput.empty = event.empty;
+    });
+    cardNumber.on("focus", function(elType) {
+      self.cardNumberInput.style = {
+        bottom: "-18px",
+        background: "rgba(0, 0, 0, 0.9)",
+        padding: "0px 3px",
+        color: "#4eaf33",
+        fontSize: "12px",
+        webkitTransition: "bottom .2s ease-in-out,  font-size .2s ease-in-out",
+        transition: "bottom .2s ease-in-out,  font-size .2s ease-in-out"
+      };
+      self.cardNumberInput.style.color =
+        self.cardNumberInput.errMsg == "" ? "#4eaf33" : "#ff5252";
+    });
+    cardNumber.on("blur", function(elType) {
+      if (self.cardNumberInput.empty) {
+        self.cardNumberInput.style = {};
+      }
+      if (self.cardNumberInput.errMsg == "")
+        self.cardNumberInput.style.color = "#fde8e8";
+    });
+    cardExpiry.on("focus", function(elType) {
+      self.cardExpiryInput.style = {
+        bottom: "-18px",
+        background: "rgba(0, 0, 0, 0.9)",
+        padding: "0px 3px",
+        color: "#4eaf33",
+        fontSize: "12px",
+        webkitTransition: "bottom .2s ease-in-out,  font-size .2s ease-in-out",
+        transition: "bottom .2s ease-in-out,  font-size .2s ease-in-out"
+      };
+      self.cardExpiryInput.style.color =
+        self.cardExpiryInput.errMsg == "" ? "#4eaf33" : "#ff5252";
+    });
+    cardExpiry.on("blur", function(elType) {
+      if (self.cardExpiryInput.empty) {
+        self.cardExpiryInput.style = {};
+      }
+      if (self.cardExpiryInput.errMsg == "")
+        self.cardExpiryInput.style.color = "#fde8e8";
+    });
+    cardCvc.on("focus", function(elType) {
+      self.cardCvcInput.style = {
+        bottom: "-18px",
+        background: "rgba(0, 0, 0, 0.9)",
+        padding: "0px 3px",
+        color: "#4eaf33",
+        fontSize: "12px",
+        webkitTransition: "bottom .2s ease-in-out,  font-size .2s ease-in-out",
+        transition: "bottom .2s ease-in-out,  font-size .2s ease-in-out"
+      };
+      self.cardCvcInput.style.color =
+        self.cardCvcInput.errMsg == "" ? "#4eaf33" : "#ff5252";
+    });
+    cardCvc.on("blur", function(elType) {
+      if (self.cardCvcInput.empty) {
+        self.cardCvcInput.style = {};
+      }
+      if (self.cardCvcInput.errMsg == "")
+        self.cardCvcInput.style.color = "#fde8e8";
+    });
   }
 };
 </script>
@@ -385,6 +531,7 @@ export default {
   border: 1px solid #545454;
   border-radius: 5px;
 }
+
 .price {
   padding: 20px;
   font-size: 26px;
@@ -395,8 +542,9 @@ export default {
   width: 100%;
 }
 .errMsg {
-  padding-left: 15px;
-  font-size: 16px;
+  position: absolute;
+  padding: 0px 12px;
+  font-size: 12px;
   color: #ff5252;
 }
 .valid {
@@ -408,7 +556,6 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
 @media screen and (max-width: 500px) {
   .resultMsg {
     font-size: 16px !important;
@@ -430,25 +577,42 @@ export default {
   padding: 5px;
   color: white;
 }
-
 #card-number,
 #card-expiry,
 #card-cvc {
-  padding: 13px;
+  padding: 10px;
   margin-top: 10px;
   border: 1px solid #545454;
   border-radius: 5px;
   width: 100%;
   height: 40px;
-  margin-bottom: 12px;
+  // margin-bottom: 36px;
+  // margin-top: -30px;
 }
-
+#card-number:hover,
+#card-expiry:hover,
+#card-cvc:hover {
+  border: 1px solid #fde8e8;
+}
 #card-container {
   width: 80%;
   margin: auto;
 }
-
 #card-error {
-  color: red;
+  color: ff5252;
+}
+.StripeElement--focus {
+  border: 2px solid #4eaf33 !important;
+  // margin-top: 0px !important;
+}
+.StripeElement--invalid {
+  border: 2px solid #ff5252 !important;
+}
+.label_card_number,
+.label_card_expiry,
+.label_card_cvc {
+  margin-left: 12px;
+  position: relative;
+  bottom: -40px;
 }
 </style>
