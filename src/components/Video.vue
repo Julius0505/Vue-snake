@@ -95,11 +95,9 @@ export default {
       try {
         const vs = await axios.get(`https://${this.urlVar}/web/videos`);
         this.videos = vs.data;
-        // if (vs.data.length) {
-        //   this.currentVideoUrl = vs.data[0].url;
-        // }
-        this.currentVideoUrl =
-          "https://www.youtube.com/embed/DU2-LcdlqNM?autoplay=1";
+        if (vs.data.length) {
+          this.currentVideoUrl = vs.data[0].url;
+        }
       } catch (err) {
         console.log(err);
         this.$router.push("/not-there");
