@@ -105,7 +105,7 @@
           > -->
                 <a
                   href="/model/index.html"
-                  class="routerLink-green routerLink lBt"
+                  class="routerLink-green routerLink lBtn"
                 >
                   <v-btn class="homeButtons linkBtn">
                     <img src="./assets/mglass_icon.svg" alt="mglass icon" />

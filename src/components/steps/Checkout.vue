@@ -34,7 +34,7 @@
           <div id="card-number-error" class="errMsg">
             {{ cardNumberInput.errMsg }}
           </div>
-          <div class="flex flex-row gap-4 mt-4">
+          <div class="flex flex-row gap-4 mt-4 card-expiry-cvc">
             <div class="flex-1">
               <label class="label_card_expiry" :style="cardExpiryInput.style"
                 >Card Expiry MM/YY</label
@@ -614,5 +614,15 @@ export default {
   margin-left: 12px;
   position: relative;
   bottom: -40px;
+}
+
+@media screen and (max-width: 500px) {
+  .card-expiry-cvc {
+    // display: flex;
+    flex-direction: column !important;
+  }
+  #card-container {
+    width: 90%;
+  }
 }
 </style>

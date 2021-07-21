@@ -1,6 +1,8 @@
 <template>
   <div>
-    <p class="titlet">If you have a coupon please enter it here:</p>
+    <p class="titlet" v-if="!isValid">
+      If you have a coupon please enter it here:
+    </p>
     <v-card-text>
       <v-form ref="form">
         <v-text-field
@@ -11,8 +13,7 @@
           :error-messages="err"
           :success="isValid"
         ></v-text-field>
-
-        <v-btn class="apply" @click="validate" color="secondary"
+        <v-btn v-if="!isValid" class="apply" @click="validate" color="secondary"
           >Apply coupon</v-btn
         >
         <p v-if="isValid" class="validCoupon">
@@ -86,6 +87,7 @@ export default {
   margin-bottom: 15px;
 }
 .validCoupon {
+  margin-top: 30px !important;
   color: rgb(76, 175, 80);
   text-align: center;
 }

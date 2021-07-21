@@ -566,6 +566,9 @@ input:-internal-autofill-selected {
   .page-title {
     margin-top: 100px;
   }
+  .actions button:hover {
+    opacity: 1 !important;
+  }
 }
 @media screen and (max-width: 680px) {
   .actions button {

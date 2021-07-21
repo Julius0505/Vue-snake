@@ -5,7 +5,7 @@
         <p>
           Transaction details
         </p>
-        <v-menu offset-y>
+        <v-menu offset-y class="curr-menu">
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="primary" dark v-bind="attrs" v-on="on">
               {{ order.currency }}
@@ -132,6 +132,15 @@ export default {
   flex-direction: raw;
   justify-content: space-between;
 }
-.selecting {
+.v-list-item__title {
+  display: grid !important;
+  text-align: center;
+}
+@media screen and (max-width: 500px) {
+  .v-menu__content {
+    /* margin-left: 0px; */
+    min-width: 96px !important;
+    max-height: calc(100vh - 246px) !important;
+  }
 }
 </style>
