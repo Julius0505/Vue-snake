@@ -221,6 +221,9 @@ export default {
 };
 </script>
 <style lang="scss">
+html {
+  scroll-behavior: smooth !important;
+}
 .admin-container {
   @apply px-10 py-10;
   background-color: white;

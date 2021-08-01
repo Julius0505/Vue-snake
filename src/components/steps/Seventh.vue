@@ -36,10 +36,19 @@
         <v-list-item>
           <div class="grid">
             <p>
-              Snakes {{ ` ${order.amount} * ${price.snakeUnitPrice / 100}:` }}
+              Snakes
+              {{
+                ` ${order.amount} * ${Number(
+                  price.snakeUnitPrice / 100
+                ).toFixed(2)}:`
+              }}
             </p>
             <p class="primaryColor">
-              {{ `${price.snakesTotalPreDiscount / 100} ${price.currency}` }}
+              {{
+                `${Number(price.snakesTotalPreDiscount / 100).toFixed(2)} ${
+                  price.currency
+                }`
+              }}
             </p>
           </div>
         </v-list-item>
@@ -47,7 +56,11 @@
           <div class="grid">
             <p>{{ `Discount (${this.price.couponDiscountPercentage}%)` }}</p>
             <p class="primaryColor">
-              {{ `${this.price.couponDiscountAmount / 100} ${price.currency}` }}
+              {{
+                `${Number(this.price.couponDiscountAmount / 100).toFixed(2)} ${
+                  price.currency
+                }`
+              }}
             </p>
           </div>
         </v-list-item>
@@ -56,7 +69,11 @@
           <div class="grid">
             <p>Snakes Subtotal:</p>
             <p class="primaryColor">
-              {{ `${price.snakesTotalPostDiscount / 100} ${price.currency}` }}
+              {{
+                `${Number(price.snakesTotalPostDiscount / 100).toFixed(2)} ${
+                  price.currency
+                }`
+              }}
             </p>
           </div>
         </v-list-item>
@@ -65,7 +82,11 @@
           <div class="grid">
             <p>{{ `Sales Tax (${price.salesTaxPercentage}%):` }}</p>
             <p class="primaryColor">
-              {{ `${price.salesTaxTotal / 100} ${price.currency}` }}
+              {{
+                `${Number(price.salesTaxTotal / 100).toFixed(2)} ${
+                  price.currency
+                }`
+              }}
             </p>
           </div>
         </v-list-item>
@@ -73,7 +94,11 @@
           <div class="grid">
             <p>Postage and packaging</p>
             <p class="primaryColor">
-              {{ price.postageAndPackaging / 100 }} {{ price.currency }}
+              {{
+                `${Number(price.postageAndPackaging / 100).toFixed(2)}${
+                  price.currency
+                }`
+              }}
             </p>
           </div>
         </v-list-item>
@@ -81,7 +106,9 @@
           <div class="grid">
             <p>Total</p>
             <p class="primaryColor">
-              {{ price.grandTotal / 100 }} {{ price.currency }}
+              {{
+                `${Number(price.grandTotal / 100).toFixed(2)}${price.currency}`
+              }}
             </p>
           </div>
         </v-list-item>

@@ -11,12 +11,41 @@
           allowfullscreen
         ></iframe> -->
         <iframe
-          class="video"
-          src="https://www.youtube-nocookie.com/embed/SVeEzhb_rQc?rel=0"
+          class="video-player"
+          :src="currentVideoUrl"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         ></iframe>
+      </div>
+      <div class="video-list-wrapper">
+        <div
+          v-for="(video, index) in videos"
+          :key="index"
+          class="single-video-row"
+        >
+          <div class="flex flex-row gap-4 mt-4" @click="videoPlay(index)">
+            <div class="flex-1 video-clip">
+              <div class="wrapper">
+                <img
+                  controls="false"
+                  class="video-thumbnail"
+                  autoplay="autoplay"
+                  :src="video.thumbnailUrl"
+                />
+                <div class="playpause"></div>
+              </div>
+            </div>
+            <div class="flex-1 video-content">
+              <div class="video-title">
+                {{ video.title }}
+              </div>
+              <div class="video-description">
+                {{ video.description }}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -24,6 +53,8 @@
 
 <script>
 import "video.js/dist/video-js.css";
+import axios from "axios";
+
 // import { videoPlayer } from "vue-video-player";
 export default {
   // components: {
@@ -31,6 +62,9 @@ export default {
   // },
   data() {
     return {
+      urlVar: "exchange.snakeomatic.com",
+      videos: [],
+      currentVideoUrl: "",
       // videojs options
       playerOptions: {
         height: "360",
@@ -48,19 +82,54 @@ export default {
         ]
       }
     };
+  },
+  created() {
+    let hostname = window.location.hostname;
+    if (hostname != "localhost") {
+      this.urlVar = `exchange.${hostname}`;
+    }
+    this.getVideos();
+  },
+  methods: {
+    getVideos: async function() {
+      try {
+        const vs = await axios.get(`https://${this.urlVar}/web/videos`);
+        this.videos = vs.data;
+        console.log("videos", this.videos);
+        if (vs.data.length) {
+          this.currentVideoUrl = vs.data[0].url;
+        }
+      } catch (err) {
+        console.log(err);
+        this.$router.push("/not-there");
+      }
+    },
+    videoPlay: function(index) {
+      console.log(this.videos[index].url);
+      this.currentVideoUrl = this.videos[index].url;
+      window.scrollTo(0, 0);
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+* {
+  font-family: "McLaren", "sans-serif" !important;
+}
+
+.routerView {
+  top: 50px !important;
+}
 .video-page-wrapper {
-  height: calc(100vh - 290px);
+  // margin-top: -40px;
+  // height: calc(100vh - 290px);
 }
 .item {
   margin: 10px auto 0px;
   max-width: calc((100vh - 340px) * 1.777);
   /* height: 100%; */
-  max-height: calc(100vh - 340px);
+  // max-height: calc(100vh - 340px);
 }
 .video-page-title br {
   display: none;
@@ -74,7 +143,7 @@ export default {
   /* padding-bottom: 10px; */
   /* margin-bottom: 100px; */
 }
-.video {
+.video-player {
   position: absolute;
   top: 0;
   left: 0;
@@ -88,6 +157,86 @@ export default {
   text-align: center;
   margin-bottom: 27px;
 }
+/* Begin Video List Style */
+.single-video-row:not(:first-child) {
+  margin: 15px 4px;
+  border-top: 1px solid #5f5f5f;
+}
+.video-list-wrapper {
+  padding: 10px;
+  margin: 10px 0px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: solid 1px;
+  border-color: #1e1e1e;
+}
+
+.video-title {
+  font-size: 18px;
+  color: #4eaf33;
+  text-align: center;
+  padding: 3px;
+}
+.video-description {
+  font-size: 16px;
+}
+.video-list {
+  height: 180px;
+  overflow-y: auto;
+}
+.video-thumbnail::-webkit-media-controls {
+  position: absolute;
+  display: none;
+  border-radius: 10px;
+  display: block;
+}
+.video-clip {
+  width: 40%;
+}
+.video-content {
+  margin-right: 10px;
+  width: 60%;
+  word-wrap: break-word;
+}
+.wrapper {
+  display: table;
+  width: auto;
+  position: relative;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+// .playpause {
+//   background: url("../assets/video_btn.svg") no-repeat;
+//   width: 50%;
+//   height: 50%;
+//   position: absolute;
+//   left: 0%;
+//   right: 0%;
+//   top: 0%;
+//   bottom: 0%;
+//   margin: auto;
+//   background-size: contain;
+//   background-position: center;
+//   opacity: 80%;
+// }
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.8);
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #222;
+}
+/* End Video List Style*/
 @media screen and (max-width: 1200px) {
   .item {
     padding-top: 0px;
@@ -107,7 +256,7 @@ export default {
     margin-top: 60px;
     width: 100%;
   }
-  .video {
+  .video-player {
     height: 100%;
   }
 }
@@ -115,7 +264,11 @@ export default {
   .player {
     margin-bottom: 30px;
   }
+  .wrapper {
+    width: 80%;
+  }
 }
+
 @media screen and (max-width: 680px) {
   .video-page-title br {
     display: block;
@@ -127,10 +280,22 @@ export default {
     width: 90%;
     margin-top: 20px;
   }
+  .wrapper {
+    width: 90%;
+  }
+  .video-title {
+    font-size: 14px;
+  }
+  .video-description {
+    font-size: 12px;
+  }
 }
+
 @media screen and (max-width: 500px) {
   .item {
     margin-top: 0px;
   }
 }
+
+// @media screen and (max-height: )
 </style>

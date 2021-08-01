@@ -221,6 +221,7 @@ const style = {
     fontWeight: "500",
     fontSmoothing: "antialiased",
     ":-webkit-autofill": {
+      backgroundColor: "transparent",
       color: "#fce883"
     },
     "::placeholder": {
