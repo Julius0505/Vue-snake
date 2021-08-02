@@ -222,7 +222,7 @@ const style = {
     fontSmoothing: "antialiased",
     ":-webkit-autofill": {
       backgroundColor: "transparent",
-      color: "#fce883"
+      color: "#fff"
     },
     "::placeholder": {
       color: "transparent"
@@ -231,6 +231,10 @@ const style = {
   invalid: {
     iconColor: "#FF5252",
     color: "#FF5252"
+  },
+  complete: {
+    backgroundColor: "transparent",
+    color: "#fff"
   }
 };
 import axios from "axios";
@@ -608,6 +612,9 @@ export default {
 }
 .StripeElement--invalid {
   border: 2px solid #ff5252 !important;
+}
+.StripeElement--complete {
+  background-color: transparent !important;
 }
 .label_card_number,
 .label_card_expiry,
