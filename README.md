@@ -1,4 +1,4 @@
-# plugandplink
+# Vue-snake
 
 ## Project setup
 ```
